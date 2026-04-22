@@ -1,4 +1,6 @@
-/** Stats section — `section_stats` */
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 
 const STATS = [
   { value: ">800k", label: "Subnames", description: "Actively managed and run client subnames." },
@@ -7,6 +9,59 @@ const STATS = [
   { value: "220", label: "Namespaces", description: "Number of activated ENS names issuing subnames." },
   { value: "130", label: "ENS Widgets", description: "Number of ENS Widget installations across websites." },
 ];
+
+function parseValue(raw: string): { prefix: string; num: number; suffix: string } {
+  const match = raw.match(/^([^0-9]*)([0-9]+)([^0-9]*)$/);
+  if (!match) return { prefix: "", num: 0, suffix: raw };
+  return { prefix: match[1], num: parseInt(match[2], 10), suffix: match[3] };
+}
+
+function StatCard({ stat }: { stat: (typeof STATS)[number] }) {
+  const { prefix, num, suffix } = parseValue(stat.value);
+  const [displayed, setDisplayed] = useState(0);
+  const [triggered, setTriggered] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setTriggered(true); observer.disconnect(); } },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!triggered) return;
+    const duration = 1800;
+    const start = performance.now();
+    function tick(now: number) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayed(Math.round(eased * num));
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }, [triggered, num]);
+
+  return (
+    <div ref={ref} className="stats_item">
+      <div className="stats_card">
+        <h3 className="heading-style-h2 text-line-height-normal mobile-h1">
+          {prefix}{displayed}{suffix}
+        </h3>
+        <div className="stats_card-content">
+          <p className="text-size-medium text-weight-medium">{stat.label}</p>
+          <p className="text-color-black-900">{stat.description}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function Stats() {
   return (
@@ -21,17 +76,7 @@ export function Stats() {
               <h2>Impact in numbers</h2>
             </div>
             <div className="stats_list">
-              {STATS.map((s) => (
-                <div key={s.label} className="stats_item">
-                  <div className="stats_card">
-                    <h3 data-countup="" className="heading-style-h2 text-line-height-normal mobile-h1">{s.value}</h3>
-                    <div className="stats_card-content">
-                      <p className="text-size-medium text-weight-medium">{s.label}</p>
-                      <p className="text-color-black-900">{s.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              {STATS.map((s) => <StatCard key={s.label} stat={s} />)}
             </div>
           </div>
         </div>

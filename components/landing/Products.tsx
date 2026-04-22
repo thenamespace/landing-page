@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { WebflowButton } from "@/components/ui/WebflowButton";
 
 /* ---------- data ---------- */
@@ -224,7 +227,39 @@ function SmallProductCard({ p }: { p: SmallProduct }) {
   );
 }
 
+const ALL_SECTION_IDS = ["offchain-subnames", "onchain-subnames", "sdk-api", "resolvio", "products-five"];
+
 export function Products() {
+  const [activeId, setActiveId] = useState(ALL_SECTION_IDS[0]);
+
+  // IntersectionObserver: whichever section is most visible wins
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  useEffect(() => {
+    const ratios = new Map<string, number>();
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => ratios.set(e.target.id, e.intersectionRatio));
+        let best = ALL_SECTION_IDS[0];
+        let bestRatio = -1;
+        ratios.forEach((ratio, id) => { if (ratio > bestRatio) { bestRatio = ratio; best = id; } });
+        if (bestRatio > 0) setActiveId(best);
+      },
+      { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
+    );
+    ALL_SECTION_IDS.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observerRef.current!.observe(el);
+    });
+    return () => observerRef.current?.disconnect();
+  }, []);
+
+  function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+    e.preventDefault();
+    const id = href.replace("#", "");
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
     <section className="section_products">
       <div padding-global="" className="section-inner-background is-bottom-only background-color-secondary">
@@ -249,8 +284,14 @@ export function Products() {
               <div className="products_content-left">
                 {NAV_ITEMS.map((label, i) => {
                   const Icon = NAV_ICONS[i];
+                  const isActive = activeId === ALL_SECTION_IDS[i];
                   return (
-                    <a key={label} href={NAV_HREFS[i]} className="products_content-left-item w-inline-block">
+                    <a
+                      key={label}
+                      href={NAV_HREFS[i]}
+                      onClick={(e) => handleNavClick(e, NAV_HREFS[i])}
+                      className={`products_content-left-item w-inline-block${isActive ? " w--current" : ""}`}
+                    >
                       <div className="products_content-active-cricle" />
                       <div className="products_content-item-right">
                         <div className="products_content-icon-wrapper">

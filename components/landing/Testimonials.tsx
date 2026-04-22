@@ -151,7 +151,7 @@ function MarqueeRow({
   const tripled = [...testimonials, ...testimonials, ...testimonials];
 
   return (
-    <div ref={listRef} style={{ display: "flex", willChange: "transform" }}>
+    <div ref={listRef} style={{ display: "flex", gap: "1.25rem", willChange: "transform" }}>
       {tripled.map((t, i) => (
         <TestimonialCard key={`${t.name}-${i}`} t={t} />
       ))}

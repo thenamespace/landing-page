@@ -4,6 +4,47 @@
  * These are inline <style> blocks from the original Webflow export.
  */
 
+/* ── Navbar color fix ──────────────────────────────────────────────────────────
+ * Webflow's base CSS hard-codes color:#222 on .w-nav-link, .w-nav-brand,
+ * .w-dropdown-toggle, and .w-dropdown-link. We override with double-class
+ * selectors (higher specificity) scoped inside .navbar2_component.
+ * ─────────────────────────────────────────────────────────────────────────── */
+.navbar2_component .w-nav-brand,
+.navbar2_component .w-nav-link,
+.navbar2_component .w-dropdown-toggle,
+.navbar2_component .w-dropdown-link,
+.navbar2_component .navbar_dropdwn-toggle,
+.navbar2_component .navbar_dropdown-link,
+.navbar2_component .navbar_link,
+.navbar2_component .navbar_icon {
+  color: white !important;
+}
+
+/* Dropdown list: override .w-dropdown-list { background: #ddd } */
+.navbar2_component .navbar_dropdown-list {
+  background-color: var(--_base-primitive---colors--color-secondary, #1f1f1f) !important;
+}
+
+/* Footer: ensure link text is white */
+.footer_link,
+.footer_credit-text {
+  color: white;
+}
+
+.footer_component_top_links-column-title {
+  color: var(--_base-primitive---colors--color-black-200, #bcbcbc);
+}
+
+.footer_legal-link {
+  color: var(--_base-primitive---colors--color-black-200, #bcbcbc);
+}
+
+/* Social icons */
+.social-ink,
+.social-ink svg {
+  color: white;
+}
+
 /* ── Attribute-selector bridges for Webflow HTML conventions ──
  * The Webflow-exported HTML marks elements with bare attributes
  * (padding-global="", container="large") rather than classes.
@@ -198,17 +239,36 @@
   to { transform: rotate(360deg); }
 }
 
-/* ── Products active state (from products inline style) ── */
+/* ── Products active state ──
+ * The products section sits on a LIGHT background (#f4f4f4).
+ * Inactive = gray (#878787), Active = black (#0a0a0b).
+ */
 .products_content-left-item.w--current .products_content-icon-wrapper {
   background: var(--_base-primitive---colors--color-skylume);
 }
 
+.products_content-left-item .products_content-item-right {
+  color: var(--_base-primitive---colors--color-black-600, #878787);
+  transition: color 0.2s ease;
+}
+
 .products_content-left-item.w--current .products_content-item-right {
-  color: var(--font-color--text-secondary);
+  color: var(--_base-primitive---colors--black, #0a0a0b);
 }
 
 .products_content-left-item.w--current .products_content-active-cricle {
   opacity: 1;
+}
+
+/* Scroll-margin so sticky navbar doesn't cover product cards when smooth-scrolling */
+.products_card,
+.products_card-column {
+  scroll-margin-top: 5rem;
+}
+
+/* Smooth scroll site-wide */
+html {
+  scroll-behavior: smooth;
 }
 
 /* ── Case studies hover effects (desktop only) ── */
@@ -222,6 +282,110 @@
   .case-studies_list:hover .case-studies-card_hover {
     opacity: 1;
   }
+}
+
+/* ── Global link reset: remove underlines ──
+ * The Webflow shared CSS sets a global `a { text-decoration: underline; }`.
+ * We use !important to guarantee links never show underlines regardless of
+ * CSS load order, then explicitly re-enable underlines only for blog prose.
+ * ─────────────────────────────────────────────────────────────────────────── */
+a,
+a:hover,
+a:active,
+a:focus {
+  text-decoration: none !important;
+}
+
+/* Blog prose is the only place underlines are intentional */
+.post-prose a,
+.post-prose a:hover,
+.post-prose a:active,
+.post-prose a:focus {
+  text-decoration: underline !important;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+}
+
+/* ── Footer link hover UX ── */
+.footer_link {
+  color: white;
+}
+
+.footer_link:hover {
+  opacity: 0.7;
+}
+
+.footer_legal-link:hover {
+  color: white;
+}
+
+/* ── Social icon colors: force white with robust specificity ── */
+.footer .social-ink,
+.footer .social-ink svg,
+.footer .social-ink:hover,
+.footer .social-ink:hover svg {
+  color: white;
+}
+
+.footer .social-ink {
+  transition: opacity 0.35s, color 0.35s, background-color 0.35s;
+}
+
+.footer .social-ink:hover {
+  opacity: 0.75;
+}
+
+/* ── Partner logos CSS marquee (replaces Splide) ── */
+@keyframes partner-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.partner-marquee {
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(90deg, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 5%, black 95%, transparent);
+}
+
+.partner-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: max-content;
+  animation: partner-marquee 35s linear infinite;
+}
+
+.partner-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.partner-marquee-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+}
+
+.partner-marquee-item img {
+  max-height: 100%;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(100%) brightness(1.2);
+  opacity: 0.85;
+  transition: filter 0.35s, opacity 0.35s;
+}
+
+.partner-marquee-item img:hover {
+  filter: grayscale(0%) brightness(1);
+  opacity: 1;
+}
+
+/* ── Footer: remove rounded top corners ── */
+.footer {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 
 /* ── Reduced motion ── */

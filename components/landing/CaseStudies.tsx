@@ -1,20 +1,10 @@
 /**
  * CaseStudies — `section_case-studies`
- * Trusted by Ecosystem Leaders cards + partner logos marquee (Splide)
+ * Trusted by Ecosystem Leaders cards + partner logos CSS marquee
  */
 "use client";
 
 import { useEffect } from "react";
-
-declare global {
-  interface Window {
-    Splide: new (selector: string, options?: Record<string, unknown>) => {
-      mount: (extensions?: Record<string, unknown>) => void;
-      destroy: () => void;
-    };
-    SplideAutoScroll: unknown;
-  }
-}
 
 const CASE_STUDIES = [
   {
@@ -73,28 +63,24 @@ function ArrowIcon() {
   );
 }
 
-export function CaseStudies() {
-  useEffect(() => {
-    if (typeof window === 'undefined' || !(window as any).Splide) return;
-    const splide = new (window as any).Splide('#partners-splide', {
-      type: 'loop',
-      drag: 'free',
-      focus: 'center',
-      perPage: 6,
-      autoScroll: { speed: 1, pauseOnHover: false, pauseOnFocus: false },
-      arrows: false,
-      pagination: false,
-      gap: '2rem',
-      breakpoints: {
-        768: { perPage: 3 },
-        480: { perPage: 2 },
-      },
-    });
-    const extensions = (window as any).SplideAutoScroll ? { AutoScroll: (window as any).SplideAutoScroll } : {};
-    splide.mount(extensions);
-    return () => splide.destroy();
-  }, []);
+function LogoMarquee() {
+  // Duplicate logos for seamless infinite loop
+  const allLogos = [...MARQUEE_LOGOS, ...MARQUEE_LOGOS];
 
+  return (
+    <div className="partner-marquee">
+      <div className="partner-marquee-track">
+        {allLogos.map((logo, i) => (
+          <div key={`${logo.alt}-${i}`} className="partner-marquee-item">
+            <img loading="eager" src={logo.src} alt={logo.alt} className="marquee-image" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function CaseStudies() {
   useEffect(() => {
     // Custom cursor hover effect for case studies list (desktop only)
     if (window.matchMedia("(max-width: 1025px)").matches) return;
@@ -188,6 +174,12 @@ export function CaseStudies() {
             <div data-wf--component-tag--variant="dark" className="tag w-variant-b6bce3ac-5c2a-b1ee-66d6-218f87a88dd1">
               <div>Trusted by Ecosystem Leaders</div>
             </div>
+
+            {/* Partner logos marquee — right to left */}
+            <div className="case-studies_marquee-wrapper">
+              <LogoMarquee />
+            </div>
+
             <div className="case-studies_wrapper">
               <div className="case-studies_list">
                 {/* Custom cursor div — positioned via JS in useEffect */}
@@ -226,23 +218,6 @@ export function CaseStudies() {
                     </div>
                   );
                 })}
-              </div>
-            </div>
-
-            {/* Partner logos Splide marquee */}
-            <div className="case-studies_marquee-wrapper">
-              <div id="partners-splide" className="splide">
-                <div className="splide__track">
-                  <div className="splide__list is-partners-splide">
-                    {MARQUEE_LOGOS.map((logo) => (
-                      <div key={logo.alt} className="splide__slide">
-                        <img loading="eager" src={logo.src} alt={logo.alt} className="marquee-image"/>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="splide__gradient-right" />
-                  <div className="splide__gradient-left" />
-                </div>
               </div>
             </div>
           </div>

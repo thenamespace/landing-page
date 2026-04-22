@@ -3,23 +3,16 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { PageShell } from "@/components/layout/PageShell";
-import { Container, Section } from "@/components/ui/Section";
-import { PostCard } from "@/components/blog/PostCard";
 import { Cta as CTASection } from "@/components/landing/Cta";
-import { Button } from "@/components/ui/Button";
-import { ArrowRight, ArrowUpRight, X, LinkedIn } from "@/components/ui/Icons";
 import {
   getAllPosts,
   getAllSlugs,
   getPostBySlug,
   formatLongDate,
 } from "@/lib/posts";
-import {
-  JsonLd,
-  articleSchema,
-  breadcrumbSchema,
-} from "@/lib/jsonld";
+import { JsonLd, articleSchema, breadcrumbSchema } from "@/lib/jsonld";
 import { SITE } from "@/lib/site";
+import type { Post } from "@/lib/posts";
 
 export async function generateStaticParams() {
   const slugs = await getAllSlugs();
@@ -63,6 +56,63 @@ function cleanTitle(title: string) {
   return title.replace(/^\[Case Study\]\s*/i, "");
 }
 
+function RelatedCard({ post }: { post: Post }) {
+  return (
+    <div role="listitem" className="blog_item-wrapper w-dyn-item">
+      <Link href={`/blog/${post.slug}`} className="blog_item w-inline-block">
+        <div data-wf--component-blog-card--variant="base" className="blog_card">
+          <div className="blog_card-img-wrapper">
+            {post.image ? (
+              <Image
+                src={post.image}
+                loading="lazy"
+                width={600}
+                height={340}
+                alt={post.imageAlt ?? post.title}
+                className="blog_card-img"
+              />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src="/assets/images/eth-bg.png"
+                loading="lazy"
+                width={70}
+                alt={post.title}
+                className="blog_card-img"
+              />
+            )}
+          </div>
+          <div className="blog_card-content-wrapper">
+            <div className="blog_card-content">
+              <div className="blog_card-content-top">
+                {post.tag && (
+                  <div
+                    data-wf--component-tag--variant="black"
+                    className="tag w-variant-e059100f-ffd8-c18b-006b-8271a2c949c4"
+                  >
+                    <div>{post.tag}</div>
+                  </div>
+                )}
+                <div className="separator-dot" />
+                <p className="text-color-black-600 text-size-small text-weight-medium is-read-time">
+                  {post.readingLabel}
+                </p>
+              </div>
+              <h3 className="heading-style-h5">{cleanTitle(post.title)}</h3>
+              {post.description && (
+                <p className="text-color-black-600">{post.description}</p>
+              )}
+            </div>
+            <div className="blog_card-date-wrapper">
+              <div>{formatLongDate(post.date)}</div>
+            </div>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+}
+
 export default async function BlogPostPage({
   params,
 }: {
@@ -84,160 +134,145 @@ export default async function BlogPostPage({
       <JsonLd data={articleSchema(post)} />
       <JsonLd data={breadcrumbSchema(post)} />
 
-      <article>
-        {/* Post header */}
-        <Section className="pt-16 md:pt-24 pb-0">
-          <Container size="narrow">
-            <nav
-              aria-label="Breadcrumb"
-              className="mb-8 flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-text-subtle"
-            >
-              <Link
-                href="/blog"
-                className="hover:text-accent transition-colors inline-flex items-center gap-1.5"
-              >
-                <span aria-hidden>←</span> Back to blog
-              </Link>
-              {post.tag ? (
-                <>
-                  <span>·</span>
-                  <span>{post.tag}</span>
-                </>
-              ) : null}
-            </nav>
-
-            <h1 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.02] tracking-tight">
-              {cleanTitle(post.title)}
-            </h1>
-
-            {post.description ? (
-              <p className="mt-6 text-xl md:text-2xl text-text-muted leading-[1.4] font-display">
-                {post.description}
-              </p>
-            ) : null}
-
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-text-muted">
-              <span className="inline-flex items-center gap-2">
-                <span className="h-8 w-8 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center font-mono text-accent text-xs">
+      {/* Blog post header */}
+      <header
+        {...{ "padding-global": "" }}
+        className="section_blog-header"
+      >
+        <div {...{ container: "large" }}>
+          <div className="blog-header_component is-details-page">
+            {post.tag && (
+              <div data-wf--component-tag--variant="light" className="tag">
+                <div>{post.tag}</div>
+              </div>
+            )}
+            <h1>{cleanTitle(post.title)}</h1>
+            {post.description && (
+              <div className="max-width-large is-40rem">
+                <p className="text-size-medium text-weight-medium is-linespace-smaller">
+                  {post.description}
+                </p>
+              </div>
+            )}
+            <div className="blog_author-wrapper">
+              <div className="blog_author-img-wrapper">
+                <div className="blog_author-img" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "1.125rem", fontWeight: 600 }}>
                   N
-                </span>
-                <span className="text-text font-medium">
-                  {post.author ?? "Namespace"}
-                </span>
-              </span>
-              <span className="h-4 w-px bg-border-strong" />
-              <span className="font-mono">{formatLongDate(post.date)}</span>
-              <span className="h-4 w-px bg-border-strong" />
-              <span className="font-mono">{post.readingLabel}</span>
-            </div>
-          </Container>
-        </Section>
-
-        {/* Cover image */}
-        {post.image ? (
-          <Section className="pt-12 pb-0">
-            <Container size="default">
-              <div className="relative aspect-[16/9] rounded-xl overflow-hidden border border-border bg-surface-2">
-                <Image
-                  src={post.image}
-                  alt={post.imageAlt ?? post.title}
-                  fill
-                  priority
-                  className="object-cover"
-                  sizes="(min-width: 1024px) 1024px, 100vw"
-                />
+                </div>
               </div>
-            </Container>
-          </Section>
-        ) : null}
+              <div className="blog_author-row">
+                <div style={{ fontWeight: 600 }}>{post.author ?? "Namespace"}</div>
+                <div style={{ opacity: 0.6, fontSize: "0.875rem" }}>
+                  {formatLongDate(post.date)} · {post.readingLabel}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
 
-        {/* Body */}
-        <Section className="pt-12 pb-0">
-          <Container size="narrow">
+      {/* Blog post body */}
+      <section className="section_blog-detail">
+        <div
+          {...{ "padding-global": "" }}
+          className="section-inner-background is-top-only is-full background-color-secondary"
+        >
+          <div
+            {...{ container: "large" }}
+            className="padding-section-large is-top-medium"
+          >
+            <div className="blog-detail_component">
+
+              {/* Hero image */}
+              {post.image && (
+                <div className="blog-detail_component_img-wrapper">
+                  <Image
+                    src={post.image}
+                    alt={post.imageAlt ?? post.title}
+                    width={1200}
+                    height={675}
+                    priority
+                    className="blog-detail_component_img-wrapper_img"
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
+              )}
+
+              {/* Content layout */}
+              <div className="blog-detail_component_detail-wrapper">
+
+                {/* Left sticky sidebar */}
+                <div className="blog-detail_component_detail-wrapper_left">
+                  <div className="blog_author-wrapper">
+                    <div className="blog_author-img-wrapper">
+                      <div className="blog_author-img" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "1.125rem", fontWeight: 600 }}>
+                        N
+                      </div>
+                    </div>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>{post.author ?? "Namespace"}</div>
+                    </div>
+                  </div>
+                  <p style={{ opacity: 0.6 }}>{formatLongDate(post.date)}</p>
+                  <p style={{ opacity: 0.6 }}>{post.readingLabel}</p>
+                  <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+                    <a
+                      href={shareX}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label="Share on X"
+                      className="button"
+                      style={{ fontSize: "0.75rem", padding: "0.4rem 0.75rem" }}
+                    >
+                      Share on X
+                    </a>
+                  </div>
+                </div>
+
+                {/* Main content */}
+                <div className="blog-detail_component_detail-wrapper_content-wrapper">
+                  <div
+                    className="blog-detail_component_detail-wrapper_left_embed post-prose"
+                    dangerouslySetInnerHTML={{ __html: post.html }}
+                  />
+                </div>
+
+                {/* Right sidebar (empty — matches original layout) */}
+                <div className="blog-detail_component_detail-wrapper_right" />
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Related posts */}
+      {related.length > 0 && (
+        <section className="section_blog-related">
+          <div
+            {...{ "padding-global": "" }}
+            className="section-inner-background background-color-secondary"
+          >
             <div
-              className="post-prose"
-              dangerouslySetInnerHTML={{ __html: post.html }}
-            />
-
-            <div className="mt-16 pt-8 border-t border-border flex flex-wrap items-center justify-between gap-4">
-              <div className="text-xs font-mono uppercase tracking-widest text-text-subtle">
-                Share this
+              {...{ container: "large" }}
+              className="padding-section-large"
+            >
+              <div style={{ marginBottom: "2rem" }}>
+                <p style={{ fontSize: "0.75rem", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.5 }}>
+                  Related Blogs
+                </p>
               </div>
-              <div className="flex items-center gap-2">
-                <a
-                  href={shareX}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Share on X"
-                  className="h-9 w-9 rounded-full border border-border hover:border-accent hover:text-accent text-text-muted flex items-center justify-center transition-colors"
-                >
-                  <X className="h-4 w-4" />
-                </a>
-                <a
-                  href={shareLinkedIn}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Share on LinkedIn"
-                  className="h-9 w-9 rounded-full border border-border hover:border-accent hover:text-accent text-text-muted flex items-center justify-center transition-colors"
-                >
-                  <LinkedIn className="h-4 w-4" />
-                </a>
+              <div className="blog_list-wrapper w-dyn-list">
+                <div role="list" className="blog_list w-dyn-items">
+                  {related.map((p) => (
+                    <RelatedCard key={p.slug} post={p} />
+                  ))}
+                </div>
               </div>
             </div>
-
-            <div className="mt-10 rounded-xl border border-border bg-surface/60 p-8 md:p-10">
-              <div className="text-xs font-mono uppercase tracking-widest text-text-subtle mb-3">
-                Ready to ship?
-              </div>
-              <h3 className="font-display text-2xl md:text-3xl tracking-tight leading-tight">
-                Talk to the team that builds ENS identity at scale.
-              </h3>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Button
-                  href="https://cal.com/thecap.eth/discovery"
-                  external
-                  withArrow="up-right"
-                >
-                  Book a call
-                </Button>
-                <Button
-                  href="https://docs.namespace.ninja/"
-                  external
-                  variant="secondary"
-                  withArrow="up-right"
-                >
-                  Read the docs
-                </Button>
-              </div>
-            </div>
-          </Container>
-        </Section>
-      </article>
-
-      {/* Related */}
-      {related.length > 0 ? (
-        <Section className="pt-24">
-          <Container size="wide">
-            <div className="flex items-baseline justify-between mb-10">
-              <h2 className="font-display text-3xl md:text-4xl tracking-tight">
-                Keep reading
-              </h2>
-              <Link
-                href="/blog"
-                className="inline-flex items-center gap-1.5 text-sm text-text-muted hover:text-accent transition-colors group"
-              >
-                All posts
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {related.map((p) => (
-                <PostCard key={p.slug} post={p} />
-              ))}
-            </div>
-          </Container>
-        </Section>
-      ) : null}
+          </div>
+        </section>
+      )}
 
       <CTASection />
     </PageShell>

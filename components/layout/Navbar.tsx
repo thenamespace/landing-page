@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState } from "react";
 
 /* ─── SVG logo (inline, matches the original Webflow navbar) ─── */
 function NamespaceLogo() {
@@ -289,32 +289,56 @@ const COMMUNITY_ITEMS = [
   { label: "ENS x AI group", href: "https://t.me/ensxai", icon: <ENSxAIIcon /> },
 ];
 
-/**
- * Navbar — pixel-perfect port of the Webflow navbar2_component.
- *
- * We use Webflow CSS classes for layout/styling. The dropdown open/close
- * and mobile menu are React-controlled to avoid hydration conflicts
- * with the Webflow JS runtime.
- *
- * We strip `data-w-id` from nav elements so Webflow JS doesn't double-bind.
- */
+type DropdownId = "solutions" | "products" | "community" | null;
+
+function Dropdown({
+  id,
+  label,
+  open,
+  onEnter,
+  onLeave,
+  children,
+}: {
+  id: DropdownId;
+  label: string;
+  open: boolean;
+  onEnter: () => void;
+  onLeave: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className={`navbar2_menu-dropdown w-dropdown${open ? " w--nav-dropdown-open" : ""}`}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+    >
+      <div className={`navbar_dropdwn-toggle w-dropdown-toggle${open ? " w--nav-dropdown-toggle-open" : ""}`}>
+        <div>{label}</div>
+      </div>
+      <nav className={`navbar_dropdown-list w-dropdown-list${open ? " w--open" : ""}`}>
+        {children}
+      </nav>
+    </div>
+  );
+}
+
 export function Navbar() {
+  const [openDropdown, setOpenDropdown] = useState<DropdownId>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const open = (id: DropdownId) => () => setOpenDropdown(id);
+  const close = () => setOpenDropdown(null);
 
   return (
     <div
       data-animation="default"
       className="navbar2_component w-nav"
-      data-easing2="ease"
-      fs-scrolldisable-element="smart-nav"
-      data-easing="ease"
-      data-collapse="medium"
       role="banner"
-      data-duration="400"
+      data-collapse="medium"
     >
       <div className="navbar2_container">
         {/* Logo */}
-        <a href="/" aria-current="page" className="navbar2_logo-link w-nav-brand w--current">
+        <a href="/" className="navbar2_logo-link w-nav-brand">
           <div className="navbar2_logo w-embed">
             <NamespaceLogo />
           </div>
@@ -322,63 +346,44 @@ export function Navbar() {
 
         {/* Desktop nav */}
         <nav role="navigation" className="navbar2_menu is-page-height-tablet w-nav-menu">
-          {/* Solutions dropdown */}
-          <div data-delay="200" data-hover="true" className="navbar2_menu-dropdown w-dropdown">
-            <div className="navbar_dropdwn-toggle w-dropdown-toggle">
-              <div>Solutions</div>
-            </div>
-            <nav className="navbar_dropdown-list w-dropdown-list">
-              {SOLUTIONS_ITEMS.map((item) => (
-                <div key={item.label} className="navbar_dropdown-link">
-                  <NavIcon>{item.icon}</NavIcon>
-                  <div>{item.label}</div>
-                </div>
-              ))}
-            </nav>
-          </div>
+          <Dropdown id="solutions" label="Solutions" open={openDropdown === "solutions"} onEnter={open("solutions")} onLeave={close}>
+            {SOLUTIONS_ITEMS.map((item) => (
+              <div key={item.label} className="navbar_dropdown-link">
+                <NavIcon>{item.icon}</NavIcon>
+                <div>{item.label}</div>
+              </div>
+            ))}
+          </Dropdown>
 
-          {/* Products dropdown */}
-          <div data-delay="200" data-hover="true" className="navbar2_menu-dropdown w-dropdown">
-            <div className="navbar_dropdwn-toggle w-dropdown-toggle">
-              <div>Products</div>
-            </div>
-            <nav className="navbar_dropdown-list w-dropdown-list">
-              {PRODUCTS2_ITEMS.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="navbar_dropdown-link w-inline-block"
-                  {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                >
-                  <NavIcon>{item.icon}</NavIcon>
-                  <div>{item.label}</div>
-                </a>
-              ))}
-            </nav>
-          </div>
+          <Dropdown id="products" label="Products" open={openDropdown === "products"} onEnter={open("products")} onLeave={close}>
+            {PRODUCTS2_ITEMS.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                className="navbar_dropdown-link w-inline-block"
+                {...(item.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
+                <NavIcon>{item.icon}</NavIcon>
+                <div>{item.label}</div>
+              </a>
+            ))}
+          </Dropdown>
 
-          {/* Community dropdown */}
-          <div data-delay="200" data-hover="true" className="navbar2_menu-dropdown w-dropdown">
-            <div className="navbar_dropdwn-toggle w-dropdown-toggle">
-              <div>Community</div>
-            </div>
-            <nav className="navbar_dropdown-list w-dropdown-list">
-              {COMMUNITY_ITEMS.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="navbar_dropdown-link w-inline-block"
-                >
-                  <NavIcon>{item.icon}</NavIcon>
-                  <div>{item.label}</div>
-                </a>
-              ))}
-            </nav>
-          </div>
+          <Dropdown id="community" label="Community" open={openDropdown === "community"} onEnter={open("community")} onLeave={close}>
+            {COMMUNITY_ITEMS.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="navbar_dropdown-link w-inline-block"
+              >
+                <NavIcon>{item.icon}</NavIcon>
+                <div>{item.label}</div>
+              </a>
+            ))}
+          </Dropdown>
 
-          {/* Blog link */}
           <a href="/blog" className="navbar_link w-nav-link">Blog</a>
 
           {/* Mobile CTA */}
@@ -393,7 +398,7 @@ export function Navbar() {
             <WfButton href="https://app.namespace.ninja" label="Go to App" />
           </div>
           <div
-            className="navbar2_menu-button w-nav-button"
+            className={`navbar2_menu-button w-nav-button${mobileOpen ? " w--open" : ""}`}
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
