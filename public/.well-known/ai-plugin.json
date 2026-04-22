@@ -1,0 +1,16 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Namespace",
+  "name_for_model": "namespace_ens",
+  "description_for_human": "Issue and resolve ENS subnames at scale. Build naming systems for wallets, chains, apps, and AI agents.",
+  "description_for_model": "Namespace is an ENS subname service provider. Use this plugin to issue ENS subnames (offchain or onchain), resolve ENS names and addresses, manage ENS records, and look up subname availability. Supports Ethereum, Base, and Optimism. Provides both a REST API and an SDK.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://docs.namespace.ninja/openapi.json"
+  },
+  "logo_url": "https://namespace.ninja/assets/images/6932588f20ef0f7c5ff8c3ca_Frame_1948758866.png",
+  "legal_info_url": "https://namespace.ninja/legal/terms-of-service"
+}

@@ -1,0 +1,236 @@
+/**
+ * Webflow page-specific overrides
+ * Consolidated from _legacy/landing-head.css and _legacy/blog-head.css
+ * These are inline <style> blocks from the original Webflow export.
+ */
+
+/* ── Attribute-selector bridges for Webflow HTML conventions ──
+ * The Webflow-exported HTML marks elements with bare attributes
+ * (padding-global="", container="large") rather than classes.
+ * The shared Webflow CSS only defines the class-based rules
+ * (.padding-global, .container-large, .container-medium, .container-small).
+ * These rules bridge the gap so both syntaxes produce identical layout.
+ */
+[padding-global] {
+  padding-right: var(--_responsive---padding--global);
+  padding-left: var(--_responsive---padding--global);
+}
+
+[container="large"] {
+  max-width: var(--_base-primitive---container--large);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+[container="medium"] {
+  max-width: var(--_base-primitive---container--medium);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+[container="small"] {
+  max-width: var(--_base-primitive---container--small);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Benefits: desktop sticky scroll vs mobile Swiper ── */
+/* Default: hide desktop scroll track */
+.benefits_track-component {
+  display: none;
+}
+
+/* Default: show mobile Swiper */
+.swiper.benefits-swiper {
+  display: block;
+}
+
+/* Only pointer devices (mouse/trackpad) get the sticky-scroll experience */
+@media (hover: hover) and (pointer: fine) {
+  .benefits_track-component {
+    display: block;
+  }
+
+  .is-benefits-sticky {
+    height: 100dvh;
+  }
+
+  .section_benefits {
+    height: 300dvh;
+  }
+
+  .swiper.benefits-swiper {
+    display: none;
+  }
+}
+
+/* ── Blog: current page link style ── */
+.w--current {
+  color: inherit !important;
+}
+
+/* ── Blog cards hover (from the inline style in landing-body) ── */
+.blog_list:has(.blog_item:hover) .blog_item:not(:hover),
+.blog-overview_list:has(.blog-overview_item:hover) .blog-overview_item:not(:hover) {
+  opacity: 0.8;
+}
+
+/* ── Section divider (from benefits section inline style) ── */
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.08) 70%, transparent);
+  margin: 5rem 0;
+}
+
+/* ── Benefits bento grid (from benefits section inline style) ── */
+.section_benefits { height: auto !important; }
+.benefits-bento {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+.benefits-bento .benefits_card {
+  max-width: none;
+  min-height: 20rem;
+}
+.b-wide {
+  grid-column: span 2;
+  flex-direction: row !important;
+  align-items: stretch;
+  min-height: 22rem;
+}
+.b-wide .benefits_card-top {
+  flex: 1.1;
+}
+.b-wide .benefits_card-img-wrapper {
+  flex: 0.9;
+  padding: 0;
+  align-items: flex-end;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+@media (max-width: 991px) {
+  .benefits-bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .b-wide {
+    grid-column: span 2;
+    flex-direction: column !important;
+  }
+  .b-wide .benefits_card-img-wrapper {
+    align-items: center;
+    padding: 0 1.5rem 1.5rem;
+  }
+  .b-wide img[src*="brandsvg"],
+  .b-wide img[src*="networksvg"] {
+    position: static !important;
+    width: 80% !important;
+    margin: 1.5rem auto 0;
+    display: block;
+  }
+}
+@media (max-width: 767px) {
+  .benefits-bento {
+    grid-template-columns: 1fr;
+  }
+  .b-wide {
+    grid-column: span 1;
+    flex-direction: column !important;
+    min-height: unset;
+  }
+}
+
+/* ── Identity pulse animation (from identity section inline style) ── */
+.pulse {
+  stroke: #5474F6;
+  stroke-width: 1.1;
+  stroke-dasharray: 50 50;
+  stroke-dashoffset: 100;
+  animation: pulseFlow 8s linear infinite;
+  filter: drop-shadow(0 0 1.3px #5474F6);
+}
+
+.pulse.line1,
+.pulse.line2 {
+  animation-duration: 0.6s;
+  stroke-dasharray: 20 80;
+}
+
+.pulse.curved {
+  animation-duration: 6s;
+}
+
+@media screen and (max-width: 991px) {
+  .pulse.curved5, .static.curved5,
+  .pulse.curved2, .static.curved2 {
+    display: none;
+  }
+}
+
+@keyframes pulseFlow {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  5% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ── Solutions Lottie rotate animation ── */
+.solutions_marquee-icon-wrapper div {
+  animation: 3s infinite linear running rotateInfinite;
+}
+
+@keyframes rotateInfinite {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Products active state (from products inline style) ── */
+.products_content-left-item.w--current .products_content-icon-wrapper {
+  background: var(--_base-primitive---colors--color-skylume);
+}
+
+.products_content-left-item.w--current .products_content-item-right {
+  color: var(--font-color--text-secondary);
+}
+
+.products_content-left-item.w--current .products_content-active-cricle {
+  opacity: 1;
+}
+
+/* ── Case studies hover effects (desktop only) ── */
+@media only screen and (min-width: 992px) {
+  .case-studies_card:hover .case-studies-card_logo {
+    opacity: 1;
+  }
+  .case-studies_card:hover .case-studies-card_arrow-wrapper {
+    color: white;
+  }
+  .case-studies_list:hover .case-studies-card_hover {
+    opacity: 1;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .pulse,
+  .solutions_marquee-icon-wrapper div {
+    animation: none !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "Namespace",
+  "description": "ENS Subname Service Provider for Web3 Identity. Namespace provides infrastructure for issuing, managing, and resolving ENS subnames at scale.",
+  "url": "https://namespace.ninja",
+  "api": {
+    "base_url": "https://api.namespace.ninja",
+    "docs": "https://docs.namespace.ninja/api-reference/introduction",
+    "openapi": "https://docs.namespace.ninja/openapi.json"
+  },
+  "capabilities": [
+    "ENS subname issuance (offchain)",
+    "ENS subname minting (onchain - Ethereum, Base, Optimism)",
+    "ENS domain resolution",
+    "ENS record management",
+    "Bulk subname operations"
+  ],
+  "contact": {
+    "x": "https://x.com/namespace_eth",
+    "discord": "https://discord.gg/FR7fngrA4s",
+    "telegram": "https://t.me/+BJMGddUg8hk4MDEy"
+  }
+}

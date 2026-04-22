@@ -1,0 +1,54 @@
+# Namespace
+
+> ENS Subname Service Provider for Web3 Identity. Backed by ENS DAO.
+
+Namespace helps wallets, L2 chains, DeFi apps, WaaS providers, and AI agents build ENS naming and identity systems at scale. Fast to integrate, built for scale, gasless subname issuance.
+
+## Products
+
+- [Offchain Subnames](https://namespace.ninja/#offchain-subnames): Issue ENS subnames at scale using CCIP-Read. Gasless to create, quick setup, simple management. Best for wallets, apps, and communities that need to onboard users fast.
+- [Onchain Subnames](https://namespace.ninja/#onchain-subnames): Mint L1 or L2 subnames on Ethereum, Base, or Optimism. No coding required. Secure, verifiable, unruggable, minted as NFTs.
+- [SDK / API](https://docs.namespace.ninja/developer-guide/quickstart): Developer-friendly SDK and REST API for programmatic subname registration and management. Supports offchain and onchain flows.
+- [ENS Widget](https://app.namespace.ninja/widgets): Embed a subname registration flow directly into any website with a no-code widget.
+- [Resolvio](https://resolvio.xyz/): Universal ENS domain resolution service. Resolves names across chains and protocols. Free to use, plug-and-play.
+- [ENS MCP](https://github.com/thenamespace/ens-mcp): Open-source Model Context Protocol tool that allows AI models to understand, query, and interact with ENS domain names in real-time.
+- [ENS Components](https://enscomponents.com/): Ready-made React components for ENS name and subname registrations (onchain and offchain), record editing, and more.
+- [Subpages](https://github.com/thenamespace/subpages): Decentralized websites and profiles built on ENS subnames.
+- [Resolver for Google Sheets](https://ens-sheets.namespace.ninja/): Resolve ENS names directly inside Google Sheets.
+
+## Solutions
+
+- **Wallets**: Issue usernames to wallet users at scale using ENS subnames. Gasless, fast, no smart contract knowledge required.
+- **L2 / Rollups**: Chain-wide identity systems for Layer 2 networks. Users get `name.chain.eth` identities tied to their chain.
+- **AI Agents**: Give AI agents persistent, human-readable ENS identities. Namespace provides identity infrastructure for autonomous agents.
+- **DeFi / Payment Apps**: Replace wallet addresses with ENS names in payment flows. Improve UX and reduce send errors.
+- **WaaS (Wallet-as-a-Service)**: Integrate ENS naming into WaaS platforms for white-label wallet naming.
+- **Decentralized Websites**: Host websites and profiles on ENS subnames via IPFS and WebHash.
+
+## Documentation
+
+- [Developer Docs](https://docs.namespace.ninja/)
+- [API Reference](https://docs.namespace.ninja/api-reference/introduction)
+- [Quickstart Guide](https://docs.namespace.ninja/developer-guide/quickstart)
+- [SDK Guide](https://docs.namespace.ninja/developer-guide/sdks/introduction)
+
+## Community
+
+- [X / Twitter](https://x.com/namespace_eth)
+- [Discord](https://discord.gg/FR7fngrA4s)
+- [Telegram](https://t.me/+BJMGddUg8hk4MDEy)
+- [Farcaster](https://farcaster.xyz/namespace)
+- [LinkedIn](https://www.linkedin.com/company/namespace-eth/)
+- [Blog](https://namespace.ninja/blog)
+- [GitHub](https://github.com/thenamespace)
+
+## About
+
+Namespace is an ENS DAO-backed service provider. It provides the infrastructure and tooling for the next billion Web3 users to have human-readable identities on Ethereum and beyond.
+
+## Pricing
+
+- Offchain subnames: Always free — no fee for Namespace or end users, regardless of volume.
+- Onchain subnames: Free if the minting price is set to zero. If a partner charges for subname minting, Namespace takes a 5% fee on that revenue.
+- SDK/API: Free to use with no restrictions.
+- Custom solutions: Case-by-case. Partially subsidized by ENS DAO for qualifying projects.

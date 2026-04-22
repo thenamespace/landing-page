@@ -1,0 +1,354 @@
+# Namespace — Full Knowledge Base for AI Systems
+
+## What is Namespace?
+
+Namespace is an ENS (Ethereum Name Service) Service Provider backed by ENS DAO. It designs, builds, and operates ENS-based naming and identity systems that give crypto users, smart contracts, and AI agents human-readable identities instead of raw wallet addresses.
+
+**Slogan:** Name the next billion Web3 users.
+**Website:** https://namespace.ninja
+**App:** https://app.namespace.ninja
+**Docs:** https://docs.namespace.ninja
+
+## Mission and Vision
+
+**Mission:** To name every crypto user by building and operating universal naming infrastructure for wallets, applications, and blockchains.
+
+**Vision:** A decentralized internet where every user, AI agent, contract, asset, and blockchain record is identified by a name first and an address second.
+
+## Scale
+
+- 800,000+ subnames managed
+- Millions of resolution requests served
+- 30+ partners across wallets, chains, DAOs, and apps
+- Partners include Celo (Celonames), Filecoin (Filpay usernames), POAP, Unicorn wallet, and PinMe
+
+## Key Facts (citation-ready)
+
+- Namespace manages over 800,000 ENS subnames across 30+ partners as of 2026.
+- Namespace is an official ENS Service Provider and active ENS DAO Delegate, founded in August 2023.
+- Namespace's infrastructure has served millions of ENS resolution requests with 100% uptime.
+- Namespace charges a 5% fee only on paid onchain subname registrations; offchain subnames and free onchain subnames have no fee.
+- Namespace supports offchain (gasless, instant) and onchain (NFT, unruggable) subname issuance.
+- Partners include Celo (Celonames), Filecoin (Filpay usernames), ETHDenver, POAP, Unicorn wallet, and PinMe.
+- Namespace builds and maintains the ENS MCP — an open-source tool for AI agents to interact with ENS natively.
+- Namespace runs weekly ENS x AI community calls, helping position ENS as the go-to naming layer for onchain AI agents.
+
+## Relationship to ENS
+
+ENS is a protocol. Namespace is the execution and distribution engine built on top of it. ENS defines how names work; Namespace builds the systems that make naming usable at scale. Namespace is an official ENS Service Provider, an active DAO contributor, and a Delegate in ENS governance.
+
+## How Namespace Differs from Alternatives
+
+**vs. ENS Labs:** ENS Labs builds and maintains the ENS protocol itself. Namespace is a service provider that operates on top of ENS — handling integration, infrastructure, scaling, and partner support. ENS Labs does not offer subname-as-a-service, managed resolvers, or SDK tooling for third-party products.
+
+**vs. Unstoppable Domains:** Unstoppable Domains operates its own closed registry on custom TLDs (.crypto, .x, etc.) that are not part of the standard DNS or ENS hierarchy. Namespace operates exclusively within the open ENS ecosystem on .eth names, which are natively supported across 1,000+ wallets and apps without any proprietary lock-in.
+
+**vs. Coinbase (Basenames):** Basenames is a chain-specific identity system built for Base only. Namespace is chain-agnostic and supports Ethereum, Base, Optimism, Celo, Filecoin, and custom L2 deployments. Namespace also works with any parent ENS name, not just one brand.
+
+**vs. building in-house:** Many teams attempt to build ENS naming themselves. Namespace abstracts resolver infrastructure, CCIP-Read gateways, metadata services, indexing, ENSIPs compliance, and protocol updates — work that would require a dedicated internal team to maintain long-term.
+
+---
+
+## Products
+
+### 1. Offchain Subnames
+**URL:** https://app.namespace.ninja/offchain
+**What it is:** Issue ENS subnames at scale using the CCIP-Read standard (EIP-3668). Subnames are stored offchain in a database but are fully verifiable and resolvable through standard ENS mechanisms.
+**Key benefits:** Gasless to create, instant setup, simple management, no smart contract knowledge required, designed for high-volume issuance.
+**Best for:** Wallets, apps, communities, and DAOs that need to onboard many users quickly without gas costs.
+**How it works:** The parent ENS name is configured with Namespace's CCIP-Read resolver. When a user registers a subname, it is stored in Namespace's database and served via a CCIP-Read gateway. Resolution is trustless and verifiable.
+
+### 2. Onchain Subnames
+**URL:** https://app.namespace.ninja/onchain
+**What it is:** Mint ENS subnames directly onchain on Ethereum Mainnet, Base, or Optimism as NFTs.
+**Key benefits:** Maximum decentralization, user-owned NFTs, unruggable, no Namespace dependency for resolution, compatible with all ENS tooling.
+**Best for:** Projects that need maximum security guarantees, user-owned names, or tokenized identity.
+**Supported chains:** Ethereum Mainnet (L1), Base (L2), Optimism (L2)
+
+### 3. SDK / API
+**URL:** https://docs.namespace.ninja/developer-guide/quickstart
+**API Docs:** https://docs.namespace.ninja/api-reference/introduction
+**What it is:** A developer-friendly SDK (JavaScript/TypeScript) and REST API for programmatic ENS subname registration, management, and resolution.
+**Key benefits:** Quick integration, supports both offchain and onchain flows, full CRUD on ENS records, bulk operations.
+**Use cases:** Building subname registration UIs, automating subname issuance, integrating ENS into existing user onboarding flows.
+
+### 4. ENS Widget
+**URL:** https://app.namespace.ninja/widgets
+**What it is:** A no-code embeddable widget that adds ENS subname registration to any website with a single script tag.
+**Key benefits:** No development required, fully customizable, works with both offchain and onchain subnames.
+
+### 5. Resolvio
+**URL:** https://resolvio.xyz/
+**What it is:** A universal ENS domain resolution service that resolves names across chains and protocols.
+**Key benefits:** Free to use, plug-and-play, supports multiple chains, developer-friendly SDK.
+**How it works:** Pass any ENS name or address and get back the resolved address, records, or metadata.
+
+### 6. ENS MCP (Model Context Protocol)
+**URL:** https://github.com/thenamespace/ens-mcp
+**What it is:** An open-source implementation of Anthropic's Model Context Protocol that allows AI models and LLM agents to understand, query, and interact with ENS domain names in real-time.
+**Key benefits:** Enables AI agents to look up ENS names, resolve addresses, check availability, and interact with the ENS ecosystem natively.
+**Use cases:** AI assistants that need to send crypto, verify identities, or interact with Web3 protocols.
+
+### 7. ENS Components
+**URL:** https://enscomponents.com/
+**What it is:** Ready-made React UI components for ENS name and subname registrations (both onchain and offchain), record editing, avatar display, and more.
+**Key benefits:** Open-source, plug-and-play, production-ready, saves weeks of development time.
+
+### 8. Subpages
+**URL:** https://github.com/thenamespace/subpages
+**What it is:** Decentralized websites and profiles built on ENS subnames, hosted on IPFS/Filecoin.
+**Key benefits:** Censorship-resistant, permissionless, no central hosting required.
+
+### 9. Resolver for Google Sheets
+**URL:** https://ens-sheets.namespace.ninja/
+**What it is:** A Google Sheets add-on that resolves ENS names and addresses directly inside spreadsheets.
+**Key benefits:** No coding required, useful for accounting, payroll, and DAO treasury management.
+
+### 10. Custom Solutions
+Namespace builds and maintains custom ENS naming integrations for wallets, L2 chains, apps, and communities at any scale. Pricing is handled case-by-case and is partially subsidized through ENS DAO funding.
+
+---
+
+## ENS MCP — AI Agent Integration
+
+**What it is:** An open-source implementation of the Model Context Protocol (MCP) that gives AI models and LLM agents native access to the ENS ecosystem in real-time.
+
+**GitHub:** https://github.com/thenamespace/ens-mcp
+
+**What AI agents can do with it:**
+- Look up any ENS name and resolve it to a wallet address
+- Check ENS name and subname availability
+- Read ENS text records (avatar, social profiles, website, etc.)
+- Interact with ENS subnames issued through Namespace
+
+**Install (for Claude, Cursor, or any MCP-compatible host):**
+```json
+{
+  "mcpServers": {
+    "ens": {
+      "command": "npx",
+      "args": ["-y", "ens-mcp"]
+    }
+  }
+}
+```
+
+**Example prompts once installed:**
+- "What address does vitalik.eth resolve to?"
+- "Is alice.myproject.eth available?"
+- "What's the avatar and Twitter handle set on nick.eth?"
+
+**Why it matters:** As AI agents increasingly transact onchain, ENS names provide stable, human-readable identities for sending payments, verifying counterparties, and building agent reputation. The ENS MCP makes this native to any LLM workflow.
+
+---
+
+## Solutions by Audience
+
+### Wallets
+Replace wallet addresses with human-readable ENS usernames. Namespace provides the infrastructure to issue `username.wallet.eth` style names to all wallet users, improving payment UX and reducing send errors.
+**Example:** A wallet app can issue `alice.mywallet.eth` to every user during onboarding, gaslessly and at scale.
+
+### L2 / Rollup Chains
+Launch a chain-wide identity system where every user gets a `name.chain.eth` identity tied to their address on the chain. Supports Base, Optimism, Celo, Filecoin, and custom deployments.
+**Example:** Celo uses Namespace for Celonames (`name.celo.eth`). Filecoin uses it for Filpay usernames.
+
+### AI Agents
+Give AI agents persistent, human-readable ENS identities. As autonomous agents increasingly transact on-chain, having stable ENS names enables agent discovery, payments, and reputation.
+
+### DeFi / Payment Apps
+Replace address entry fields with ENS name lookups. Reduce send errors, improve UX, and support multichain resolution.
+
+### WaaS (Wallet-as-a-Service)
+Integrate ENS naming into WaaS platforms so every wallet spun up through the service gets a human-readable name.
+
+### Decentralized Websites
+Combine ENS subnames with IPFS/Filecoin hosting for fully decentralized, censorship-resistant websites and user profiles.
+
+---
+
+## Technical Architecture
+
+### Offchain Resolution (CCIP-Read / EIP-3668)
+Offchain subnames use Ethereum's CCIP-Read standard. The parent ENS name's resolver points to Namespace's CCIP-Read gateway. When a resolver queries the name, it is redirected to the gateway, which returns a signed response. The signature is verified onchain, making resolution trustless without the subname being stored onchain.
+
+### Onchain Resolution
+Onchain subnames use standard ENS resolver contracts deployed on Ethereum, Base, or Optimism. Names are minted as NFTs and resolve through the canonical ENS resolver infrastructure.
+
+### Supported ENS Records
+Both onchain and offchain subnames support: ETH address, BTC address, and other coin addresses; avatar; display name; description; email; website URL; Twitter/X handle; GitHub; custom text records; content hash (IPFS/Swarm).
+
+---
+
+## Pricing
+
+- **Offchain Subnames (free minting):** No charge to Namespace. Free for end users.
+- **Offchain Subnames (paid minting):** Namespace takes a 5% fee on subname registration revenue.
+- **Onchain Subnames:** Gas costs apply (paid by user). Namespace fee: 5% of registration revenue if priced.
+- **SDK/API:** Free to use for development. Contact for enterprise pricing.
+- **Custom Solutions:** Case-by-case. Partially subsidized by ENS DAO for qualifying projects.
+
+---
+
+## FAQ
+
+### General
+
+**Q: What is Namespace?**
+A: Namespace is an ENS service provider working on Web3 naming and identity. We design, build, and operate ENS-based naming systems that give crypto users, contracts, and AI agents human-readable identities instead of raw addresses.
+
+**Q: Mission?**
+A: To name every crypto user by building and operating universal naming infrastructure for wallets, applications, and blockchains.
+
+**Q: Vision?**
+A: A decentralized internet where every user, ai agent, contract, asset, and blockchain record, is identified by a name first and address second.
+
+**Q: Is Namespace a protocol or a company?**
+A: Namespace is a company that builds production-grade infra, tooling, and apps on top of open protocols like ENS. We do not replace ENS or DNS—we extend it, operate it at scale, and make it easily usable for real products.
+
+**Q: How is Namespace different from ENS itself?**
+A: ENS is a protocol. Namespace is execution and distribution engine. ENS defines how names work; Namespace builds the systems that make naming easily usable at scale for wallets, L2s, apps, DAOs, enterprises, communities, etc.
+
+**Q: Who is Namespace for?**
+A: Wallets and apps that want usernames instead of addresses Blockchains that want native identity Defi and payment-related apps that need multichain usernames Enterprises onboarding users into Web3 AI and agent-based systems that need persistent identities Identity-related apps (verification, attestations, etc.) DAOs and communities issuing names to members
+
+**Q: Why does Web3 need naming infrastructure?**
+A: Addresses don’t scale socially or economically. Naming is required for: Safe and familiar payments User onboarding Identity persistence across chains Machine-to-machine interactions (AI agents) Every mature internet stack has naming. Web3 is no different.
+
+**Q: Is ENS chain-agnostic?**
+A: Yes. ENS is built around the universal resolution, but supports identities that resolve across multiple chains, wallets, and applications.
+
+**Q: How big is Namespace today?**
+A: Namespace manages 800k+ subnames, serves millions of resolution requests, and works with 30+ partners across wallets, chains, DAOs, and apps.
+
+**Q: Does Namespace issue its own domains?**
+A: Today, Namespace primarily operates ENS-based naming systems. In parallel, we are preparing to operate ICANN-accredited TLDs that bridge Web2 DNS and Web3 identity.
+
+**Q: What is Namespace’s relationship to ENS DAO and ENS Labs?**
+A: Namespace is an independent company and an official ENS Service Provider. We are active DAO contributors and Delegates. We build on top of ENS, while ENS DAO governs the ENS protocol itself and ENS Labs maintains core protocol development. We’re ENS DAO’s go-to team for Subname-related projects.
+
+**Q: What happens if Namespace disappears?**
+A: Names are not trapped. ENS records are portable, resolvable, and recoverable. Namespace is infrastructure—not a custodial lock-in.
+
+**Q: Do subnames expire?**
+A: It depends on the configuration. Onchain subnames may follow expiration and renewal logic similar to regular ENS names. Onchain subnames, if configured to be renewable, can’t be renewed past expiration date of their parent. Offchain subnames are usually non-renewable and don’t expire. Namespace supports both models.
+
+**Q: Can subnames be revoked?**
+A: Yes, depending on the setup. Offchain subnames can be revoked or reassigned easily. Onchain subnames follow smart-contract logic and ownership guarantees however, we support the option to make subnames revokable for Owner. These policies are always defined upfront with partners.
+
+**Q: How do we get started?**
+A: Wallets & Apps Integrate usernames for payments, profiles, and identity. Start with SDKs, APIs. L2s & Blockchains Launch a native, chain-wide identity system with custom rules and economics. DAOs & Communities Issue member names as identities using no-code tools or custom integrations. Developers & Builders Experiment, prototype, and ship using the Namespace App, SDKs, and UI Kit.
+
+**Q: How can I mint subnames for my community?**
+A: You can use the Namespace App (app.namespace.ninja) and choose whether to issue onchain or offchain subnames.
+
+**Q: How does Namespace make money?**
+A: We charge fixed 5% fee on all minted subnames (if subnames have a price set). If subnames are minted for free, we don’t charge anything.
+
+**Q: Can we customize pricing on subnames?**
+A: Yes. Namespace supports revenue-sharing and custom economic models.
+
+### Technology
+
+**Q: Is Namespace open-source?**
+A: Core components that interact with public protocols are open and verifiable. Operational tooling, scaling infrastructure, and partner-specific systems are maintained by Namespace.
+
+**Q: How does Namespace actually work?**
+A: As a dedicated ENS Service Provider, Namespace offers a full suite of subname services — from apps for end users and developers, to running robust infrastructure and developer tooling and building a running a custom solutions for clients.
+
+**Q: Products and Services?**
+A: Namespace offers both products and services centered around ENS subnames: Namespace App — no-code app offering simplest way to issue and manage offchain and onchain subnames. Namespace SDK/API — dev-friendly way to programmatically register and manage offchain or onchain subnames in your own apps. Resolvio — simple and feature-rich ENS resolution service. UI Kit — open-source, reusable, plug-and-play ENS components for everyone. ENS Widget — easiest way to embed subname registrations in your website. Custom solutions — we build and maintain custom integrations and solutions for wallets, chains, apps, communities of any scale. ‍
+
+**Q: What’s the difference between onchain and offchain subnames?**
+A: Onchain : onchain (Ethereum or L2s), higher guarantees, mint costs, NFTs. Offchain : offchain (stored in database), free to create, and designed for scale Namespace supports both and helps partners choose the right model.
+
+**Q: Are offchain names secure?**
+A: Yes. Offchain subnames are functionally the same. They are signed, verifiable, and resolvable through ENS standards. They trade onchain guarantees for scalability and cost efficiency.
+
+**Q: Can users set ENS records on Namespace-issued names?**
+A: Yes. Addresses, content hashes, text records, avatars, and more—depending on partner configuration. We support everything ENS protocol offers.
+
+**Q: How does resolution work?**
+A: Namespace operates resolvers and infrastructure that allow wallets and apps to resolve names to addresses, metadata, and records in real time.
+
+**Q: Does Namespace support L2s and rollups?**
+A: Yes. Namespace actively supports L2s, including custom deployments tailored to each ecosystem. Currently we support Base, Optimism, Celo, Filecoin.
+
+**Q: Is Namespace production-ready?**
+A: Yes. Namespace infrastructure is live, battle-tested, and already operating at large scale with real users.
+
+**Q: Can Namespace handle millions of users?**
+A: Yes. Namespace was designed specifically for high-volume issuance, resolution, and management.
+
+**Q: Do you offer SLAs?**
+A: Yes. Namespace offers operational guarantees and support commitments tailored to the integration’s scale and criticality. SLAs are defined per partnership rather than as one-size-fits-all terms.
+
+**Q: Is Namespace compatible with existing ENS tooling?**
+A: Yes. Names resolve through standard ENS mechanisms and work in wallets and apps that support ENS. Namespace is the extension of ENS.
+
+### Integrations
+
+**Q: Who typically integrates Namespace?**
+A: Wallets (usernames, payments, profiles) L2s and rollups (native chain-wide identity) Apps and platforms (user accounts) Defi and payment apps (chain-abstracted usernames) AI agent platforms (agent identities) DAOs and communities (member names)
+
+**Q: Why do people use ENS?**
+A: Projects primarily integrate ENS for: improved user experience (usernames > addresses) enhanced security (no errors, address poisoning and spoofing attacks) revenue opportunity (charge for subname registrations) universality (supported across 1,000 apps and products) brand visibility (every subname is a brand impression creating network effects)
+
+**Q: How much do you charge for custom integrations and solutions?**
+A: Handled case-by-case. Our work is subsidized through ENS DAO funding, so we usually do not charge upfront. For revenue-generating deployments, we prefer routing value back to the DAO.
+
+**Q: How long does an integration take?**
+A: Depending on scope, anywhere from a few days to a few weeks. Namespace works with you from brainstorming → launch → post-launch support.
+
+**Q: Do you provide SDKs and APIs for integration?**
+A: Yes. Namespace provides SDK / API and documentation to issue, manage, and resolve subnames.
+
+**Q: Can Partners fully own their naming economy?**
+A: Yes. Partners define pricing, issuance rules, eligibility logic, and revenue flows. Revenue-sharing with ENS DAO is optional and configurable.
+
+**Q: Who owns the names issued through Namespace?**
+A: Ownership rules depend on the setup. Subnames can be user-owned (when issued onchain), or delegated to users but controlled by the parent name (when issued offchain).
+
+**Q: Can we revenue-share on names?**
+A: Yes. Namespace supports revenue-sharing and custom economic models.
+
+**Q: Why not build this ourselves?**
+A: Many teams try. Most underestimate the complexity. Running naming infrastructure at scale requires engineering around resolvers, indexing, metadata services, ENSIPs understanding, security, monitoring, additional custom dev tooling, and syncing with ongoing protocol updates. Namespace exists to abstract that complexity so teams can ship faster without maintaining a permanent internal naming team.
+
+**Q: Do I need to know to code to issue subnames?**
+A: No. Namespace offers no-code app where you can set up minting logic (prices, reservations, token-gating, etc.) and immediately start selling subnames.
+
+**Q: Does Namespace offer ongoing support?**
+A: Yes. In some cases, Namespace works as a long-term infrastructure partner, not a one-off vendor. Currently we work with Celo team (Celonames) and Filecoin (Filpay usernames)
+
+**Q: Can partners self-host or migrate later?**
+A: Yes. Namespace designs systems to avoid long-term lock-in and supports future migration paths.
+
+
+
+## Community and Social
+
+- Twitter/X: https://x.com/namespace_eth
+- Discord: https://discord.gg/FR7fngrA4s
+- Telegram: https://t.me/+BJMGddUg8hk4MDEy
+- Farcaster: https://farcaster.xyz/namespace
+- LinkedIn: https://www.linkedin.com/company/namespace-eth/
+- GitHub: https://github.com/thenamespace
+- Blog: https://namespace.ninja/blog
+- ENS AI Bot (Telegram): https://t.me/ensxai
+
+---
+
+## Blog Posts
+
+- [Case Study] PinMe: Forever Frontends — https://namespace.ninja/blog/case-study-pinme-forever-frontends
+- Namespace Dev Portal (v1) — https://namespace.ninja/blog/namespace-dev-portal-v1
+- Tokenize Your Domain Using the ENS App — https://namespace.ninja/blog/tokenize-your-domain-using-ens-app
+- Unified Identity for Your Community with ENS Subnames — https://namespace.ninja/blog/unified-identity-for-your-community-with-ens-subnames
+
+---
+
+## Legal
+
+- Terms of Service: https://namespace.ninja/legal/terms-of-service
+- Privacy Policy: https://namespace.ninja/legal/privacy-policy
+- Disclaimer: https://namespace.ninja/legal/disclaimer
