@@ -20,6 +20,11 @@
   color: white !important;
 }
 
+/* Push the CTA button to the far right so it mirrors the logo on the left */
+.navbar2_button-wrapper {
+  justify-content: flex-end;
+}
+
 /* Dropdown list: override .w-dropdown-list { background: #ddd } */
 .navbar2_component .navbar_dropdown-list {
   background-color: var(--_base-primitive---colors--color-secondary, #1f1f1f) !important;
@@ -319,9 +324,12 @@ a:focus {
   color: white;
 }
 
-/* ── Social icon colors: force white with robust specificity ── */
+/* ── Social icon colors: gray by default, white on hover ── */
 .footer .social-ink,
-.footer .social-ink svg,
+.footer .social-ink svg {
+  color: var(--_base-primitive---colors--color-black-600, #878787);
+}
+
 .footer .social-ink:hover,
 .footer .social-ink:hover svg {
   color: white;
@@ -329,10 +337,6 @@ a:focus {
 
 .footer .social-ink {
   transition: opacity 0.35s, color 0.35s, background-color 0.35s;
-}
-
-.footer .social-ink:hover {
-  opacity: 0.75;
 }
 
 /* ── Partner logos CSS marquee (replaces Splide) ── */

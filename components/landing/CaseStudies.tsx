@@ -175,11 +175,6 @@ export function CaseStudies() {
               <div>Trusted by Ecosystem Leaders</div>
             </div>
 
-            {/* Partner logos marquee — right to left */}
-            <div className="case-studies_marquee-wrapper">
-              <LogoMarquee />
-            </div>
-
             <div className="case-studies_wrapper">
               <div className="case-studies_list">
                 {/* Custom cursor div — positioned via JS in useEffect */}
@@ -219,6 +214,11 @@ export function CaseStudies() {
                   );
                 })}
               </div>
+            </div>
+
+            {/* Partner logos marquee — right to left */}
+            <div className="case-studies_marquee-wrapper">
+              <LogoMarquee />
             </div>
           </div>
         </div>

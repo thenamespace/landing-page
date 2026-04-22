@@ -140,31 +140,6 @@ export function Footer() {
                     </svg>
                   </div>
                 </div>
-                <a
-                  data-wf--component-button-primary--variant="primary"
-                  href="https://app.namespace.ninja"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="button w-inline-block"
-                >
-                  <div className="button_text">Go to App</div>
-                  <div className="button_icon-wrapper">
-                    <div className="button_icon-item">
-                      <div className="button_icon is-hover w-embed">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" shapeRendering="crispEdges">
-                          <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="button_icon-item">
-                      <div className="button_icon is-hover w-embed">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" shapeRendering="crispEdges">
-                          <path d="M3 8H13M13 8L8 3M13 8L8 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </a>
               </div>
               <div className="footer_component_top_links-list">
                 {SOCIAL_LINKS.map((link) => (
