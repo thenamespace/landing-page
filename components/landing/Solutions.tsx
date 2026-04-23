@@ -28,7 +28,6 @@ export function Solutions() {
                 speed="1"
                 loop
                 autoplay
-                poster="/assets/images/solution-lottie-poster.webp"
                 style={{ width: "auto", height: "auto" }}
                 renderer="svg"
               />

@@ -56,7 +56,7 @@ export function HomeHeader() {
               speed="1"
               loop
               autoplay
-              poster="/assets/images/hero-lottie-poster.webp"
+              poster="/assets/images/hero-video-poster.jpg"
               style={{ width: "auto", height: "auto" }}
               renderer="svg"
             />
