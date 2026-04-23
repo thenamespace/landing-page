@@ -17,8 +17,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Valid email required" }, { status: 400 });
   }
 
-  const { RESEND_API_KEY, RESEND_AUDIENCE_ID } = process.env;
-  if (!RESEND_API_KEY || !RESEND_AUDIENCE_ID) {
+  const { RESEND_API_KEY, RESEND_NEWSLETTER_AUDIENCE_ID } = process.env;
+  if (!RESEND_API_KEY || !RESEND_NEWSLETTER_AUDIENCE_ID) {
     return NextResponse.json(
       { error: "Server configuration error" },
       { status: 500 },
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   }
 
   const res = await fetch(
-    `https://api.resend.com/audiences/${RESEND_AUDIENCE_ID}/contacts`,
+    `https://api.resend.com/audiences/${RESEND_NEWSLETTER_AUDIENCE_ID}/contacts`,
     {
       method: "POST",
       headers: {

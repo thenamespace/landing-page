@@ -20,7 +20,7 @@ npm install
 
 # 2. Copy env and fill secrets
 cp .env.example .env.local
-# RESEND_API_KEY, RESEND_AUDIENCE_ID — for /api/subscribe
+# RESEND_API_KEY, RESEND_NEWSLETTER_AUDIENCE_ID — for /api/subscribe
 # NEXT_PUBLIC_SITE_URL — defaults to https://namespace.ninja
 # NEXT_PUBLIC_GA_ID    — defaults to G-1K699QQ114
 
@@ -114,7 +114,7 @@ through the remark/rehype pipeline with GFM + autolinked headings.
 2. Import into Vercel
 3. Set env vars in Project Settings:
    - `RESEND_API_KEY`
-   - `RESEND_AUDIENCE_ID`
+   - `RESEND_NEWSLETTER_AUDIENCE_ID`
    - `NEXT_PUBLIC_SITE_URL` (optional, defaults to production URL)
    - `NEXT_PUBLIC_GA_ID` (optional, defaults to `G-1K699QQ114`)
 4. Deploy. All redirects from legacy `.html` URLs are handled in `next.config.ts`.
