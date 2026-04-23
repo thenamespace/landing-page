@@ -6,7 +6,7 @@ excerpt: POAP chose Namespace to migrate its naming infrastructure, launch in-ap
 date: 2026-04-22
 author: Cap
 updated: 2026-04-22
-image: /assets/images/Blog Cover - POAP Case Study.png
+image: /assets/images/blog-cover-poap.png
 imageAlt: "[Case Study] POAP: In-app ENS Usernames with Namespace"
 tag: ENS
 ---

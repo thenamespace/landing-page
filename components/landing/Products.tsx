@@ -26,9 +26,9 @@ const PRODUCTS: Product[] = [
       { label: "Create Subnames", href: "https://app.namespace.ninja/offchain" },
       { label: "Integrate in app", href: "https://docs.namespace.ninja/developer-guide/guide/create-offchain-subnames" },
     ],
-    image: "/assets/images/692588d65a43450788fbd525_Frame_1948758957.avif",
+    image: "/assets/images/product-offchain.avif",
     imageAlt: "Offchain CCIP-read ENS subnames / subdomains view in Namespace app.",
-    srcSet: "/assets/images/692588d65a43450788fbd525_Frame_1948758957-p-500.avif 500w, /assets/images/692588d65a43450788fbd525_Frame_1948758957-p-800.avif 800w, /assets/images/692588d65a43450788fbd525_Frame_1948758957.avif 1438w",
+    srcSet: "/assets/images/product-offchain-500.avif 500w, /assets/images/product-offchain-800.avif 800w, /assets/images/product-offchain.avif 1438w",
   },
   {
     id: "onchain-subnames",
@@ -39,9 +39,9 @@ const PRODUCTS: Product[] = [
       { label: "No-code App", href: "https://app.namespace.ninja/onchain" },
       { label: "Integrate in app", href: "https://docs.namespace.ninja/developer-guide/guide/mint-l1-l2-subnames" },
     ],
-    image: "/assets/images/694962a3564842f8fdba9d2a_Frame_1948759077.webp",
+    image: "/assets/images/product-onchain.webp",
     imageAlt: "Onchain ENS subnames / subdomains view in Namespace app. L1 or L2 subnames on Ethereum, Base, Celo, Optimism, etc.",
-    srcSet: "/assets/images/694962a3564842f8fdba9d2a_Frame_1948759077-p-500.webp 500w, /assets/images/694962a3564842f8fdba9d2a_Frame_1948759077-p-800.webp 800w, /assets/images/694962a3564842f8fdba9d2a_Frame_1948759077-p-1080.webp 1080w, /assets/images/694962a3564842f8fdba9d2a_Frame_1948759077.webp 1438w",
+    srcSet: "/assets/images/product-onchain-500.webp 500w, /assets/images/product-onchain-800.webp 800w, /assets/images/product-onchain-1080.webp 1080w, /assets/images/product-onchain.webp 1438w",
   },
   {
     id: "sdk-api",
@@ -52,9 +52,9 @@ const PRODUCTS: Product[] = [
       { label: "View SDK", href: "https://docs.namespace.ninja/developer-guide/sdks/introduction" },
       { label: "View API", href: "https://docs.namespace.ninja/api-reference/introduction" },
     ],
-    image: "/assets/images/693972ed66076b6252ffcaae_Frame_1948759078.avif",
+    image: "/assets/images/product-widget.avif",
     imageAlt: "Namespace ENS SDK API for subname / subdomain registration.",
-    srcSet: "/assets/images/693972ed66076b6252ffcaae_Frame_1948759078-p-500.avif 500w, /assets/images/693972ed66076b6252ffcaae_Frame_1948759078-p-800.avif 800w, /assets/images/693972ed66076b6252ffcaae_Frame_1948759078.avif 1438w",
+    srcSet: "/assets/images/product-widget-500.avif 500w, /assets/images/product-widget-800.avif 800w, /assets/images/product-widget.avif 1438w",
   },
   {
     id: "resolvio",
@@ -62,9 +62,9 @@ const PRODUCTS: Product[] = [
     description: "Universal domain resolution service.",
     tags: ["Bulk resolution", "Test playground", "Free to use"],
     buttons: [{ label: "Learn More", href: "https://resolvio.xyz/" }],
-    image: "/assets/images/69970d99425c3a668f4f5196_ad7082f6a838653a7a7caf0bd5fb0e86_Group_2087326009.png",
+    image: "/assets/images/product-ens-app.png",
     imageAlt: "Resolvio — universal ENS domain resolution service",
-    srcSet: "/assets/images/69970d99425c3a668f4f5196_ad7082f6a838653a7a7caf0bd5fb0e86_Group_2087326009-p-500.png 500w, /assets/images/69970d99425c3a668f4f5196_ad7082f6a838653a7a7caf0bd5fb0e86_Group_2087326009-p-800.png 800w, /assets/images/69970d99425c3a668f4f5196_ad7082f6a838653a7a7caf0bd5fb0e86_Group_2087326009-p-1080.png 1080w, /assets/images/69970d99425c3a668f4f5196_ad7082f6a838653a7a7caf0bd5fb0e86_Group_2087326009.png 1447w",
+    srcSet: "/assets/images/product-ens-app-500.png 500w, /assets/images/product-ens-app-800.png 800w, /assets/images/product-ens-app-1080.png 1080w, /assets/images/product-ens-app.png 1447w",
   },
 ];
 
@@ -83,7 +83,7 @@ const SMALL_PRODUCTS_ROW1: SmallProduct[] = [
     title: "ENS Components",
     description: "Ready-made ENS React components with name and subname registrations (onchain or offchain), record editting and more.",
     button: { label: "See Components", href: "https://enscomponents.com/" },
-    image: "/assets/images/693972ed15dafa49811b418a_Frame_1948759079.avif",
+    image: "/assets/images/product-subpages.avif",
     imageAlt: "ENS Components — ready-made React components for ENS registrations",
   },
   {
@@ -91,7 +91,7 @@ const SMALL_PRODUCTS_ROW1: SmallProduct[] = [
     title: "ENS MCP",
     description: "Open-source tool that allows AI models to understand, query, and interact with ENS domain names in real-time.",
     button: { label: "View on GitHub", href: "https://github.com/thenamespace/ens-mcp" },
-    image: "/assets/images/69397211bc14521273f1cd41_Frame_1948758624.svg",
+    image: "/assets/images/product-sdk.svg",
     imageAlt: "ENS MCP — open-source AI model context protocol for ENS",
   },
 ];
@@ -102,7 +102,7 @@ const SMALL_PRODUCTS_ROW2: SmallProduct[] = [
     title: "Subpages",
     description: "Launch your own subname minting website in minutes; white-label, customizable, subname minting enabled from get-go.",
     button: { label: "GitHub Repo", href: "https://github.com/thenamespace/subpages" },
-    image: "/assets/images/692da94459e44dfdb6c6f9d0_Frame_1948758624.avif",
+    image: "/assets/images/product-resolvio.avif",
     imageAlt: "Launch ENS subname minting web page in minutes.",
   },
   {
@@ -110,7 +110,7 @@ const SMALL_PRODUCTS_ROW2: SmallProduct[] = [
     title: "ENS Widget",
     description: "Embed subname registrations directly inside your website and sell ENS names or subnames at different prices.",
     button: { label: "View Widget", href: "https://app.namespace.ninja/widgets" },
-    image: "/assets/images/69396eb9e76cdf5ac36304f3_Frame_1948759055.avif",
+    image: "/assets/images/product-custom.avif",
     imageAlt: "Sell ENS domains and subdomains from your own website.",
   },
 ];

@@ -5,7 +5,7 @@ export const SITE = {
     "Build ENS naming systems for wallets, chains, and apps. Issue subnames at scale with offchain or onchain solutions. Backed by ENS DAO.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://namespace.ninja",
   ogImage:
-    "https://namespace.ninja/assets/images/69325a5d1570153e2b707ffb_OG_2.png",
+    "https://namespace.ninja/assets/images/og-image.png",
   twitter: "@namespace_eth",
   gaId: process.env.NEXT_PUBLIC_GA_ID ?? "G-1K699QQ114",
   locale: "en_US",

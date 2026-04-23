@@ -6,7 +6,7 @@ excerpt: How Namespace and Unicorn used ENS-based identity to make ETHDenver onb
 date: 2026-04-21
 author: Cap
 updated: 2026-04-21
-image: /assets/images/Blog Cover - Unicorn Case Study.png
+image: /assets/images/blog-cover-unicorn.png
 imageAlt: [Case Study] Namespace x Unicorn: Branded Identity for ETHDenver
 tag: ENS
 ---

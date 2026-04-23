@@ -6,7 +6,7 @@ excerpt: Turn every wallet in your community into a branded interoperable identi
 date: 2025-08-04
 author: Cap
 updated: 2025-08-04
-image: /assets/images/698de60bab2b84b3fd61817a_1daa855b-715d-4698-80f0-01b4cbd55fed_1572x806.webp
+image: /assets/images/blog-cover-unified-identity.webp
 imageAlt: Unified Identity for Your Community with ENS Subnames
 tag: ENS
 format: html

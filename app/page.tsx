@@ -13,6 +13,7 @@ import { Faq } from "@/components/landing/Faq";
 import { Cta } from "@/components/landing/Cta";
 import { BlogPreview } from "@/components/landing/BlogPreview";
 import { SITE } from "@/lib/site";
+import { JsonLd, faqPageSchema, serviceSchema } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
   title: SITE.title,
@@ -30,6 +31,8 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <PageShell>
+      <JsonLd data={faqPageSchema()} />
+      <JsonLd data={serviceSchema()} />
       <HomeHeader />
       <CaseStudies />
       <Products />

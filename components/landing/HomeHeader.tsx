@@ -51,12 +51,12 @@ export function HomeHeader() {
             {/* @ts-expect-error dotlottie-player is a web component loaded via CDN */}
             <dotlottie-player
               id="first-lottie"
-              src="/assets/lottie/69776c624c18a1d7ebdad6fd_Namespace_Home_30fps.lottie"
+              src="/assets/lottie/namespace-home.lottie"
               background="transparent"
               speed="1"
               loop
               autoplay
-              poster="/assets/images/693c1fcd32535424e1e56057_Namespace_Home_0-00-00-00).webp"
+              poster="/assets/images/hero-lottie-poster.webp"
               style={{ width: "auto", height: "auto" }}
               renderer="svg"
             />
@@ -64,7 +64,7 @@ export function HomeHeader() {
 
           {/* Mobile video fallback */}
           <div
-            data-poster-url="/assets/images/698465f1aa21fc099ac1be9d_900x466_Namespace_Home_30fps_5sm_poster.0000000.jpg"
+            data-poster-url="/assets/images/hero-video-poster.jpg"
             data-video-urls="/assets/video/hero_compressed.mp4,/assets/video/hero_compressed.webm"
             data-autoplay="true"
             data-loop="true"
@@ -76,7 +76,7 @@ export function HomeHeader() {
               muted
               playsInline
               data-object-fit="cover"
-              style={{ backgroundImage: "url(/assets/images/698465f1aa21fc099ac1be9d_900x466_Namespace_Home_30fps_5sm_poster.0000000.jpg)" }}
+              style={{ backgroundImage: "url(/assets/images/hero-video-poster.jpg)" }}
             >
               <source src="/assets/video/hero_compressed.mp4" />
               <source src="/assets/video/hero_compressed.webm" />

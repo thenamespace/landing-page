@@ -1,27 +1,7 @@
 "use client";
 import { useState, useRef, useEffect, useCallback } from "react";
-
-interface FaqItem { question: string; answer: string; category: string; }
-
-const FAQ_DATA: FaqItem[] = [
-  { question: "What is Namespace?", answer: "Namespace is an ENS service provider working on Web3 naming and identity.", category: "General" },
-  { question: "Mission?", answer: "To name every crypto user by building and operating universal naming infrastructure for wallets, applications, and blockchains.", category: "General" },
-  { question: "Vision?", answer: "A decentralized internet where every user, AI agent, contract, asset, and blockchain record is identified by a name first and address second.", category: "General" },
-  { question: "Is Namespace a protocol or a company?", answer: "Namespace is a company that builds production-grade infra, tooling, and apps on top of open protocols like ENS.", category: "General" },
-  { question: "How is Namespace different from ENS itself?", answer: "ENS is a protocol. Namespace is execution and distribution engine. ENS defines how names work; Namespace builds the systems that make naming easily usable at scale.", category: "General" },
-  { question: "How big is Namespace today?", answer: "Namespace manages 800k+ subnames, serves millions of resolution requests, and works with 30+ partners across wallets, chains, DAOs, and apps.", category: "General" },
-  { question: "What happens if Namespace disappears?", answer: "Names are not trapped. ENS records are portable, resolvable, and recoverable. Namespace is infrastructure\u2014not a custodial lock-in.", category: "General" },
-  { question: "How does Namespace make money?", answer: "We charge a fixed 5% fee on all minted subnames (if subnames have a price set). If subnames are minted for free, we don\u2019t charge anything.", category: "General" },
-  { question: "What\u2019s the difference between onchain and offchain subnames?", answer: "Onchain: on Ethereum or L2s, higher guarantees, mint costs, NFTs. Offchain: stored in database, free to create, and designed for scale.", category: "Technology" },
-  { question: "Are offchain names secure?", answer: "Yes. They are signed, verifiable, and resolvable through ENS standards. They trade onchain guarantees for scalability and cost efficiency.", category: "Technology" },
-  { question: "Does Namespace support L2s and rollups?", answer: "Yes. Currently we support Base, Optimism, Celo, Filecoin, with custom deployments tailored to each ecosystem.", category: "Technology" },
-  { question: "Is Namespace production-ready?", answer: "Yes. Namespace infrastructure is live, battle-tested, and already operating at large scale with real users.", category: "Technology" },
-  { question: "Who typically integrates Namespace?", answer: "Wallets, L2s and rollups, apps and platforms, defi and payment apps, AI agent platforms, DAOs and communities.", category: "Integrations" },
-  { question: "How long does an integration take?", answer: "Depending on scope, anywhere from a few days to a few weeks. Namespace works with you from brainstorming to launch to post-launch support.", category: "Integrations" },
-  { question: "Why not build this ourselves?", answer: "Many teams try. Most underestimate the complexity. Running naming infrastructure at scale requires resolvers, indexing, metadata services, security, monitoring, and syncing with protocol updates.", category: "Integrations" },
-  { question: "Do you provide SDKs and APIs?", answer: "Yes. Namespace provides SDK / API and documentation to issue, manage, and resolve subnames.", category: "Integrations" },
-  { question: "Does Namespace offer ongoing support?", answer: "Yes. We work as a long-term infrastructure partner, not a one-off vendor. Currently we support Celo (Celonames) and Filecoin (Filpay usernames).", category: "Integrations" },
-];
+import { FAQ_DATA } from "@/lib/faq-data";
+import type { FaqItem } from "@/lib/faq-data";
 
 function ChevronIcon() {
   return (

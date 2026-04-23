@@ -172,7 +172,7 @@ export function Footer() {
           {/* Footer image */}
           <div className="footer_img-wrapper">
             <img
-              src="/assets/images/6932588f20ef0f7c5ff8c3ca_Frame_1948758866.avif"
+              src="/assets/images/logo-footer.avif"
               loading="lazy"
               width={1280}
               alt="Namespace — ENS Subname Service Provider"

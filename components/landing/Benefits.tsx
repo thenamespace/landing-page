@@ -19,7 +19,7 @@ export function Benefits() {
                   <h3 className="heading-style-h4">Brand usernames</h3>
                   <div className="max-width-small"><p className="benefits_card-paragraph">Give every user a universal, human-readable identity tied to your brand, like user.brand.eth</p></div>
                 </div>
-                <img src="/assets/images/brandsvg.svg" loading="lazy" alt="Brand visibility with ENS subnames" style={{ position: "absolute", bottom: 0, right: "-4%", width: "62%", height: "auto" }} />
+                <img src="/assets/images/benefit-brand.svg" loading="lazy" alt="Brand visibility with ENS subnames" style={{ position: "absolute", bottom: 0, right: "-4%", width: "62%", height: "auto" }} />
               </div>
 
               {/* 2: User experience — is-ux */}
@@ -29,7 +29,7 @@ export function Benefits() {
                   <div className="max-width-small"><p className="benefits_card-paragraph">Make onboarding and transacting experience effortless with human-readable names.</p></div>
                 </div>
                 <div className="benefits_card-img-wrapper">
-                  <img src="/assets/images/69396f898598c480d55fd115_Frame_1948759063.svg" loading="lazy" alt="Enhanced security with ENS names illustration" className="benefits_card-img" />
+                  <img src="/assets/images/benefit-ux.svg" loading="lazy" alt="Enhanced security with ENS names illustration" className="benefits_card-img" />
                 </div>
               </div>
 
@@ -40,7 +40,7 @@ export function Benefits() {
                   <div className="max-width-small"><p className="benefits_card-paragraph">Remove address-related errors, scams, spoofing or poisoning attacks with wallet names.</p></div>
                 </div>
                 <div className="benefits_card-img-wrapper">
-                  <img src="/assets/images/69396f89b1152282ef2d6f43_Frame_1948759057.svg" loading="lazy" alt="Revenue opportunity with ENS subnames illustration" className="benefits_card-img" />
+                  <img src="/assets/images/benefit-security.svg" loading="lazy" alt="Revenue opportunity with ENS subnames illustration" className="benefits_card-img" />
                 </div>
               </div>
 
@@ -51,7 +51,7 @@ export function Benefits() {
                   <div className="max-width-small"><p className="benefits_card-paragraph">Registration prices, premium names, renewals; turning identity into a revenue stream.</p></div>
                 </div>
                 <div className="benefits_card-img-wrapper">
-                  <img src="/assets/images/69396f87f75dc230af2f122c_Frame_1948759061.svg" loading="lazy" alt="ENS names work everywhere — universal compatibility illustration" className="benefits_card-img" />
+                  <img src="/assets/images/benefit-revenue.svg" loading="lazy" alt="ENS names work everywhere — universal compatibility illustration" className="benefits_card-img" />
                 </div>
               </div>
 
@@ -62,7 +62,7 @@ export function Benefits() {
                   <div className="max-width-small"><p className="benefits_card-paragraph">Supports 100+ chains, compatible with 1,000+ apps, wallets, and protocols.</p></div>
                 </div>
                 <div className="benefits_card-img-wrapper">
-                  <img src="/assets/images/69396f896ac01b72aad208b3_Frame_1948759060.svg" loading="lazy" alt="Brand visibility with ENS subnames illustration" className="benefits_card-img" />
+                  <img src="/assets/images/benefit-compatibility.svg" loading="lazy" alt="Brand visibility with ENS subnames illustration" className="benefits_card-img" />
                 </div>
               </div>
 
@@ -73,7 +73,7 @@ export function Benefits() {
                   <div className="max-width-small"><p className="benefits_card-paragraph">Every subname carries your brand across social and onchain spaces, extending your reach.</p></div>
                 </div>
                 <div className="benefits_card-img-wrapper">
-                  <img src="/assets/images/69396f89f6172896b0e7bc8e_Frame_1948759058.svg" loading="lazy" alt="ENS network effect illustration" className="benefits_card-img" />
+                  <img src="/assets/images/benefit-visibility.svg" loading="lazy" alt="ENS network effect illustration" className="benefits_card-img" />
                 </div>
               </div>
 
@@ -83,7 +83,7 @@ export function Benefits() {
                   <h3 className="heading-style-h4">Network Effect</h3>
                   <div className="max-width-small"><p className="benefits_card-paragraph">As adoption grows, every new subname strengthens your ecosystem and amplifies your brand&apos;s presence across Web3.</p></div>
                 </div>
-                <img src="/assets/images/networksvg.svg" loading="lazy" alt="ENS network effect illustration" style={{ position: "absolute", bottom: 0, right: "-4%", width: "62%", height: "auto" }} />
+                <img src="/assets/images/benefit-network.svg" loading="lazy" alt="ENS network effect illustration" style={{ position: "absolute", bottom: 0, right: "-4%", width: "62%", height: "auto" }} />
               </div>
 
             </div>

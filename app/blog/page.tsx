@@ -5,6 +5,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { Cta as CTASection } from "@/components/landing/Cta";
 import { getAllPosts, formatLongDate } from "@/lib/posts";
 import { SITE } from "@/lib/site";
+import { JsonLd, blogListingSchema } from "@/lib/jsonld";
 import type { Post } from "@/lib/posts";
 
 export const metadata: Metadata = {
@@ -75,6 +76,7 @@ export default async function BlogIndex() {
 
   return (
     <PageShell>
+      <JsonLd data={blogListingSchema(posts)} />
       {/* Blog header */}
       <header
         {...{ "padding-global": "" }}

@@ -6,7 +6,7 @@ excerpt: Simplifying Subname creation, integration, and registrations for apps a
 date: 2025-03-17
 author: Cap
 updated: 2025-03-17
-image: /assets/images/698de6817dd5fb84a0d62f1b_2483f50e-d4f4-4429-ad00-bc99e94e3a5e_1200x624.webp
+image: /assets/images/blog-cover-dev-portal.webp
 imageAlt: Namespace Dev Portal v1 — developer tools for ENS subnames
 tag: ENS
 format: html

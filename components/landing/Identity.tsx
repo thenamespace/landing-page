@@ -63,7 +63,7 @@ export function Identity() {
             <VerticalLine pulseClass="line1" />
 
             <div className="identity_circle-button">
-              <img src="/assets/images/697b2c6ad954768f4cfefd8d_Frame.svg" loading="lazy" alt="ENS name profile illustration" className="identity_circle-button_icon" />
+              <img src="/assets/images/identity-ens-icon.svg" loading="lazy" alt="ENS name profile illustration" className="identity_circle-button_icon" />
             </div>
 
             <VerticalLine pulseClass="line2" />
@@ -105,13 +105,13 @@ export function Identity() {
                 <div className="identity_component_cards-list_item-card_row">
                   <div className="identity_component_cards-list_item-card_avatar-wrapper">
                     <div className="identity_component_cards-list_item-card_avatar-card">
-                      <img src="/assets/images/697b31b750f1f35a68599fb8_Frame_2.avif" loading="lazy" width={87} alt="vitalik.eth ENS profile demo" className="identity_component_cards-list_item-card_avatar-card-img" />
+                      <img src="/assets/images/identity-avatar-vitalik.avif" loading="lazy" width={87} alt="vitalik.eth ENS profile demo" className="identity_component_cards-list_item-card_avatar-card-img" />
                     </div>
                     <div className="text-size-small text-weight-bold">Profile</div>
                   </div>
                   <div className="identity_component_cards-list_item-card_avatar-wrapper">
                     <div className="identity_component_cards-list_item-card_avatar-card">
-                      <img src="/assets/images/697b31baca83e082661f60ee_Frame_49.avif" loading="lazy" width={87} alt="ENS subname identity demo" className="identity_component_cards-list_item-card_avatar-card-img" />
+                      <img src="/assets/images/identity-avatar-demo.avif" loading="lazy" width={87} alt="ENS subname identity demo" className="identity_component_cards-list_item-card_avatar-card-img" />
                     </div>
                     <div className="text-size-small text-weight-bold">Cover</div>
                   </div>
@@ -164,27 +164,27 @@ export function Identity() {
                 <p className="text-weight-bold">Addresses</p>
                 <div className="identity_component_cards-list_info-list">
                   <div className="identity_component_cards-list_info-list_item is-left">
-                    <img src="/assets/images/697b3499a15d67e2036e8eb9_Group.svg" loading="lazy" alt="Bitcoin (BTC) address icon" className="identity_component_cards-list_info-list_icon-img" />
+                    <img src="/assets/images/identity-icon-btc.svg" loading="lazy" alt="Bitcoin (BTC) address icon" className="identity_component_cards-list_info-list_icon-img" />
                     <div className="text-size-small text-weight-bold text-style-capped">0x35eBr...24d3A</div>
                   </div>
                   <div className="identity_component_cards-list_info-list_item is-left">
-                    <img src="/assets/images/697b34998533edb71ea36142_Frame.svg" loading="lazy" alt="Ethereum (ETH) address icon" className="identity_component_cards-list_info-list_icon-img" />
+                    <img src="/assets/images/identity-icon-eth.svg" loading="lazy" alt="Ethereum (ETH) address icon" className="identity_component_cards-list_info-list_icon-img" />
                     <div className="text-size-small text-weight-bold text-style-capped">bc1pjmu...2gd6m</div>
                   </div>
                   <div className="identity_component_cards-list_info-list_item is-left">
-                    <img src="/assets/images/697b3499084538a86364843e_Vector.svg" loading="lazy" alt="Solana address icon" className="identity_component_cards-list_info-list_icon-img" />
+                    <img src="/assets/images/identity-icon-sol.svg" loading="lazy" alt="Solana address icon" className="identity_component_cards-list_info-list_icon-img" />
                     <div className="text-size-small text-weight-bold text-style-capped">0xmLdk...mqg5n</div>
                   </div>
                   <div className="identity_component_cards-list_info-list_item is-left">
-                    <img src="/assets/images/697b3499b767cf25f7ffa3b0_Vector-1.svg" loading="lazy" alt="Cosmos address icon" className="identity_component_cards-list_info-list_icon-img" />
+                    <img src="/assets/images/identity-icon-cosmos.svg" loading="lazy" alt="Cosmos address icon" className="identity_component_cards-list_info-list_icon-img" />
                     <div className="text-size-small text-weight-bold text-style-capped">0x3Mk4g...9Olf4</div>
                   </div>
                   <div className="identity_component_cards-list_info-list_item is-left">
-                    <img src="/assets/images/697b3499066567e7ed46c0db_Vector-2.svg" loading="lazy" alt="Polygon address icon" className="identity_component_cards-list_info-list_icon-img" />
+                    <img src="/assets/images/identity-icon-polygon.svg" loading="lazy" alt="Polygon address icon" className="identity_component_cards-list_info-list_icon-img" />
                     <div className="text-size-small text-weight-bold text-style-capped">cFP3v4i...yYMcSx</div>
                   </div>
                   <div className="identity_component_cards-list_info-list_item is-left">
-                    <img src="/assets/images/697b3499dda690d8f5336177_12114250_1.svg" loading="lazy" alt="Chain address icon" className="identity_component_cards-list_info-list_icon-img" />
+                    <img src="/assets/images/identity-icon-chain.svg" loading="lazy" alt="Chain address icon" className="identity_component_cards-list_info-list_icon-img" />
                     <div className="text-size-small text-weight-bold text-style-capped">TP3RZE...Hrc3b2</div>
                   </div>
                 </div>

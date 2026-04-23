@@ -1,0 +1,59 @@
+# Pricing — Namespace (namespace.ninja)
+
+ENS subname infrastructure for wallets, L2 chains, DeFi apps, and AI agents.
+Updated: 2026-04
+
+---
+
+## Offchain Subnames
+
+- Price: $0 (always free)
+- Fee to Namespace: None, regardless of volume
+- Description: Gasless ENS subnames issued using CCIP-Read (EIP-3668). Stored offchain, verifiable and resolvable via standard ENS mechanisms.
+- Best for: Wallets, apps, and communities onboarding large numbers of users quickly.
+- Setup: No smart contract knowledge required. Instant activation.
+
+## Onchain Subnames (Free Minting)
+
+- Price: $0 (if partner sets minting price to zero)
+- Fee to Namespace: None
+- Gas: End user pays gas for minting on Ethereum, Base, or Optimism.
+- Description: ENS subnames minted as NFTs onchain. User-owned, unruggable, maximum security.
+
+## Onchain Subnames (Paid Minting)
+
+- Price: Set by partner (any amount)
+- Fee to Namespace: 5% of registration revenue
+- Gas: End user pays gas for minting on Ethereum, Base, or Optimism.
+- Description: Partners can charge end users for subname registrations. Namespace takes 5% of that revenue.
+
+## SDK / API
+
+- Price: $0
+- Limits: None
+- Description: JavaScript/TypeScript SDK and REST API for programmatic subname registration, management, and resolution. Supports offchain and onchain flows.
+- Docs: https://docs.namespace.ninja/developer-guide/quickstart
+
+## ENS Widget
+
+- Price: $0
+- Description: No-code embeddable widget for adding subname registration to any website with a single script tag.
+
+## Custom Solutions
+
+- Price: Case-by-case (often partially or fully subsidized by ENS DAO for qualifying projects)
+- Includes: Custom resolver deployments, chain-wide identity systems, white-label integrations, SLAs, dedicated support.
+- Contact: https://namespace.ninja (contact form on homepage)
+
+---
+
+## Summary
+
+| Product              | Price to Partner | Fee to Namespace        |
+|----------------------|-----------------|-------------------------|
+| Offchain Subnames    | Free            | None                    |
+| Onchain (free mint)  | Free            | None                    |
+| Onchain (paid mint)  | Partner-set     | 5% of registration rev  |
+| SDK / API            | Free            | None                    |
+| ENS Widget           | Free            | None                    |
+| Custom Solutions     | Case-by-case    | Negotiated per deal     |

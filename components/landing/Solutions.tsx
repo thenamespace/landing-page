@@ -23,12 +23,12 @@ export function Solutions() {
             <div className="solutions_lottie-embed w-embed">
               {/* @ts-expect-error dotlottie-player is a web component */}
               <dotlottie-player
-                src="/assets/lottie/693c1daf1734c3f3dfc241b1_Namespace_Line.json"
+                src="/assets/lottie/namespace-line.json"
                 background="transparent"
                 speed="1"
                 loop
                 autoplay
-                poster="/assets/images/693c3c0de6fae90def9a9462_Namespace_Line_0-00-00-00).webp"
+                poster="/assets/images/solution-lottie-poster.webp"
                 style={{ width: "auto", height: "auto" }}
                 renderer="svg"
               />
