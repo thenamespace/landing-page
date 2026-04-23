@@ -7,6 +7,7 @@
 import { getAllPosts, formatLongDate } from "@/lib/posts";
 import { WebflowButton } from "@/components/ui/WebflowButton";
 import Image from "next/image";
+import { SubscribeForm } from "@/components/landing/SubscribeForm";
 
 export async function BlogPreview() {
   const allPosts = await getAllPosts();
@@ -113,37 +114,7 @@ export async function BlogPreview() {
                   delivered when something worth reading ships.
                 </p>
               </div>
-              <div className="blog-subscribe_form-block w-form">
-                <form
-                  id="blog-subscribe-form-home"
-                  name="blog-subscribe-form-home"
-                  data-name="Blog Subscribe Form Home"
-                  method="post"
-                  className="blog-subscribe_form"
-                  data-resend-form="newsletter"
-                >
-                  <input
-                    className="blog-subscribe_input w-input"
-                    maxLength={256}
-                    name="email"
-                    data-name="Email"
-                    placeholder="Enter your email"
-                    type="email"
-                    id="blog-subscribe-home-email"
-                    required
-                  />
-                  <button
-                    type="submit"
-                    className="button w-variant-9e301513-bb31-a799-9ca0-2d690dec60e2 blog-subscribe_button"
-                  >
-                    Subscribe
-                  </button>
-                </form>
-                <div className="blog-subscribe_note">
-                  No spam. Just new posts, launches, and the occasional sharp
-                  ENS update.
-                </div>
-              </div>
+              <SubscribeForm formId="blog-subscribe-form-home" />
             </div>
 
             {/* View All button */}

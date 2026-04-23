@@ -7,6 +7,7 @@ import { getAllPosts, formatLongDate } from "@/lib/posts";
 import { SITE } from "@/lib/site";
 import { JsonLd, blogListingSchema } from "@/lib/jsonld";
 import type { Post } from "@/lib/posts";
+import { SubscribeForm } from "@/components/landing/SubscribeForm";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -204,37 +205,10 @@ export default async function BlogIndex() {
                     product notes from the Namespace team.
                   </p>
                 </div>
-                <div className="blog-subscribe_form-block w-form">
-                  <form
-                    id="blog-subscribe-form-page"
-                    name="blog-subscribe-form-page"
-                    data-name="Blog Subscribe Form Page"
-                    method="post"
-                    className="blog-subscribe_form"
-                    data-resend-form="newsletter"
-                  >
-                    <input
-                      className="blog-subscribe_input w-input"
-                      maxLength={256}
-                      name="email"
-                      data-name="Email"
-                      placeholder="Enter your email"
-                      type="email"
-                      id="blog-subscribe-page-email"
-                      required
-                    />
-                    <button
-                      type="submit"
-                      className="button w-variant-9e301513-bb31-a799-9ca0-2d690dec60e2 blog-subscribe_button"
-                    >
-                      Subscribe
-                    </button>
-                  </form>
-                  <div className="blog-subscribe_note">
-                    No spam. Just new posts, launches, and the occasional sharp
-                    ENS update.
-                  </div>
-                </div>
+                <SubscribeForm
+                    formId="blog-subscribe-form-page"
+                    noteText="Join the list for fresh case studies, ENS insights, and product notes from the Namespace team."
+                  />
               </div>
 
             </div>
