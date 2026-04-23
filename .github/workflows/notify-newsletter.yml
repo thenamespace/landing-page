@@ -1,15 +1,21 @@
 name: Notify Newsletter
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
     paths:
       - "content/blog/*.md"
 
+concurrency:
+  group: newsletter-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   send:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,9 +25,13 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Send newsletter for new posts
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RESEND_NEWSLETTER_AUDIENCE_ID: ${{ secrets.RESEND_NEWSLETTER_AUDIENCE_ID }}
           RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
+          BASE_URL: ${{ vars.BASE_URL || 'https://namespace.ninja' }}
         run: node scripts/send-newsletter.mjs
