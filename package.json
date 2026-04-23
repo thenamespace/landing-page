@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "newsletter:dry": "node scripts/send-newsletter.mjs --dry-run",
-    "newsletter:send": "node scripts/send-newsletter.mjs"
+    "newsletter:dry": "npx tsx scripts/send-newsletter.tsx --dry-run",
+    "newsletter:send": "npx tsx scripts/send-newsletter.tsx"
   },
   "dependencies": {
     "@react-email/components": "^1.0.12",
