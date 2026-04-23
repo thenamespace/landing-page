@@ -9,6 +9,7 @@ import remarkRehype from "remark-rehype";
 import rehypeRaw from "rehype-raw";
 import rehypeStringify from "rehype-stringify";
 import juice from "juice";
+import * as React from "react";
 import { render } from "@react-email/render";
 import { NewsletterEmail } from "../emails/newsletter";
 
