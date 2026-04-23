@@ -4,6 +4,7 @@ slug: unified-identity-for-your-community-with-ens-subnames
 description: Turn every wallet in your community into a branded interoperable identity.
 excerpt: Turn every wallet in your community into a branded interoperable identity.
 date: 2025-08-04
+author: Cap
 updated: 2025-08-04
 image: /assets/images/698de60bab2b84b3fd61817a_1daa855b-715d-4698-80f0-01b4cbd55fed_1572x806.webp
 imageAlt: Unified Identity for Your Community with ENS Subnames

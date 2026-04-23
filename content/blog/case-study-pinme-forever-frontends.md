@@ -4,6 +4,7 @@ slug: case-study-pinme-forever-frontends
 description: Simple Web3 pinning service using ENS, IPFS, Filecoin and Namespace to create decentralized, permissionless, immutable, secure, censorship-resistant frontends.
 excerpt: Simple Web3 pinning service using ENS, IPFS, Filecoin and Namespace to create decentralized, permissionless, immutable, secure, censorship-resistant frontends.
 date: 2025-09-17
+author: Cap
 updated: 2026-02-12
 image: /assets/images/698de3d9de520924de299109_f5de92b3-79ee-4fac-b19b-9f298121c87e_1680x1200.webp
 imageAlt: PinMe case study — Forever Frontends with ENS and IPFS

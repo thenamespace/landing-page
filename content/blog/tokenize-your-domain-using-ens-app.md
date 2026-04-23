@@ -4,6 +4,7 @@ slug: tokenize-your-domain-using-ens-app
 description: Learn how to tokenize your domain using the ENS app and turn it into an NFT. Secure ownership, integrate with Web3, and use your domain as a crypto wallet address.
 excerpt: Learn how to tokenize your domain using the ENS app and turn it into an NFT. Secure ownership, integrate with Web3, and use your domain as a crypto wallet address.
 date: 2025-03-05
+author: Cap
 updated: 2025-03-05
 image: /assets/images/698de6ce969b4fec1dcb9f23_6e18e11f-a03e-4994-9bc5-07cf476e62af_1280x721.webp
 imageAlt: Tokenize your domain using ENS app

@@ -56,6 +56,19 @@ function cleanTitle(title: string) {
   return title.replace(/^\[Case Study\]\s*/i, "");
 }
 
+function extractHeadings(html: string) {
+  const headings: { level: number; id: string; text: string }[] = [];
+  const regex = /<h([23])\b[^>]*\sid="([^"]+)"[^>]*>([\s\S]*?)<\/h\1>/gi;
+  let match;
+  while ((match = regex.exec(html)) !== null) {
+    const level = parseInt(match[1], 10);
+    const id = match[2];
+    const text = match[3].replace(/<[^>]+>/g, "").trim();
+    if (text) headings.push({ level, id, text });
+  }
+  return headings;
+}
+
 function RelatedCard({ post }: { post: Post }) {
   return (
     <div role="listitem" className="blog_item-wrapper w-dyn-item">
@@ -124,6 +137,7 @@ export default async function BlogPostPage({
 
   const all = await getAllPosts();
   const related = all.filter((p) => p.slug !== post.slug).slice(0, 3);
+  const headings = extractHeadings(post.html);
 
   const postUrl = `${SITE.url}/blog/${post.slug}`;
   const shareX = `https://x.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(postUrl)}`;
@@ -156,9 +170,14 @@ export default async function BlogPostPage({
             )}
             <div className="blog_author-wrapper">
               <div className="blog_author-img-wrapper">
-                <div className="blog_author-img" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "1.125rem", fontWeight: 600 }}>
-                  N
-                </div>
+                <Image
+                  src="/assets/images/thecap-avatar.jpg"
+                  alt={post.author ?? "Namespace"}
+                  width={40}
+                  height={40}
+                  className="blog_author-img"
+                  style={{ objectFit: "cover" }}
+                />
               </div>
               <div className="blog_author-row">
                 <div style={{ fontWeight: 600 }}>{post.author ?? "Namespace"}</div>
@@ -205,9 +224,14 @@ export default async function BlogPostPage({
                 <div className="blog-detail_component_detail-wrapper_left">
                   <div className="blog_author-wrapper">
                     <div className="blog_author-img-wrapper">
-                      <div className="blog_author-img" style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", fontSize: "1.125rem", fontWeight: 600 }}>
-                        N
-                      </div>
+                      <Image
+                        src="/assets/images/thecap-avatar.jpg"
+                        alt={post.author ?? "Namespace"}
+                        width={40}
+                        height={40}
+                        className="blog_author-img"
+                        style={{ objectFit: "cover" }}
+                      />
                     </div>
                     <div>
                       <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>{post.author ?? "Namespace"}</div>
@@ -227,6 +251,30 @@ export default async function BlogPostPage({
                       Share on X
                     </a>
                   </div>
+
+                  {headings.length > 0 && (
+                    <nav style={{ marginTop: "1.5rem" }}>
+                      <p style={{ fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.08em", opacity: 0.5, marginBottom: "0.5rem", fontWeight: 600 }}>
+                        Contents
+                      </p>
+                      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.35rem" }}>
+                        {headings.map((h) => (
+                          <li key={h.id}>
+                            <a
+                              href={`#${h.id}`}
+                              className="post-toc-link"
+                              style={{
+                                fontSize: h.level === 2 ? "0.8rem" : "0.75rem",
+                                paddingLeft: h.level === 3 ? "0.75rem" : "0rem",
+                              }}
+                            >
+                              {h.text}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </nav>
+                  )}
                 </div>
 
                 {/* Main content */}

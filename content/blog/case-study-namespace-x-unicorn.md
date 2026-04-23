@@ -4,6 +4,7 @@ slug: case-study-namespace-x-unicorn
 description: How Namespace and Unicorn used ENS-based identity to make ETHDenver onboarding faster, more branded, and easier for real users.
 excerpt: How Namespace and Unicorn used ENS-based identity to make ETHDenver onboarding faster, more branded, and easier for real users.
 date: 2026-04-21
+author: Cap
 updated: 2026-04-21
 image: /assets/images/Blog Cover - Unicorn Case Study.png
 imageAlt: [Case Study] Namespace x Unicorn: Branded Identity for ETHDenver
