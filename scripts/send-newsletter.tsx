@@ -34,16 +34,24 @@ const TEST_EMAIL = process.env.TEST_EMAIL;
 // which is required for Gmail and Outlook compatibility.
 const PROSE_CSS = `
   p { margin: 0 0 1em 0; color: #aaa; font-size: 16px; line-height: 1.6; }
+  h1 { margin: 1.5em 0 0.5em 0; color: #fff; font-size: 24px; font-weight: 700; line-height: 1.25; }
   h2 { margin: 1.5em 0 0.5em 0; color: #fff; font-size: 20px; font-weight: 700; line-height: 1.3; }
   h3 { margin: 1.25em 0 0.5em 0; color: #fff; font-size: 17px; font-weight: 600; line-height: 1.3; }
+  h4 { margin: 1em 0 0.4em 0; color: #fff; font-size: 15px; font-weight: 600; }
   a { color: #5474f6; text-decoration: underline; }
   ul, ol { margin: 0 0 1em 0; padding-left: 1.5em; color: #aaa; }
   li { margin: 0.25em 0; }
   blockquote { margin: 0 0 1em 0; padding-left: 1em; border-left: 2px solid #333; color: #888; font-style: italic; }
   pre { margin: 0 0 1em 0; padding: 1em; background: #111; border-radius: 6px; font-family: monospace; font-size: 14px; color: #ccc; }
   code { font-family: monospace; font-size: 0.9em; background: #1a1a1a; padding: 0.15em 0.4em; border-radius: 4px; color: #ccc; }
+  pre code { padding: 0; background: none; border-radius: 0; }
   img { max-width: 100%; height: auto; border-radius: 6px; display: block; margin: 1em 0; }
   strong { color: #fff; font-weight: 700; }
+  del { color: #666; text-decoration: line-through; }
+  hr { border: none; border-top: 1px solid #2a2a2a; margin: 2em 0; }
+  table { border-collapse: collapse; width: 100%; margin: 0 0 1em 0; }
+  th { background: #1a1a1a; color: #fff; font-weight: 600; padding: 8px 12px; text-align: left; border-bottom: 1px solid #333; }
+  td { color: #aaa; padding: 8px 12px; border-bottom: 1px solid #222; }
 `;
 
 function sanitizeFrontmatter(raw: string): string {
@@ -69,7 +77,7 @@ function sanitizeFrontmatter(raw: string): string {
   return raw.replace(full, `---\n${sanitized}\n---\n`);
 }
 
-function parsePost(raw: string) {
+function parsePost(raw: string): Record<string, unknown> & { content: string; date: string; updated: string | undefined } {
   const sanitized = sanitizeFrontmatter(raw);
   const { data, content } = matter(sanitized);
   const normalize = (v: unknown) => {
@@ -77,7 +85,7 @@ function parsePost(raw: string) {
     return typeof v === "string" ? v : undefined;
   };
   return {
-    ...data,
+    ...(data as Record<string, unknown>),
     content,
     date: normalize(data.date) ?? "",
     updated: normalize(data.updated),
@@ -111,13 +119,23 @@ async function resendRequest(method: string, endpoint: string, body?: unknown) {
     },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "<unreadable>");
+    throw new Error(`Resend ${method} ${endpoint} → HTTP ${res.status}: ${text}`);
+  }
   return res.json();
 }
 
 async function getSentSlugs(): Promise<Set<string>> {
   const data = await resendRequest("GET", "/broadcasts");
   if (!data?.data) return new Set();
-  return new Set(data.data.map((b: { name: string }) => b.name));
+  return new Set(
+    data.data
+      .filter((b: { name: string; status: string }) =>
+        b.status === "sent" || b.status === "sending",
+      )
+      .map((b: { name: string }) => b.name),
+  );
 }
 
 async function run() {
@@ -172,90 +190,95 @@ async function run() {
 
     console.log(`send-newsletter: preparing broadcast for "${post.slug}"...`);
 
-    const format = post.format ?? "markdown";
-    const rawHtml =
-      format === "html"
-        ? (post.content as string).trim()
-        : await renderMarkdown(post.content as string);
+    try {
+      const format = post.format ?? "markdown";
+      const rawHtml =
+        format === "html"
+          ? (post.content as string).trim()
+          : await renderMarkdown(post.content as string);
 
-    // Make relative URLs absolute, then inline prose CSS for email compatibility
-    const bodyHtml = juice.inlineContent(absolutifyUrls(rawHtml), PROSE_CSS);
+      // Make relative URLs absolute, then inline prose CSS for email compatibility
+      const bodyHtml = juice.inlineContent(absolutifyUrls(rawHtml), PROSE_CSS);
 
-    const emailProps = {
-      title: post.title as string,
-      description: post.description as string | undefined,
-      slug: post.slug as string,
-      image: post.image as string | undefined,
-      tag: post.tag as string | undefined,
-      date: post.date as string | undefined,
-      bodyHtml,
-      baseUrl: BASE_URL,
-    };
+      const emailProps = {
+        title: post.title as string,
+        description: post.description as string | undefined,
+        slug: post.slug as string,
+        image: post.image as string | undefined,
+        tag: post.tag as string | undefined,
+        date: post.date as string | undefined,
+        bodyHtml,
+        baseUrl: BASE_URL,
+      };
 
-    const html = await render(<NewsletterEmail {...emailProps} />);
-    const text = await render(<NewsletterEmail {...emailProps} />, { plainText: true });
+      const html = await render(<NewsletterEmail {...emailProps} />);
+      const text = await render(<NewsletterEmail {...emailProps} />, { plainText: true });
 
-    if (DRY_RUN) {
-      if (TEST_EMAIL) {
-        console.log(
-          `send-newsletter: [dry-run] sending preview to ${TEST_EMAIL}...`,
-        );
-        const preview = await resendRequest("POST", "/emails", {
-          from: FROM_EMAIL,
-          to: TEST_EMAIL,
-          subject: `[DRY RUN] ${post.title}`,
-          html,
-          text,
-        });
-        if (preview.id) {
-          console.log(`send-newsletter: [dry-run] preview sent (${preview.id})`);
-          sentCount++;
+      if (DRY_RUN) {
+        if (TEST_EMAIL) {
+          console.log(
+            `send-newsletter: [dry-run] sending preview to ${TEST_EMAIL}...`,
+          );
+          const preview = await resendRequest("POST", "/emails", {
+            from: FROM_EMAIL,
+            to: TEST_EMAIL,
+            subject: `[DRY RUN] ${post.title}`,
+            html,
+            text,
+          });
+          if (preview.id) {
+            console.log(`send-newsletter: [dry-run] preview sent (${preview.id})`);
+            sentCount++;
+          } else {
+            console.error(`send-newsletter: [dry-run] preview failed:`, preview);
+            errorCount++;
+          }
         } else {
-          console.error(`send-newsletter: [dry-run] preview failed:`, preview);
-          errorCount++;
+          console.log(
+            `send-newsletter: [dry-run] would create broadcast for audience ${RESEND_AUDIENCE_ID}`,
+          );
+          console.log(`send-newsletter: [dry-run] subject: ${post.title}`);
+          sentCount++;
         }
-      } else {
-        console.log(
-          `send-newsletter: [dry-run] would create broadcast for audience ${RESEND_AUDIENCE_ID}`,
-        );
-        console.log(`send-newsletter: [dry-run] subject: ${post.title}`);
-        sentCount++;
+        continue;
       }
-      continue;
-    }
 
-    const broadcast = await resendRequest("POST", "/broadcasts", {
-      name: post.slug,
-      audience_id: RESEND_AUDIENCE_ID,
-      from: FROM_EMAIL,
-      subject: post.title,
-      html,
-      text,
-    });
+      const broadcast = await resendRequest("POST", "/broadcasts", {
+        name: post.slug,
+        audience_id: RESEND_AUDIENCE_ID,
+        from: FROM_EMAIL,
+        subject: post.title,
+        html,
+        text,
+      });
 
-    if (!broadcast.id) {
-      console.error(
-        `send-newsletter: failed to create broadcast for "${post.slug}":`,
-        broadcast,
-      );
-      errorCount++;
-      continue;
-    }
+      if (!broadcast.id) {
+        console.error(
+          `send-newsletter: failed to create broadcast for "${post.slug}":`,
+          broadcast,
+        );
+        errorCount++;
+        continue;
+      }
 
-    const sent = await resendRequest(
-      "POST",
-      `/broadcasts/${broadcast.id}/send`,
-    );
-    if (sent.id) {
-      console.log(
-        `send-newsletter: sent broadcast for "${post.slug}" (${sent.id})`,
+      const sent = await resendRequest(
+        "POST",
+        `/broadcasts/${broadcast.id}/send`,
       );
-      sentCount++;
-    } else {
-      console.error(
-        `send-newsletter: failed to send broadcast for "${post.slug}":`,
-        sent,
-      );
+      if (sent.id) {
+        console.log(
+          `send-newsletter: sent broadcast for "${post.slug}" (${sent.id})`,
+        );
+        sentCount++;
+      } else {
+        console.error(
+          `send-newsletter: failed to send broadcast for "${post.slug}":`,
+          sent,
+        );
+        errorCount++;
+      }
+    } catch (err) {
+      console.error(`send-newsletter: unexpected error for "${post.slug}":`, err);
       errorCount++;
     }
   }
