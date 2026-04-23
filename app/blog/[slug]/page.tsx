@@ -141,7 +141,6 @@ export default async function BlogPostPage({
 
   const postUrl = `${SITE.url}/blog/${post.slug}`;
   const shareX = `https://x.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(postUrl)}`;
-  const shareLinkedIn = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`;
 
   return (
     <PageShell>

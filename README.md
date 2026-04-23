@@ -36,7 +36,7 @@ npm run dev
 ```
 app/
 ├─ layout.tsx            # Root layout: fonts, GA, Webflow CSS, base metadata
-├─ page.tsx              # Landing — pixel-clone via _legacy/landing-body.html
+├─ page.tsx              # Landing page
 ├─ blog/
 │  ├─ page.tsx           # Blog listing
 │  └─ [slug]/page.tsx    # Blog post (reads from content/blog/*.md)
@@ -45,20 +45,18 @@ app/
 ├─ sitemap.ts            # Dynamic sitemap
 ├─ robots.ts             # Robots + AI crawler rules
 ├─ rss.xml/route.ts      # RSS feed for /blog
-├─ api/subscribe/route.ts# Resend newsletter endpoint
-└─ _legacy/              # Extracted HTML from the original Webflow export
+└─ api/subscribe/route.ts# Resend newsletter endpoint
 
 components/
 ├─ layout/
-│  ├─ ChromeStatic.tsx   # Navbar + Footer injected from legacy HTML (link-rewritten)
+│  ├─ ChromeStatic.tsx   # Navbar + Footer
 │  └─ PageShell.tsx      # page-wrapper + main-wrapper used by blog/legal pages
 ├─ blog/
-│  ├─ BlogCard.tsx
-│  ├─ BlogSubscribe.tsx
-│  └─ BlogCtaSection.tsx
-└─ newsletter/NewsletterInit.tsx  # Attaches Resend form behavior on mount
+│  ├─ BlogPreview.tsx
+│  └─ BlogSubscribe.tsx
+└─ landing/              # Landing page sections
 
-content/blog/             # Source of truth for posts (markdown, same schema as before)
+content/blog/             # Source of truth for posts (markdown)
 lib/
 ├─ posts.ts              # Frontmatter + markdown loader
 ├─ markdown.ts           # remark/rehype pipeline (GFM + raw HTML passthrough)
@@ -67,13 +65,13 @@ lib/
 
 public/                   # All static assets (images, videos, css, js, .well-known)
 styles/
-├─ globals.css           # Tailwind + Webflow CSS import + post-prose styles
-└─ webflow-overrides.css # Inline CSS blocks lifted from the original Webflow export
+├─ globals.css           # Tailwind + post-prose styles
+└─ webflow-overrides.css # Webflow CSS overrides
 ```
 
 ---
 
-## Blog authoring (unchanged workflow)
+## Blog authoring
 
 1. Drop a new `.md` file in `content/blog/`
 2. Fill the standard frontmatter (see `content/blog/README.md`)
@@ -120,25 +118,3 @@ through the remark/rehype pipeline with GFM + autolinked headings.
    - `NEXT_PUBLIC_SITE_URL` (optional, defaults to production URL)
    - `NEXT_PUBLIC_GA_ID` (optional, defaults to `G-1K699QQ114`)
 4. Deploy. All redirects from legacy `.html` URLs are handled in `next.config.ts`.
-
----
-
-## What was cloned vs rebuilt
-
-- **Landing page (`/`)** — cloned from the original `index.html` body verbatim,
-  with internal links rewritten to the new routes. Zero visual change.
-- **Navbar + Footer** — extracted once from the Webflow export and reused on
-  blog/legal pages so every page looks identical.
-- **Blog listing + post pages** — rebuilt in React with the original Webflow
-  class names, driven by `content/blog/*.md`.
-- **Newsletter** — ported from Cloudflare Functions to a Next edge API route
-  hitting the same Resend audience.
-
----
-
-## Migrating away from `_legacy`
-
-`app/_legacy/` holds the extracted HTML used to clone the landing page and
-layout chrome. Componentizing those sections one by one is the expected next
-step — do it section-at-a-time, delete the corresponding snippet from
-`_legacy`, and ship.

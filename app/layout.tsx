@@ -81,12 +81,6 @@ export default function RootLayout({
       <body>
         {children}
 
-        {/* ── Webflow runtime — handles interactions, dropdowns, responsive ── */}
-        <Script
-          src="/assets/js/webflow.7c65f933.1372ee79e1fce403.js"
-          strategy="afterInteractive"
-        />
-
         {/* ── GSAP + ScrollTrigger + Observer — sticky benefits, scroll anims ── */}
         <Script
           src="/assets/js/gsap.min.js"

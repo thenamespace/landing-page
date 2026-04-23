@@ -4,10 +4,7 @@ const config: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "cdn.prod.website-files.com" },
-      { protocol: "https", hostname: "substackcdn.com" },
-    ],
+    remotePatterns: [],
   },
   async redirects() {
     return [

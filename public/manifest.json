@@ -8,12 +8,12 @@
   "background_color": "#0a0a0a",
   "icons": [
     {
-      "src": "https://cdn.prod.website-files.com/69243e572ed5d4cd56897700/69243f948e76b2930449ce3d_Favicon_32.png",
+      "src": "/assets/images/69243f948e76b2930449ce3d_Favicon_32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "https://cdn.prod.website-files.com/69243e572ed5d4cd56897700/69243f8ecc769dc6a9c26888_Favicon_128.png",
+      "src": "/assets/images/69243f8ecc769dc6a9c26888_Favicon_128.png",
       "sizes": "128x128",
       "type": "image/png"
     }
