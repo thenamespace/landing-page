@@ -13,7 +13,7 @@ function ButtonArrow() {
 
 function WfButton({ href, label }: { href: string; label: string }) {
   return (
-    <a data-wf--component-button-primary--variant="primary" href={href} target="_blank" className="button w-inline-block">
+    <a data-wf--component-button-primary--variant="primary" href={href} target="_blank" rel="noopener noreferrer" className="button w-inline-block">
       <div className="button_text">{label}</div>
       <div className="button_icon-wrapper">
         <div className="button_icon-item"><div className="button_icon is-hover w-embed"><ButtonArrow /></div></div>
@@ -90,7 +90,7 @@ export function HomeHeader() {
             <div className="home-header_bottom">
               <div className="max-width-medium is-37rem">
                 <p className="text-size-medium text-weight-medium">
-                  Helping wallets, chains, apps, agents, and communities build ENS naming and identity systems. Fast to integrate. Built for scale. Backed by ENS DAO.
+                  Namespace is an ENS DAO-backed service provider that helps wallets, chains, apps, agents, and communities build ENS naming and identity systems. Fast to integrate. Built for scale.
                 </p>
               </div>
               <div className="button-group is-right">

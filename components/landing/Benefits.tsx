@@ -29,7 +29,7 @@ export function Benefits() {
                   <div className="max-width-small"><p className="benefits_card-paragraph">Make onboarding and transacting experience effortless with human-readable names.</p></div>
                 </div>
                 <div className="benefits_card-img-wrapper">
-                  <img src="/assets/images/benefit-ux.svg" loading="lazy" alt="Enhanced security with ENS names illustration" className="benefits_card-img" />
+                  <img src="/assets/images/benefit-ux.svg" loading="lazy" alt="Improved user experience with ENS names illustration" className="benefits_card-img" />
                 </div>
               </div>
 
@@ -40,7 +40,7 @@ export function Benefits() {
                   <div className="max-width-small"><p className="benefits_card-paragraph">Remove address-related errors, scams, spoofing or poisoning attacks with wallet names.</p></div>
                 </div>
                 <div className="benefits_card-img-wrapper">
-                  <img src="/assets/images/benefit-security.svg" loading="lazy" alt="Revenue opportunity with ENS subnames illustration" className="benefits_card-img" />
+                  <img src="/assets/images/benefit-security.svg" loading="lazy" alt="Enhanced security with ENS names illustration" className="benefits_card-img" />
                 </div>
               </div>
 
@@ -51,7 +51,7 @@ export function Benefits() {
                   <div className="max-width-small"><p className="benefits_card-paragraph">Registration prices, premium names, renewals; turning identity into a revenue stream.</p></div>
                 </div>
                 <div className="benefits_card-img-wrapper">
-                  <img src="/assets/images/benefit-revenue.svg" loading="lazy" alt="ENS names work everywhere — universal compatibility illustration" className="benefits_card-img" />
+                  <img src="/assets/images/benefit-revenue.svg" loading="lazy" alt="Revenue opportunity with ENS subnames illustration" className="benefits_card-img" />
                 </div>
               </div>
 
@@ -62,7 +62,7 @@ export function Benefits() {
                   <div className="max-width-small"><p className="benefits_card-paragraph">Supports 100+ chains, compatible with 1,000+ apps, wallets, and protocols.</p></div>
                 </div>
                 <div className="benefits_card-img-wrapper">
-                  <img src="/assets/images/benefit-compatibility.svg" loading="lazy" alt="Brand visibility with ENS subnames illustration" className="benefits_card-img" />
+                  <img src="/assets/images/benefit-compatibility.svg" loading="lazy" alt="ENS names work everywhere — universal compatibility illustration" className="benefits_card-img" />
                 </div>
               </div>
 
