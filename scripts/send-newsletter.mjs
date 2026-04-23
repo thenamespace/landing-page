@@ -168,14 +168,14 @@ async function getSentSlugs() {
 
 async function run() {
   if (!RESEND_API_KEY) {
-    console.error("send-newsletter: RESEND_API_KEY is required");
-    process.exit(1);
+    console.log("send-newsletter: RESEND_API_KEY not set, skipping.");
+    return;
   }
   if (!DRY_RUN && !RESEND_AUDIENCE_ID) {
-    console.error(
-      "send-newsletter: RESEND_NEWSLETTER_AUDIENCE_ID is required (or use --dry-run)"
+    console.log(
+      "send-newsletter: RESEND_NEWSLETTER_AUDIENCE_ID not set, skipping."
     );
-    process.exit(1);
+    return;
   }
 
   if (DRY_RUN) {
