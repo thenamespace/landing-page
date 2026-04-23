@@ -12,7 +12,7 @@ export const AUTHORS: Record<string, Author> = {
   },
   Happy: {
     name: "Happy",
-    avatar: "/assets/images/happysingh-avatar.jpg", // TODO: add happy-avatar.jpg
+    avatar: "/assets/images/happysingh-avatar.png",
     link: "https://x.com/happys1ngh",
   },
 };
