@@ -34,4 +34,4 @@ jobs:
           RESEND_NEWSLETTER_AUDIENCE_ID: ${{ secrets.RESEND_NEWSLETTER_AUDIENCE_ID }}
           RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
           BASE_URL: ${{ vars.BASE_URL || 'https://namespace.ninja' }}
-        run: node scripts/send-newsletter.mjs
+        run: npx tsx scripts/send-newsletter.tsx
