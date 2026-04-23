@@ -12,6 +12,7 @@ import {
 } from "@/lib/posts";
 import { JsonLd, articleSchema, breadcrumbSchema } from "@/lib/jsonld";
 import { SITE } from "@/lib/site";
+import { getAuthor } from "@/lib/authors";
 import type { Post } from "@/lib/posts";
 
 export async function generateStaticParams() {
@@ -67,6 +68,46 @@ function extractHeadings(html: string) {
     if (text) headings.push({ level, id, text });
   }
   return headings;
+}
+
+function AuthorByline({ authorName }: { authorName?: string }) {
+  const author = getAuthor(authorName);
+  const displayName = author?.name ?? authorName ?? "Namespace";
+  const avatarSrc = author?.avatar ?? "/assets/images/thecap-avatar.jpg";
+
+  const inner = (
+    <>
+      <div className="blog_author-img-wrapper">
+        <Image
+          src={avatarSrc}
+          alt={displayName}
+          width={40}
+          height={40}
+          className="blog_author-img"
+          style={{ objectFit: "cover" }}
+        />
+      </div>
+      <div>
+        <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>{displayName}</div>
+      </div>
+    </>
+  );
+
+  if (author?.link) {
+    return (
+      <a
+        href={author.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="blog_author-wrapper"
+        style={{ textDecoration: "none", color: "inherit" }}
+      >
+        {inner}
+      </a>
+    );
+  }
+
+  return <div className="blog_author-wrapper">{inner}</div>;
 }
 
 function RelatedCard({ post }: { post: Post }) {
@@ -168,18 +209,8 @@ export default async function BlogPostPage({
               </div>
             )}
             <div className="blog_author-wrapper">
-              <div className="blog_author-img-wrapper">
-                <Image
-                  src="/assets/images/thecap-avatar.jpg"
-                  alt={post.author ?? "Namespace"}
-                  width={40}
-                  height={40}
-                  className="blog_author-img"
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
+              <AuthorByline authorName={post.author} />
               <div className="blog_author-row">
-                <div style={{ fontWeight: 600 }}>{post.author ?? "Namespace"}</div>
                 <div style={{ opacity: 0.6, fontSize: "0.875rem" }}>
                   {formatLongDate(post.date)} · {post.readingLabel}
                 </div>
@@ -221,21 +252,7 @@ export default async function BlogPostPage({
 
                 {/* Left sticky sidebar */}
                 <div className="blog-detail_component_detail-wrapper_left">
-                  <div className="blog_author-wrapper">
-                    <div className="blog_author-img-wrapper">
-                      <Image
-                        src="/assets/images/thecap-avatar.jpg"
-                        alt={post.author ?? "Namespace"}
-                        width={40}
-                        height={40}
-                        className="blog_author-img"
-                        style={{ objectFit: "cover" }}
-                      />
-                    </div>
-                    <div>
-                      <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>{post.author ?? "Namespace"}</div>
-                    </div>
-                  </div>
+                  <AuthorByline authorName={post.author} />
                   <p style={{ opacity: 0.6 }}>{formatLongDate(post.date)}</p>
                   <p style={{ opacity: 0.6 }}>{post.readingLabel}</p>
                   <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
