@@ -174,7 +174,7 @@ export function CaseStudies() {
             <div data-wf--component-tag--variant="dark" className="tag w-variant-b6bce3ac-5c2a-b1ee-66d6-218f87a88dd1">
               <div>Trusted by Ecosystem Leaders</div>
             </div>
-            <h2 className="heading-style-h3 margin-bottom margin-medium">Leading Teams Building With ENS</h2>
+            <h2 className="heading-style-h3">Leading Teams Building With ENS</h2>
 
             <div className="case-studies_wrapper">
               <div className="case-studies_list">

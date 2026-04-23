@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -13,6 +13,14 @@ export function SubscribeForm({
 }) {
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   async function handleSubmit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,30 +37,31 @@ export function SubscribeForm({
 
       if (res.ok) {
         setStatus("success");
-        setMessage(data.message ?? "You're subscribed!");
+        setMessage(data.message ?? "Welcome aboard — you're subscribed.");
+        if (inputRef.current) inputRef.current.value = "";
+        timeoutRef.current = setTimeout(() => setStatus("idle"), 4000);
       } else {
         setStatus("error");
-        setMessage(data.error ?? "Something went wrong. Please try again.");
+        setMessage(data.error ?? "Couldn't subscribe. Try again?");
       }
     } catch {
       setStatus("error");
-      setMessage("Network error. Please try again.");
+      setMessage("Connection hiccup. Please try again.");
     }
-  }
-
-  if (status === "success") {
-    return (
-      <div className="blog-subscribe_form-block w-form">
-        <div className="w-form-done" style={{ display: "block" }}>
-          <div>{message || "Thanks for subscribing!"}</div>
-        </div>
-        <div className="blog-subscribe_note">{noteText}</div>
-      </div>
-    );
   }
 
   return (
     <div className="blog-subscribe_form-block w-form">
+      {status === "success" && (
+        <div className="w-form-done" style={{ display: "block", marginBottom: "0.85rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", justifyContent: "center" }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            {message || "Welcome aboard — you're subscribed."}
+          </div>
+        </div>
+      )}
       <form
         id={formId}
         name={formId}
@@ -60,6 +69,7 @@ export function SubscribeForm({
         onSubmit={handleSubmit}
       >
         <input
+          ref={inputRef}
           className="blog-subscribe_input w-input"
           maxLength={256}
           name="email"
@@ -80,7 +90,13 @@ export function SubscribeForm({
       </form>
       {status === "error" && (
         <div className="w-form-fail" style={{ display: "block" }}>
-          <div>{message}</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", justifyContent: "center" }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+              <path d="M12 8V12M12 16H12.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            {message}
+          </div>
         </div>
       )}
       <div className="blog-subscribe_note">{noteText}</div>

@@ -3,6 +3,7 @@
  * Uses Webflow CSS classes for styling. Server component (no state).
  */
 
+
 /* ── Footer link columns data ── */
 const SOLUTIONS_LINKS = [
   { label: "Wallets", href: "#wallet-names" },
@@ -131,7 +132,13 @@ export function Footer() {
                     <NamespaceLogo />
                   </div>
                 </a>
+                <div className="footer_mission-text">Name the next billion Web3 users</div>
                 <div data-wf--component-tag--variant="background-blur" className="tag w-variant-1ec346f0-aef7-27e9-e90b-2eb557766f44">
+                <img
+                    src="/assets/images/ens-mark-Blue.svg"
+                    alt="ENS Logo"
+                    style={{ display: "block", flexShrink: 0, width: "20px", height: "20px" }}
+                  />     
                   <div>ENS Service Provider</div>
                   <div className="icon-embed-custom1 w-embed">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -170,13 +177,14 @@ export function Footer() {
           <div className="spacer-xlarge" />
 
           {/* Footer image */}
-          <div className="footer_img-wrapper">
+          <div className="footer_img-wrapper" style={{ maxHeight: "240px", overflow: "hidden" }}>
             <img
               src="/assets/images/logo-footer.avif"
               loading="lazy"
               width={1280}
               alt="Namespace — ENS Subname Service Provider"
               className="footer_img"
+              style={{ width: "100%", height: "240px", objectFit: "cover", objectPosition: "center top" }}
             />
           </div>
 

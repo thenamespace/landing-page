@@ -51,7 +51,7 @@ function FaqAccordion({ item }: { item: FaqItem }) {
 const CATEGORIES = ["General", "Integrations", "Technology"];
 
 export function Faq() {
-  const [filter, setFilter] = useState<string | null>(null);
+  const [filter, setFilter] = useState<string | null>("General");
   const filtered = filter ? FAQ_DATA.filter((f) => f.category === filter) : FAQ_DATA;
 
   return (
