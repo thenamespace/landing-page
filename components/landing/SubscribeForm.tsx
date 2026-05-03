@@ -6,7 +6,7 @@ type Status = "idle" | "loading" | "success" | "error";
 
 export function SubscribeForm({
   formId,
-  noteText = "No spam. Just new posts, launches, and the occasional sharp ENS update.",
+  noteText = "No spam. Unsubscribe anytime.",
 }: {
   formId: string;
   noteText?: string;
@@ -37,7 +37,7 @@ export function SubscribeForm({
 
       if (res.ok) {
         setStatus("success");
-        setMessage(data.message ?? "Welcome aboard — you're subscribed.");
+        setMessage(data.message ?? "Welcome aboard. You're subscribed.");
         if (inputRef.current) inputRef.current.value = "";
         timeoutRef.current = setTimeout(() => setStatus("idle"), 4000);
       } else {
@@ -52,16 +52,29 @@ export function SubscribeForm({
 
   return (
     <div className="blog-subscribe_form-block w-form">
-      {status === "success" && (
-        <div className="w-form-done" style={{ display: "block", marginBottom: "0.85rem" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", justifyContent: "center" }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            {message || "Welcome aboard — you're subscribed."}
+      <div aria-live="polite" aria-atomic="true">
+        {status === "success" && (
+          <div className="w-form-done" style={{ display: "block", marginBottom: "0.85rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", justifyContent: "center" }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              {message || "Welcome aboard. You're subscribed."}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+        {status === "error" && (
+          <div className="w-form-fail" style={{ display: "block" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", justifyContent: "center" }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                <path d="M12 8V12M12 16H12.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              {message}
+            </div>
+          </div>
+        )}
+      </div>
       <form
         id={formId}
         name={formId}
@@ -82,23 +95,12 @@ export function SubscribeForm({
         />
         <button
           type="submit"
-          className="button w-variant-9e301513-bb31-a799-9ca0-2d690dec60e2 blog-subscribe_button"
+          className="button blog-subscribe_button"
           disabled={status === "loading"}
         >
           {status === "loading" ? "Subscribing…" : "Subscribe"}
         </button>
       </form>
-      {status === "error" && (
-        <div className="w-form-fail" style={{ display: "block" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", justifyContent: "center" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-              <path d="M12 8V12M12 16H12.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-            {message}
-          </div>
-        </div>
-      )}
       <div className="blog-subscribe_note">{noteText}</div>
     </div>
   );

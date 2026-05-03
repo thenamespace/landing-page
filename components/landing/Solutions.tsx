@@ -14,7 +14,7 @@ export function Solutions() {
           <div className="max-width-xlarge align-center">
             <div className="component_heading gap-1rem">
               <div data-wf--component-tag--variant="light" className="tag"><div>Custom Solutions</div></div>
-              <h2>When standard tools don&apos;t fit, we engineer custom ones!</h2>
+              <h2>When standard tools don&apos;t fit, we engineer custom ones.</h2>
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@ export function Solutions() {
         <div className="max-width-medium is-37rem align-center text-align-center">
           <div className="margin-bottom margin-small">
             <p className="text-size-medium text-weight-medium text-color-black100">
-              Namespace is the ENS DAO&apos;s official Service Provider, trusted to deliver custom integrations for wallets, chains, and apps of any scale.
+              Namespace is the ENS DAO&apos;s official Service Provider, trusted to build custom ENS integrations for wallets, chains, and apps of any size.
             </p>
           </div>
           <div className="button-group is-center">
@@ -48,7 +48,7 @@ export function Solutions() {
               rel="noopener noreferrer"
               className="button w-variant-af6e9889-a545-3801-8ad3-ccb7e3d0b06d w-inline-block"
             >
-              <div className="button_text">Book Discovery Call</div>
+              <div className="button_text">Book a call</div>
               <div className="button_icon-wrapper w-variant-af6e9889-a545-3801-8ad3-ccb7e3d0b06d">
                 <div className="button_icon-item">
                   <div className="button_icon is-hover w-variant-af6e9889-a545-3801-8ad3-ccb7e3d0b06d w-embed"><ButtonArrow /></div>

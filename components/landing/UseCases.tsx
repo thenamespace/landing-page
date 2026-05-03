@@ -32,7 +32,7 @@ const USE_CASES_ROWS: UseCase[][] = [
     {
       id: "decentralized-websites",
       title: "Decentralized websites",
-      description: "Deploy and pin websites to a censorship-resistant, decentralized domains and subdomains.",
+      description: "Deploy websites to decentralized, censorship-resistant domains. Permanent and unblockable.",
       image: "/assets/images/usecase-gaming.avif",
       imageAlt: "Decentralized ENS websites — use case illustration",
       srcSet: "/assets/images/usecase-gaming-500.avif 500w, /assets/images/usecase-gaming-800.avif 800w, /assets/images/usecase-gaming-1080.avif 1080w, /assets/images/usecase-gaming-1600.avif 1600w, /assets/images/usecase-gaming.avif 1694w",
@@ -42,7 +42,7 @@ const USE_CASES_ROWS: UseCase[][] = [
     {
       id: "ai-agent-names",
       title: "AI Agent identity",
-      description: "Assign persistent, verifiable identities to AI agents. Supported in ERC-8004 standard.",
+      description: "Assign AI agents persistent, multi-chain ENS identities, compliant with ERC-8004.",
       image: "/assets/images/usecase-events.avif",
       imageAlt: "AI agent ENS identity — use case illustration",
       srcSet: "/assets/images/usecase-events-500.avif 500w, /assets/images/usecase-events-800.avif 800w, /assets/images/usecase-events.avif 827w",
@@ -50,7 +50,7 @@ const USE_CASES_ROWS: UseCase[][] = [
     {
       id: "in-app-usernames",
       title: "In-app usernames",
-      description: "Give your users ENS-based portable identities that live beyond your app.",
+      description: "Register user.brand.eth for every user at signup. Works across any wallet or protocol that supports ENS.",
       image: "/assets/images/usecase-dao.avif",
       imageAlt: "In-app ENS usernames — use case illustration",
       srcSet: "/assets/images/usecase-dao-500.avif 500w, /assets/images/usecase-dao-800.avif 800w, /assets/images/usecase-dao.avif 826w",
@@ -59,8 +59,8 @@ const USE_CASES_ROWS: UseCase[][] = [
   [
     {
       id: "payments-and-defi-apps",
-      title: "Payments and Defi apps",
-      description: "Simplify sending and receiving. Replace addresses with names. Seamless, error-free payments and transactions.",
+      title: "Payments and DeFi apps",
+      description: "Replace 0x addresses with human-readable names. Fewer errors, faster payments, no copy-paste anxiety.",
       image: "/assets/images/usecase-social.avif",
       imageAlt: "ENS payments and DeFi apps — use case illustration",
       srcSet: "/assets/images/usecase-social-500.avif 500w, /assets/images/usecase-social-800.avif 800w, /assets/images/usecase-social-1080.avif 1080w, /assets/images/usecase-social-1600.avif 1600w, /assets/images/usecase-social.avif 1692w",
@@ -78,7 +78,7 @@ const USE_CASES_ROWS: UseCase[][] = [
     {
       id: "community-names",
       title: "Community names",
-      description: "Personalized names create belonging and loyalty and strengthen the community.",
+      description: "Give every member an identity that follows them across wallets, dApps, and ENS-enabled social platforms.",
       image: "/assets/images/usecase-custom.svg",
       imageAlt: "Community ENS names — use case illustration",
     },
@@ -129,6 +129,7 @@ export function UseCases() {
                 <div data-wf--component-tag--variant="light" className="tag"><div>Use Cases</div></div>
                 <h2>How is ENS used today?</h2>
               </div>
+              <p className="text-size-medium text-color-black-200 text-weight-medium margin-top margin-small">ENS names are the identity layer for Web3, powering wallet names, in-app usernames, community namespaces, smart contracts, and AI agent identities.</p>
             </div>
           </div>
           <div className="use-cases_cards-list">

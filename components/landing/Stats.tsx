@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 
 const STATS = [
-  { value: ">800k", label: "Subnames", description: "Actively managed and run client subnames." },
-  { value: "15M", label: "Resolutions", description: "The historical usage of all subnames issued." },
-  { value: "30+", label: "Clients", description: "We love building with web3 teams." },
-  { value: "220", label: "Namespaces", description: "Number of activated ENS names issuing subnames." },
-  { value: "130", label: "ENS Widgets", description: "Number of ENS Widget installations across websites." },
+  { value: ">850k", label: "Subnames", description: "Actively managed ENS subnames across all client deployments." },
+  { value: "16M", label: "Resolutions", description: "ENS names looked up and resolved without a hitch, proving the infra holds at real scale." },
+  { value: "30+", label: "Clients", description: "Projects and teams actively building with Namespace." },
+  { value: "220", label: "Namespaces", description: "Brands, chains, and communities that chose Namespace as their naming layer." },
+  { value: "130", label: "ENS Widgets", description: "Websites already selling and issuing ENS subnames through Namespace's embedded widget." },
 ];
 
 function parseValue(raw: string): { prefix: string; num: number; suffix: string } {
@@ -73,7 +73,7 @@ export function Stats() {
               <div data-wf--component-tag--variant="dark" className="tag w-variant-b6bce3ac-5c2a-b1ee-66d6-218f87a88dd1">
                 <div>Namespace Stats</div>
               </div>
-              <h2>Impact in numbers</h2>
+              <h2>By the numbers</h2>
             </div>
             <div className="stats_list">
               {STATS.map((s) => <StatCard key={s.label} stat={s} />)}

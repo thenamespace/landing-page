@@ -19,14 +19,14 @@ const CASE_STUDIES = [
     logoAlt: "Unicorn wallet logo",
     logoDark: "/assets/images/logo-unicorn-wallet-dark.svg",
     description: "In-app brandable usernames",
-    href: null,
+    href: "https://www.namespace.ninja/blog/case-study-poap-in-app-ens-usernames-with-namespace",
   },
   {
     logo: "/assets/images/logo-filecoin.svg",
     logoAlt: "Filecoin logo",
     logoDark: "/assets/images/logo-filecoin-dark.svg",
     description: "Wallet names for users",
-    href: "/blog/case-study-namespace-x-unicorn",
+    href: "https://www.namespace.ninja/blog/case-study-namespace-x-unicorn",
   },
   {
     logo: "/assets/images/logo-pinme.svg",
@@ -135,10 +135,15 @@ export function CaseStudies() {
       if (!animationFrame) animate();
     };
 
-    const onMouseEnter = () => {
+    const onMouseEnter = (e: MouseEvent) => {
       isHovering = true;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      currentX = e.clientX;
+      currentY = e.clientY;
       list.style.cursor = "none";
       if (hoverDiv) {
+        hoverDiv.style.transform = `translate(${currentX}px, ${currentY}px)`;
         hoverDiv.style.opacity = "1";
         hoverDiv.style.transition = "opacity 0.3s ease";
       }
@@ -174,7 +179,7 @@ export function CaseStudies() {
             <div data-wf--component-tag--variant="dark" className="tag w-variant-b6bce3ac-5c2a-b1ee-66d6-218f87a88dd1">
               <div>Trusted by Ecosystem Leaders</div>
             </div>
-            <h2 className="heading-style-h3">Leading Teams Building With ENS</h2>
+
 
             <div className="case-studies_wrapper">
               <div className="case-studies_list">
@@ -218,7 +223,7 @@ export function CaseStudies() {
             </div>
 
             {/* Partner logos marquee — right to left */}
-            <div className="case-studies_marquee-wrapper">
+            <div className="case-studies_marquee-wrapper mt-10">
               <LogoMarquee />
             </div>
           </div>

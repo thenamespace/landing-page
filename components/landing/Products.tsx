@@ -20,8 +20,8 @@ const PRODUCTS: Product[] = [
   {
     id: "offchain-subnames",
     title: "Offchain Subnames",
-    description: "Simplest, safest, and quickest way to issue ENS Subnames at scale powered by CCIP-read.",
-    tags: ["Quick Setup", "Scalable", "Gasless", "Easy to use"],
+    description: "Issue ENS subnames at any scale. No gas, no infra, no contracts to deploy.",
+    tags: ["Gasless", "Scalable", "Easy to use"],
     buttons: [
       { label: "Create Subnames", href: "https://app.namespace.ninja/offchain" },
       { label: "Integrate in app", href: "https://docs.namespace.ninja/developer-guide/guide/create-offchain-subnames" },
@@ -33,8 +33,8 @@ const PRODUCTS: Product[] = [
   {
     id: "onchain-subnames",
     title: "Onchain Subnames",
-    description: "Mint L1 or L2 subnames on Ethereum, Base or Optimsm with no coding skills required.",
-    tags: ["Secure", "Verifiable", "Unruggable", "Permissionless"],
+    description: "Mint L1 or L2 subnames on Ethereum, Base or Optimism with no coding skills required.",
+    tags: ["Permissionless", "Secure", "Verifiable"],
     buttons: [
       { label: "No-code App", href: "https://app.namespace.ninja/onchain" },
       { label: "Integrate in app", href: "https://docs.namespace.ninja/developer-guide/guide/mint-l1-l2-subnames" },
@@ -46,8 +46,8 @@ const PRODUCTS: Product[] = [
   {
     id: "sdk-api",
     title: "SDK / API",
-    description: "Implement ENS subname registrations and management in your apps with ease.",
-    tags: ["Quick start & setup", "LLM-friendly", "SKILLS", "Onchain & offchain support"],
+    description: "Implement ENS subname registrations and management in your apps.",
+    tags: ["Quick start & setup", "LLM-friendly", "REST API"],
     buttons: [
       { label: "View SDK", href: "https://docs.namespace.ninja/developer-guide/sdks/introduction" },
       { label: "View API", href: "https://docs.namespace.ninja/api-reference/introduction" },
@@ -59,8 +59,8 @@ const PRODUCTS: Product[] = [
   {
     id: "resolvio",
     title: "Resolvio",
-    description: "Universal domain resolution service.",
-    tags: ["Bulk resolution", "Test playground", "Free to use"],
+    description: "Universal API-first ENS domain resolution service.",
+    tags: ["Free", "Bulk resolution", "Caching", "Self-host"],
     buttons: [{ label: "Learn More", href: "https://resolvio.xyz/" }],
     image: "/assets/images/product-ens-app.png",
     imageAlt: "Resolvio — universal ENS domain resolution service",
@@ -81,7 +81,7 @@ const SMALL_PRODUCTS_ROW1: SmallProduct[] = [
   {
     id: "ens-components",
     title: "ENS Components",
-    description: "Ready-made ENS React components with name and subname registrations (onchain or offchain), record editting and more.",
+    description: "Ready-made ENS React components with name and subname registrations (onchain or offchain) and record editing.",
     button: { label: "See Components", href: "https://enscomponents.com/" },
     image: "/assets/images/product-subpages.avif",
     imageAlt: "ENS Components — ready-made React components for ENS registrations",
@@ -100,7 +100,7 @@ const SMALL_PRODUCTS_ROW2: SmallProduct[] = [
   {
     id: "subpages",
     title: "Subpages",
-    description: "Launch your own subname minting website in minutes; white-label, customizable, subname minting enabled from get-go.",
+    description: "Launch a white-label subname minting site in minutes, fully customizable and ready to sell names on day one.",
     button: { label: "GitHub Repo", href: "https://github.com/thenamespace/subpages" },
     image: "/assets/images/product-resolvio.avif",
     imageAlt: "Launch ENS subname minting web page in minutes.",
@@ -190,8 +190,8 @@ function ProductCard({ p }: { p: Product }) {
           </div>
         </div>
         <div className="button-group">
-          {p.buttons.map((b) => (
-            <WebflowButton key={b.label} label={b.label} href={b.href} variant="secondary" />
+          {p.buttons.map((b, i) => (
+            <WebflowButton key={b.label} label={b.label} href={b.href} variant={i === 0 ? "secondary" : "outline"} />
           ))}
         </div>
       </div>

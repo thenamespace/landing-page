@@ -107,7 +107,7 @@ export async function BlogPreview() {
               <div className="blog-subscribe_content">
                 <div className="blog-subscribe_eyebrow">Subscribe</div>
                 <h3 className="heading-style-h5">
-                  Get every new post from Namespace Journal
+                  Stay up to date
                 </h3>
                 <p className="blog-subscribe_text text-size-medium text-weight-medium">
                   Case studies, ENS product updates, and ecosystem notes

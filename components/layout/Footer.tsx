@@ -123,6 +123,7 @@ export function Footer() {
     <footer padding-global="" data-wf--footer--variant="base" className="footer">
       <div container="large">
         <div className="footer_component">
+          <div className="section-divider" />
           <div className="footer_component_top">
             {/* Left: logo + socials */}
             <div className="footer_component_top_left">
@@ -182,7 +183,7 @@ export function Footer() {
               src="/assets/images/logo-footer.avif"
               loading="lazy"
               width={1280}
-              alt="Namespace — ENS Subname Service Provider"
+              alt="Namespace, ENS Subname Service Provider"
               className="footer_img"
               style={{ width: "100%", height: "240px", objectFit: "cover", objectPosition: "center top" }}
             />
