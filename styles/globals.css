@@ -15,6 +15,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Focus-visible outlines — replaces any outline:none resets from Webflow base CSS */
+:focus-visible {
+  outline: 2px solid #5474F6;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 /* Prose rules for rendered markdown posts — kept for blog pages */
 .post-prose {
   max-width: 44rem;

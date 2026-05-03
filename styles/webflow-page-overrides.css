@@ -117,10 +117,15 @@
   color: inherit !important;
 }
 
-/* ── Blog cards hover (from the inline style in landing-body) ── */
-.blog_list:has(.blog_item:hover) .blog_item:not(:hover),
-.blog-overview_list:has(.blog-overview_item:hover) .blog-overview_item:not(:hover) {
-  opacity: 0.8;
+/* ── Blog cards hover ── */
+.blog_item .blog_card,
+.blog-overview_item .blog-overview_card {
+  transition: box-shadow 0.2s ease;
+}
+
+.blog_item:hover .blog_card,
+.blog-overview_item:hover .blog-overview_card {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
 }
 
 /* ── Section divider (from benefits section inline style) ── */
@@ -189,6 +194,23 @@
     flex-direction: column !important;
     min-height: unset;
   }
+}
+
+/* ── Identity cards: pull up to connect with branching lines ── */
+.section_identity .identity_component {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.section_identity .identity_component_middle-block {
+  margin-bottom: 0;
+}
+.section_identity .identitiy_component_bottom-svg {
+  line-height: 0;
+  font-size: 0;
+}
+.section_identity .identity_component_cards-list {
+  margin-top: -3rem;
 }
 
 /* ── Identity pulse animation (from identity section inline style) ── */
@@ -310,6 +332,81 @@ a:focus {
   text-decoration-thickness: 1.5px;
 }
 
+/* ── Subscribe block: white card ── */
+.blog-subscribe {
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff !important;
+  background-image: none !important;
+  border: 1px solid rgba(0, 0, 0, 0.07) !important;
+  border-radius: 1.25rem !important;
+  box-shadow: none !important;
+}
+
+.blog-subscribe::after {
+  display: none;
+}
+
+.blog-subscribe_eyebrow {
+  color: #5474F6 !important;
+  background-color: rgba(84, 116, 246, 0.08) !important;
+  border: 1px solid rgba(84, 116, 246, 0.18) !important;
+  letter-spacing: 0.07em;
+}
+
+.blog-subscribe .heading-style-h5 {
+  color: #0a0a0b !important;
+}
+
+.blog-subscribe_text {
+  color: #6b7280 !important;
+}
+
+/* Remove the inner sub-box — integrate form directly */
+.blog-subscribe_form-block {
+  background: none !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.blog-subscribe_input {
+  color: #0a0a0b !important;
+  background-color: #f4f5f7 !important;
+  border: 1.5px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: none !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.blog-subscribe_input:focus {
+  background-color: #ffffff !important;
+  border-color: #5474F6 !important;
+  box-shadow: 0 0 0 3px rgba(84, 116, 246, 0.12) !important;
+  outline: none !important;
+}
+
+.blog-subscribe_input::placeholder {
+  color: #9ca3af !important;
+}
+
+.blog-subscribe_button {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-radius: 0.875rem !important;
+  box-shadow: none !important;
+  font-weight: 600 !important;
+  transition: background-color 0.2s ease, transform 0.2s ease !important;
+}
+
+.blog-subscribe_button:hover {
+  background-color: #222222 !important;
+  transform: translateY(-1px) !important;
+}
+
+.blog-subscribe_note {
+  color: #9ca3af !important;
+}
+
 /* ── Newsletter form states ── */
 .blog-subscribe_form-block .w-form-done,
 .blog-subscribe_form-block .w-form-fail {
@@ -320,20 +417,28 @@ a:focus {
 }
 
 .blog-subscribe_form-block .w-form-done {
-  background-color: #1a2e1a;
-  color: #a3e6a3;
-  border: 1px solid #2a4a2a;
+  background-color: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
   padding: 0.875rem 1rem;
   margin-bottom: 0.85rem;
 }
 
 .blog-subscribe_form-block .w-form-fail {
-  background-color: #3a1a1a;
-  color: #ff9e9e;
-  border: 1px solid #5a2a2a;
+  background-color: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
   padding: 0.75rem 1rem;
   margin-top: 0;
   margin-bottom: 0.85rem;
+}
+
+/* ── Footer divider: reduce spacing ── */
+.footer .section-divider {
+  margin: 0 0 2.5rem;
+}
+.footer .footer_component {
+  padding-top: 2.5rem;
 }
 
 /* ── Footer link hover UX ── */
@@ -426,6 +531,109 @@ a:focus {
   border-top-right-radius: 0 !important;
 }
 
+/* ── Primary buttons: accent blue fill ── */
+.button.is-accent {
+  background-color: var(--_base-primitive---colors--color-skylume);
+  color: white;
+}
+.button.is-accent .button_icon-wrapper {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.button.is-accent:hover {
+  background-color: #3f5fe0;
+}
+
+/* ── Hero CTA button hierarchy ── */
+.button.is-hero-outline {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+}
+.button.is-hero-outline .button_icon-wrapper {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+.button.is-hero-outline:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.button.is-hero-white {
+  background-color: white;
+  border: 1px solid white;
+  color: #0a0a0b;
+}
+.button.is-hero-white .button_icon-wrapper {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+.button.is-hero-white:hover {
+  background-color: #f0f0f0;
+  border-color: #f0f0f0;
+}
+
+.button.is-hero-ghost {
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: rgba(255, 255, 255, 0.5);
+  padding-right: 1.25rem;
+}
+.button.is-hero-ghost .button_icon-wrapper {
+  display: none;
+}
+.button.is-hero-ghost:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ── Book Discovery Call (large white) button hover state ── */
+.button:where(.w-variant-af6e9889-a545-3801-8ad3-ccb7e3d0b06d) {
+  transition: background-color 0.2s ease;
+}
+.button:where(.w-variant-af6e9889-a545-3801-8ad3-ccb7e3d0b06d):hover {
+  background-color: #f0f0f0;
+}
+
+/* ── Secondary (dark) button hover state ── */
+.button:where(.w-variant-9e301513-bb31-a799-9ca0-2d690dec60e2) {
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.button:where(.w-variant-9e301513-bb31-a799-9ca0-2d690dec60e2):hover {
+  background-color: #2c2c2c;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Products secondary button: outline on light background ── */
+.button.is-products-outline {
+  background-color: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: #0a0a0b;
+}
+.button.is-products-outline .button_icon-wrapper {
+  background-color: rgba(0, 0, 0, 0.07);
+}
+.button.is-products-outline:hover {
+  border-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* ── Button arrow: exit right, enter from left on hover ── */
+.button_icon-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+.button_icon-item {
+  position: absolute;
+  inset: 0;
+}
+.button_icon-item:last-child {
+  transform: translateX(-100%);
+}
+.button:hover .button_icon-item:first-child {
+  transform: translateX(100%);
+}
+.button:hover .button_icon-item:last-child {
+  transform: translateX(0);
+}
+
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
   .pulse,
@@ -435,4 +643,52 @@ a:focus {
   html {
     scroll-behavior: auto;
   }
+}
+
+/* ── 4. text-wrap: balance on all headings ── */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+/* ── 5. Navbar dropdown chevron ── */
+.navbar_chevron {
+  display: inline-block;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+  opacity: 0.6;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  flex-shrink: 0;
+}
+
+.navbar2_component .navbar_dropdwn-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.w--nav-dropdown-toggle-open .navbar_chevron {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* ── FAQ hover feedback ── */
+.faq_question {
+  transition: opacity 0.15s ease;
+}
+
+.faq_question:hover {
+  opacity: 0.7;
+}
+
+/* ── 7. Grain/noise texture overlay ── */
+.page-wrapper::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
 }

@@ -6,7 +6,7 @@
 interface WebflowButtonProps {
   label: string;
   href: string;
-  variant?: "primary" | "secondary";
+  variant?: "primary" | "secondary" | "outline" | "white";
   external?: boolean;
 }
 
@@ -19,7 +19,11 @@ function ArrowSvg() {
 }
 
 export function WebflowButton({ label, href, variant = "primary", external = true }: WebflowButtonProps) {
-  const variantClass = variant === "secondary" ? " w-variant-9e301513-bb31-a799-9ca0-2d690dec60e2" : "";
+  const variantClass =
+    variant === "secondary" ? " w-variant-9e301513-bb31-a799-9ca0-2d690dec60e2" :
+    variant === "outline" ? " is-products-outline" :
+    variant === "white" ? " is-hero-white" :
+    " is-accent";
   return (
     <a
       data-wf--component-button-primary--variant={variant}

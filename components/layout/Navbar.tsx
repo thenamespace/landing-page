@@ -34,9 +34,17 @@ function NavIcon({ children }: { children: React.ReactNode }) {
   return <div className="navbar_icon w-embed">{children}</div>;
 }
 
+function ChevronIcon() {
+  return (
+    <svg className="navbar_chevron" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
 /* ─── Webflow-style button ─── */
-function WfButton({ href, label, variant = "primary" }: { href: string; label: string; variant?: "primary" | "secondary" }) {
-  const variantClass = variant === "secondary" ? "w-variant-9e301513-bb31-a799-9ca0-2d690dec60e2" : "";
+function WfButton({ href, label, variant = "primary" }: { href: string; label: string; variant?: "primary" | "secondary" | "white" }) {
+  const variantClass = variant === "secondary" ? "w-variant-9e301513-bb31-a799-9ca0-2d690dec60e2" : variant === "white" ? "is-hero-white" : "is-accent";
   return (
     <a
       data-wf--component-button-primary--variant={variant}
@@ -260,13 +268,13 @@ function ENSxAIIcon() {
 
 /* ─── Solutions dropdown items ─── */
 const SOLUTIONS_ITEMS = [
-  { label: "Wallets", icon: <WalletsIcon /> },
-  { label: "L2s / Rollups", icon: <RollupsIcon /> },
-  { label: "Payment apps", icon: <PaymentIcon /> },
-  { label: "WaaS", icon: <WaaSIcon /> },
-  { label: "RaaS", icon: <RaaSIcon /> },
-  { label: "Decentralized Websites", icon: <WebIcon /> },
-  { label: "AI agents", icon: <AIIcon /> },
+  { label: "Wallets", href: "/#wallet-names", icon: <WalletsIcon /> },
+  { label: "L2s / Rollups", href: "/#chain-identity-system", icon: <RollupsIcon /> },
+  { label: "Payment apps", href: "/#payments-and-defi-apps", icon: <PaymentIcon /> },
+  { label: "WaaS", href: "/#waas", icon: <WaaSIcon /> },
+  { label: "RaaS", href: "/#raas", icon: <RaaSIcon /> },
+  { label: "Decentralized Websites", href: "/#decentralized-websites", icon: <WebIcon /> },
+  { label: "AI agents", href: "/#ai-agent-names", icon: <AIIcon /> },
 ];
 
 /* ─── Products dropdown items ─── */
@@ -297,6 +305,7 @@ function Dropdown({
   open,
   onEnter,
   onLeave,
+  onToggle,
   children,
 }: {
   id: DropdownId;
@@ -304,6 +313,7 @@ function Dropdown({
   open: boolean;
   onEnter: () => void;
   onLeave: () => void;
+  onToggle: () => void;
   children: React.ReactNode;
 }) {
   return (
@@ -312,9 +322,16 @@ function Dropdown({
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >
-      <div className={`navbar_dropdwn-toggle w-dropdown-toggle${open ? " w--nav-dropdown-toggle-open" : ""}`}>
+      <button
+        type="button"
+        className={`navbar_dropdwn-toggle w-dropdown-toggle${open ? " w--nav-dropdown-toggle-open" : ""}`}
+        aria-expanded={open}
+        aria-haspopup="true"
+        onClick={onToggle}
+      >
         <div>{label}</div>
-      </div>
+        <ChevronIcon />
+      </button>
       <nav className={`navbar_dropdown-list w-dropdown-list${open ? " w--open" : ""}`}>
         {children}
       </nav>
@@ -328,6 +345,7 @@ export function Navbar() {
 
   const open = (id: DropdownId) => () => setOpenDropdown(id);
   const close = () => setOpenDropdown(null);
+  const toggle = (id: DropdownId) => () => setOpenDropdown((cur) => (cur === id ? null : id));
 
   return (
     <div
@@ -338,24 +356,24 @@ export function Navbar() {
     >
       <div className="navbar2_container">
         {/* Logo */}
-        <a href="/" className="navbar2_logo-link w-nav-brand">
+        <a href="/" aria-label="Namespace, go to homepage" className="navbar2_logo-link w-nav-brand">
           <div className="navbar2_logo w-embed">
             <NamespaceLogo />
           </div>
         </a>
 
         {/* Desktop nav */}
-        <nav role="navigation" className="navbar2_menu is-page-height-tablet w-nav-menu">
-          <Dropdown id="solutions" label="Solutions" open={openDropdown === "solutions"} onEnter={open("solutions")} onLeave={close}>
+        <nav id="main-nav-menu" role="navigation" className={`navbar2_menu is-page-height-tablet w-nav-menu${mobileOpen ? " w--open" : ""}`}>
+          <Dropdown id="solutions" label="Solutions" open={openDropdown === "solutions"} onEnter={open("solutions")} onLeave={close} onToggle={toggle("solutions")}>
             {SOLUTIONS_ITEMS.map((item) => (
-              <div key={item.label} className="navbar_dropdown-link">
+              <a key={item.label} href={item.href} className="navbar_dropdown-link w-inline-block">
                 <NavIcon>{item.icon}</NavIcon>
                 <div>{item.label}</div>
-              </div>
+              </a>
             ))}
           </Dropdown>
 
-          <Dropdown id="products" label="Products" open={openDropdown === "products"} onEnter={open("products")} onLeave={close}>
+          <Dropdown id="products" label="Products" open={openDropdown === "products"} onEnter={open("products")} onLeave={close} onToggle={toggle("products")}>
             {PRODUCTS2_ITEMS.map((item) => (
               <a
                 key={item.label}
@@ -369,7 +387,7 @@ export function Navbar() {
             ))}
           </Dropdown>
 
-          <Dropdown id="community" label="Community" open={openDropdown === "community"} onEnter={open("community")} onLeave={close}>
+          <Dropdown id="community" label="Community" open={openDropdown === "community"} onEnter={open("community")} onLeave={close} onToggle={toggle("community")}>
             {COMMUNITY_ITEMS.map((item) => (
               <a
                 key={item.label}
@@ -388,20 +406,22 @@ export function Navbar() {
 
           {/* Mobile CTA */}
           <div className="margin-top margin-xxsmall show-tablet">
-            <WfButton href="https://app.namespace.ninja" label="Go to App" />
+            <WfButton href="https://app.namespace.ninja" label="Go to App" variant="white" />
           </div>
         </nav>
 
         {/* Desktop CTA + mobile hamburger */}
         <div className="navbar2_button-wrapper">
           <div className="hide-tablet">
-            <WfButton href="https://app.namespace.ninja" label="Go to App" />
+            <WfButton href="https://app.namespace.ninja" label="Go to App" variant="white" />
           </div>
-          <div
+          <button
+            type="button"
             className={`navbar2_menu-button w-nav-button${mobileOpen ? " w--open" : ""}`}
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
+            aria-controls="main-nav-menu"
           >
             <div className="menu-icon">
               <div className="menu-icon2_line-top" />
@@ -410,7 +430,7 @@ export function Navbar() {
               </div>
               <div className="menu-icon2_line-bottom" />
             </div>
-          </div>
+          </button>
         </div>
       </div>
     </div>

@@ -2,6 +2,100 @@
  * HomeHeader — Hero section (`section_home-header`)
  * Includes: tag chip, h1, canvas particles, dotlottie player, mobile video, subcopy, CTA buttons
  */
+"use client";
+
+import { useEffect } from "react";
+
+/* ─── Particle system ─── */
+interface Particle {
+  x: number; y: number;
+  vx: number; vy: number;
+  r: number;
+  a: number; maxA: number;
+  life: number; age: number;
+}
+
+function makeParticle(w: number, h: number, scattered = false): Particle {
+  const life = 3500 + Math.random() * 4500;
+  return {
+    x: Math.random() * w,
+    y: scattered ? Math.random() * h : h + Math.random() * 20,
+    vx: (Math.random() - 0.5) * 0.25,
+    vy: -(0.15 + Math.random() * 0.35),
+    r: 0.6 + Math.random() * 1.5,
+    a: 0,
+    maxA: 0.1 + Math.random() * 0.25,
+    life,
+    age: scattered ? Math.random() * life : 0,
+  };
+}
+
+function runParticles(canvas: HTMLCanvasElement): () => void {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return () => {};
+
+  const COUNT = 60;
+  let w = 0, h = 0;
+  let raf: number;
+
+  function setSize() {
+    w = canvas.clientWidth;
+    h = canvas.clientHeight;
+    if (canvas.width !== w) canvas.width = w;
+    if (canvas.height !== h) canvas.height = h;
+  }
+
+  setSize();
+  const particles: Particle[] = Array.from({ length: COUNT }, () =>
+    makeParticle(w, h, true)
+  );
+
+  const ro = new ResizeObserver(setSize);
+  ro.observe(canvas);
+
+  let prev = performance.now();
+
+  function tick(now: number) {
+    const dt = Math.min(now - prev, 50);
+    prev = now;
+    ctx!.clearRect(0, 0, w, h);
+
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.age += dt;
+      p.x += (p.vx * dt) / 16;
+      p.y += (p.vy * dt) / 16;
+
+      const fadeIn = 600, fadeOut = 700;
+      if (p.age < fadeIn) {
+        p.a = p.maxA * (p.age / fadeIn);
+      } else if (p.age > p.life - fadeOut) {
+        p.a = p.maxA * Math.max(0, (p.life - p.age) / fadeOut);
+      } else {
+        p.a = p.maxA;
+      }
+
+      if (p.age >= p.life || p.y < -10) {
+        particles[i] = makeParticle(w, h);
+        continue;
+      }
+
+      ctx!.beginPath();
+      ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx!.fillStyle = `rgba(255,255,255,${p.a.toFixed(3)})`;
+      ctx!.fill();
+    }
+
+    raf = requestAnimationFrame(tick);
+  }
+
+  raf = requestAnimationFrame(tick);
+
+  return () => {
+    ro.disconnect();
+    cancelAnimationFrame(raf);
+  };
+}
 
 function ButtonArrow() {
   return (
@@ -11,9 +105,10 @@ function ButtonArrow() {
   );
 }
 
-function WfButton({ href, label }: { href: string; label: string }) {
+function WfButton({ href, label, variant = "primary" }: { href: string; label: string; variant?: "primary" | "outline" | "white" | "ghost" }) {
+  const variantClass = variant === "outline" ? " is-hero-outline" : variant === "white" ? " is-hero-white" : variant === "ghost" ? " is-hero-ghost" : " is-accent";
   return (
-    <a data-wf--component-button-primary--variant="primary" href={href} target="_blank" rel="noopener noreferrer" className="button w-inline-block">
+    <a href={href} target="_blank" rel="noopener noreferrer" className={`button w-inline-block${variantClass}`}>
       <div className="button_text">{label}</div>
       <div className="button_icon-wrapper">
         <div className="button_icon-item"><div className="button_icon is-hover w-embed"><ButtonArrow /></div></div>
@@ -24,6 +119,13 @@ function WfButton({ href, label }: { href: string; label: string }) {
 }
 
 export function HomeHeader() {
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const canvas = document.getElementById("particles") as HTMLCanvasElement | null;
+    if (!canvas) return;
+    return runParticles(canvas);
+  }, []);
+
   return (
     <header id="hero" className="section_home-header">
       <div className="home-header_component">
@@ -93,15 +195,26 @@ export function HomeHeader() {
                   Namespace is an ENS DAO-backed service provider that helps wallets, chains, apps, agents, and communities build ENS naming and identity systems. Fast to integrate. Built for scale.
                 </p>
               </div>
-              <div className="button-group is-right">
-                <div className="tablet-max-width-full">
-                  <WfButton href="https://app.namespace.ninja/" label="Launch App" />
-                </div>
-                <div className="tablet-max-width-full">
-                  <WfButton href="https://docs.namespace.ninja/" label="Dev Docs" />
-                </div>
-                <div className="tablet-max-width-full">
-                  <WfButton href="https://cal.com/thecap.eth/discovery" label="Book a call" />
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1.25rem" }}>
+                {/* Proof strip */}
+                <p style={{ fontSize: "0.9375rem", lineHeight: 1.5, margin: 0 }}>
+                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>&gt;850k</span>
+                  <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> subnames. </span>
+                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>16M</span>
+                  <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> resolutions. </span>
+                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>30+</span>
+                  <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> clients.</span>
+                </p>
+                <div className="button-group is-right">
+                  <div className="tablet-max-width-full">
+                    <WfButton href="https://app.namespace.ninja/" label="Launch App" variant="white" />
+                  </div>
+                  <div className="tablet-max-width-full">
+                    <WfButton href="https://docs.namespace.ninja/" label="Dev Docs" variant="outline" />
+                  </div>
+                  <div className="tablet-max-width-full">
+                    <WfButton href="https://cal.com/thecap.eth/discovery" label="Book a call" variant="outline" />
+                  </div>
                 </div>
               </div>
             </div>

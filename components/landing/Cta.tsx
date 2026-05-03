@@ -19,7 +19,7 @@ const CTA_CARDS = [
   },
   {
     title: "Partner with Namespace",
-    description: "Bring ENS to your product, ecosystem, or community with custom ENS solution.",
+    description: "Need ENS for something bigger? We scope, build, and maintain custom ENS infrastructure, from MVP to production scale.",
     button: { label: "Book a Call", href: "https://cal.com/thecap.eth/discovery" },
     image: "/assets/images/cta-decoration-3.svg",
     imageAlt: "Partner with Namespace for custom ENS naming solutions",
@@ -33,7 +33,7 @@ export function Cta() {
         <div className="margin-bottom margin-xlarge is-medium-mobile">
           <div className="max-width-large align-center">
             <div className="text-align-center">
-              <h2>Ready to Build with ENS Subnames?</h2>
+              <h2>Three ways to get started</h2>
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@ export function Cta() {
                   <p className="text-color-black-200 text-weight-medium is-linespace-smaller">{card.description}</p>
                 </div>
                 <div className="button-group">
-                  <WebflowButton label={card.button.label} href={card.button.href} />
+                  <WebflowButton label={card.button.label} href={card.button.href} variant="white" />
                 </div>
               </div>
               <div className="cta_card-img-wrapper">
