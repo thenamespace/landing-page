@@ -6,6 +6,8 @@ date: 2026-05-06
 author: Cap
 tag: ENS
 format: markdown
+image: /assets/images/how-to-issue-offchain-subs-picture.png
+imageAlt: How to Issue ENS Subnames Without Deploying Contracts
 ---
 
 # How to Issue ENS Subnames Without Deploying Contracts
