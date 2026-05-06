@@ -22,39 +22,50 @@
   border-radius: 2px;
 }
 
-/* Prose rules for rendered markdown posts — kept for blog pages */
+/* Smooth scroll with clearance for fixed nav */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* ── Prose ─────────────────────────────────────────────── */
 .post-prose {
   max-width: 44rem;
   font-size: 1.0625rem;
-  line-height: 1.75;
+  line-height: 1.8;
 }
 .post-prose > * + * {
-  margin-top: 1.1em;
+  margin-top: 1.25em;
 }
 .post-prose h2 {
-  margin-top: 2.5rem;
-  font-size: 2rem;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  margin-top: 3rem;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
 }
 .post-prose h3 {
-  margin-top: 2rem;
-  font-size: 1.375rem;
+  margin-top: 2.25rem;
+  font-size: 1.175rem;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 .post-prose h4 {
-  margin-top: 1.5rem;
-  font-size: 1.125rem;
+  margin-top: 1.75rem;
+  font-size: 1rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.7;
 }
 .post-prose a {
   text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 1.5px;
-  transition: opacity 0.2s;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: opacity 0.15s;
 }
 .post-prose a:hover {
-  opacity: 0.85;
+  opacity: 0.75;
 }
 .post-prose ul {
   list-style: disc;
@@ -65,7 +76,12 @@
   padding-left: 1.5rem;
 }
 .post-prose li {
-  margin: 0.35rem 0;
+  margin: 0.4rem 0;
+  line-height: 1.7;
+}
+.post-prose li > ul,
+.post-prose li > ol {
+  margin-top: 0.25rem;
 }
 .post-prose strong {
   font-weight: 600;
@@ -73,33 +89,61 @@
 .post-prose blockquote {
   border-left: 2px solid currentColor;
   padding-left: 1.25rem;
-  font-size: 1.375rem;
-  line-height: 1.4;
+  font-size: 1.2rem;
+  line-height: 1.5;
   font-style: italic;
+  opacity: 0.8;
 }
-.post-prose code {
-  font-size: 0.9em;
-  padding: 0.15em 0.4em;
-  border-radius: 4px;
+/* Inline code */
+.post-prose :not(pre) > code {
+  font-size: 0.875em;
+  padding: 0.2em 0.45em;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* Shiki-highlighted code blocks */
 .post-prose pre {
-  padding: 1.25rem;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow-x: auto;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.875rem;
+  line-height: 1.65;
 }
-.post-prose pre code {
-  background: transparent;
+.post-prose pre > code {
+  display: block;
+  padding: 1.5rem;
+  background: transparent !important;
   border: 0;
-  padding: 0;
+  min-width: max-content;
+}
+/* Language label */
+.post-prose [data-rehype-pretty-code-figure] {
+  position: relative;
+  margin: 2rem 0;
+}
+.post-prose [data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.35;
+  font-family: monospace;
+  pointer-events: none;
 }
 .post-prose img,
 .post-prose figure img {
-  border-radius: 10px;
+  border-radius: 12px;
   max-width: 100%;
   height: auto;
 }
 .post-prose figure {
-  margin: 2rem 0;
+  margin: 2.5rem 0;
 }
 .post-prose figure a {
   display: block;
@@ -107,31 +151,111 @@
 }
 .post-prose hr {
   border: 0;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  margin: 2.5rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 3rem 0;
 }
 .post-prose h2 a,
 .post-prose h3 a,
 .post-prose h4 a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 .post-prose h2 a:hover,
 .post-prose h3 a:hover,
 .post-prose h4 a:hover {
+  opacity: 0.8;
+  text-decoration: none !important;
+}
+
+/* ── Blog post meta row (hero) ─────────────────────────── */
+.blog-post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.blog-post-meta-sep {
+  opacity: 0.35;
+  font-size: 0.875rem;
+}
+.blog-post-meta-text {
+  font-size: 0.875rem;
+  opacity: 0.6;
+}
+
+/* ── Sidebar share button ──────────────────────────────── */
+.blog-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.5rem 0.875rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
   text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+  align-self: flex-start;
+}
+.blog-share-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ── Table of contents ─────────────────────────────────── */
+.toc-nav {
+  padding-left: 1rem;
+}
+.toc-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.4;
+  margin-bottom: 0.75rem;
+}
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.post-toc-link {
+  display: block;
+  font-size: 0.83rem;
+  line-height: 1.35;
+  text-decoration: none;
+  opacity: 0.5;
+  padding: 0.15rem 0;
+  transition: opacity 0.15s, color 0.15s;
+  border-left: 2px solid transparent;
+  padding-left: 0.75rem;
+  margin-left: -1rem;
+}
+.post-toc-link.is-h3 {
+  font-size: 0.78rem;
+  padding-left: 1.5rem;
+}
+.post-toc-link:hover {
   opacity: 0.85;
 }
-
-/* Table of contents links in blog sidebar */
-.post-toc-link {
-  text-decoration: none;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-  display: block;
-  line-height: 1.4;
+.post-toc-link.is-active {
+  opacity: 1;
+  border-left-color: currentColor;
 }
 
-.post-toc-link:hover {
-  opacity: 1;
+/* ── Related articles label ────────────────────────────── */
+.blog-related-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.45;
+  margin-bottom: 2rem;
 }
