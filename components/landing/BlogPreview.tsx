@@ -53,8 +53,8 @@ export async function BlogPreview() {
                             <Image
                               src={post.image}
                               loading="lazy"
-                              width={70}
-                              height={70}
+                              width={800}
+                              height={450}
                               alt={post.imageAlt ?? post.title}
                               className="blog_card-img"
                             />
