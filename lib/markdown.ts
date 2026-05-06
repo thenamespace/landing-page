@@ -5,6 +5,7 @@ import remarkRehype from "remark-rehype";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypePrettyCode from "rehype-pretty-code";
 import rehypeStringify from "rehype-stringify";
 
 function stripHeadingIds(markdown: string): string {
@@ -17,6 +18,10 @@ export async function renderMarkdown(markdown: string): Promise<string> {
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
+    .use(rehypePrettyCode, {
+      theme: "github-dark",
+      keepBackground: true,
+    })
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings, { behavior: "wrap" })
     .use(rehypeStringify, { allowDangerousHtml: true })
