@@ -1,3 +1,13 @@
+---
+title: How to Issue ENS Subnames Without Deploying Contracts
+slug: how-to-issue-subnames-without-deploying-contracts
+description: Issue ENS subnames at scale with a single API call or SDK — no contracts to deploy, no infrastructure to manage, no gas fees for offchain names.
+date: 2026-05-06
+author: Cap
+tag: ENS
+format: markdown
+---
+
 # How to Issue ENS Subnames Without Deploying Contracts
 
 ## Table of Contents
