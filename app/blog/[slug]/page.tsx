@@ -13,6 +13,7 @@ import {
 import { JsonLd, articleSchema, breadcrumbSchema } from "@/lib/jsonld";
 import { SITE } from "@/lib/site";
 import { getAuthor } from "@/lib/authors";
+import { TocNav } from "@/components/blog/TocNav";
 import type { Post } from "@/lib/posts";
 
 export async function generateStaticParams() {
@@ -55,6 +56,10 @@ export async function generateMetadata({
 
 function cleanTitle(title: string) {
   return title.replace(/^\[Case Study\]\s*/i, "");
+}
+
+function stripLeadingH1(html: string): string {
+  return html.replace(/^\s*<h1[\s\S]*?<\/h1>\s*/i, "");
 }
 
 function extractHeadings(html: string) {
@@ -178,7 +183,9 @@ export default async function BlogPostPage({
 
   const all = await getAllPosts();
   const related = all.filter((p) => p.slug !== post.slug).slice(0, 3);
-  const headings = extractHeadings(post.html);
+
+  const bodyHtml = stripLeadingH1(post.html);
+  const headings = extractHeadings(bodyHtml);
 
   const postUrl = `${SITE.url}/blog/${post.slug}`;
   const shareX = `https://x.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(postUrl)}`;
@@ -188,7 +195,7 @@ export default async function BlogPostPage({
       <JsonLd data={articleSchema(post)} />
       <JsonLd data={breadcrumbSchema(post)} />
 
-      {/* Blog post header */}
+      {/* Hero header */}
       <header
         {...{ "padding-global": "" }}
         className="section_blog-header"
@@ -208,19 +215,18 @@ export default async function BlogPostPage({
                 </p>
               </div>
             )}
-            <div className="blog_author-wrapper">
+            <div className="blog-post-meta">
               <AuthorByline authorName={post.author} />
-              <div className="blog_author-row">
-                <div style={{ opacity: 0.6, fontSize: "0.875rem" }}>
-                  {formatLongDate(post.date)} · {post.readingLabel}
-                </div>
-              </div>
+              <span className="blog-post-meta-sep">·</span>
+              <span className="blog-post-meta-text">{formatLongDate(post.date)}</span>
+              <span className="blog-post-meta-sep">·</span>
+              <span className="blog-post-meta-text">{post.readingLabel}</span>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Blog post body */}
+      {/* Article body */}
       <section className="section_blog-detail">
         <div
           {...{ "padding-global": "" }}
@@ -232,7 +238,7 @@ export default async function BlogPostPage({
           >
             <div className="blog-detail_component">
 
-              {/* Hero image */}
+              {/* Full-width cover image */}
               {post.image && (
                 <div className="blog-detail_component_img-wrapper">
                   <Image
@@ -242,54 +248,31 @@ export default async function BlogPostPage({
                     height={675}
                     priority
                     className="blog-detail_component_img-wrapper_img"
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
                 </div>
               )}
 
-              {/* Content layout */}
+              {/* 3-col layout */}
               <div className="blog-detail_component_detail-wrapper">
 
                 {/* Left sticky sidebar */}
                 <div className="blog-detail_component_detail-wrapper_left">
-                  <AuthorByline authorName={post.author} />
-                  <p style={{ opacity: 0.6 }}>{formatLongDate(post.date)}</p>
-                  <p style={{ opacity: 0.6 }}>{post.readingLabel}</p>
-                  <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
-                    <a
-                      href={shareX}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label="Share on X"
-                      className="button"
-                      style={{ fontSize: "0.75rem", padding: "0.4rem 0.75rem" }}
-                    >
-                      Share on X
-                    </a>
-                  </div>
+                  <a
+                    href={shareX}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="blog-share-btn"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    Share on X
+                  </a>
 
                   {headings.length > 0 && (
-                    <nav style={{ marginTop: "1.5rem" }}>
-                      <p style={{ fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.08em", opacity: 0.5, marginBottom: "0.5rem", fontWeight: 600 }}>
-                        Contents
-                      </p>
-                      <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                        {headings.map((h) => (
-                          <li key={h.id}>
-                            <a
-                              href={`#${h.id}`}
-                              className="post-toc-link"
-                              style={{
-                                fontSize: h.level === 2 ? "0.8rem" : "0.75rem",
-                                paddingLeft: h.level === 3 ? "0.75rem" : "0rem",
-                              }}
-                            >
-                              {h.text}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </nav>
+                    <div className="blog-detail_component_detail-wrapper_left_toc-wrapper">
+                      <TocNav headings={headings} />
+                    </div>
                   )}
                 </div>
 
@@ -297,11 +280,11 @@ export default async function BlogPostPage({
                 <div className="blog-detail_component_detail-wrapper_content-wrapper">
                   <div
                     className="blog-detail_component_detail-wrapper_left_embed post-prose"
-                    dangerouslySetInnerHTML={{ __html: post.html }}
+                    dangerouslySetInnerHTML={{ __html: bodyHtml }}
                   />
                 </div>
 
-                {/* Right sidebar (empty — matches original layout) */}
+                {/* Right column — spacing */}
                 <div className="blog-detail_component_detail-wrapper_right" />
 
               </div>
@@ -321,11 +304,7 @@ export default async function BlogPostPage({
               {...{ container: "large" }}
               className="padding-section-large"
             >
-              <div style={{ marginBottom: "2rem" }}>
-                <p style={{ fontSize: "0.75rem", fontFamily: "monospace", textTransform: "uppercase", letterSpacing: "0.1em", opacity: 0.5 }}>
-                  Related Blogs
-                </p>
-              </div>
+              <div className="blog-related-label">Related Articles</div>
               <div className="blog_list-wrapper w-dyn-list">
                 <div role="list" className="blog_list w-dyn-items">
                   {related.map((p) => (

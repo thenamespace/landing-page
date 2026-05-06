@@ -7,6 +7,10 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeStringify from "rehype-stringify";
 
+function stripHeadingIds(markdown: string): string {
+  return markdown.replace(/^(#{1,6} .+?)\s+\{#[^}]+\}$/gm, "$1");
+}
+
 export async function renderMarkdown(markdown: string): Promise<string> {
   const file = await unified()
     .use(remarkParse)
@@ -16,6 +20,6 @@ export async function renderMarkdown(markdown: string): Promise<string> {
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings, { behavior: "wrap" })
     .use(rehypeStringify, { allowDangerousHtml: true })
-    .process(markdown);
+    .process(stripHeadingIds(markdown));
   return String(file);
 }
