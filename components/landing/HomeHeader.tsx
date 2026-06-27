@@ -5,6 +5,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { CAL_HREF, calTriggerProps } from "@/lib/cal";
 
 /* ─── Particle system ─── */
 interface Particle {
@@ -105,10 +106,13 @@ function ButtonArrow() {
   );
 }
 
-function WfButton({ href, label, variant = "primary" }: { href: string; label: string; variant?: "primary" | "outline" | "white" | "ghost" }) {
+function WfButton({ href, label, variant = "primary", cal }: { href: string; label: string; variant?: "primary" | "outline" | "white" | "ghost"; cal?: boolean }) {
   const variantClass = variant === "outline" ? " is-hero-outline" : variant === "white" ? " is-hero-white" : variant === "ghost" ? " is-hero-ghost" : " is-accent";
+  // When `cal` is set, the anchor opens the Cal popup on click; the href stays
+  // as a fallback for modifier clicks, no-JS visitors, and cold (un-warmed) clicks.
+  const calProps = cal ? calTriggerProps() : {};
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={`button w-inline-block${variantClass}`}>
+    <a href={href} {...calProps} target="_blank" rel="noopener noreferrer" className={`button w-inline-block${variantClass}`}>
       <div className="button_text">{label}</div>
       <div className="button_icon-wrapper">
         <div className="button_icon-item"><div className="button_icon is-hover w-embed"><ButtonArrow /></div></div>
@@ -213,7 +217,7 @@ export function HomeHeader() {
                     <WfButton href="https://docs.namespace.ninja/" label="Dev Docs" variant="outline" />
                   </div>
                   <div className="tablet-max-width-full">
-                    <WfButton href="https://cal.com/thecap.eth/discovery" label="Book a call" variant="outline" />
+                    <WfButton href={CAL_HREF} label="Book a call" variant="outline" cal />
                   </div>
                 </div>
               </div>
