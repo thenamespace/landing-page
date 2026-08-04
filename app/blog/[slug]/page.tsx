@@ -284,7 +284,7 @@ export default async function BlogPostPage({
                   />
                 </div>
 
-                {/* Right column — spacing */}
+                {/* Right column - spacing */}
                 <div className="blog-detail_component_detail-wrapper_right" />
 
               </div>

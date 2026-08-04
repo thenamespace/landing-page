@@ -171,7 +171,7 @@ export function NewsletterEmail({
             </Section>
           )}
 
-          {/* Full post body — inline styles applied by juice before render */}
+          {/* Full post body - inline styles applied by juice before render */}
           <Section style={{ paddingBottom: "28px" }}>
             <div dangerouslySetInnerHTML={{ __html: bodyHtml }} />
           </Section>

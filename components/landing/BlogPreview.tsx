@@ -1,5 +1,5 @@
 /**
- * Blog preview section — `section_blog`
+ * Blog preview section - `section_blog`
  * Server component: reads the latest 3 posts from content/blog/ at build time.
  * Matches the Webflow HTML structure of the original section_blog section.
  */

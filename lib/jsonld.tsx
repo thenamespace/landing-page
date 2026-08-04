@@ -73,7 +73,7 @@ export function serviceSchema() {
         "@type": "Offer",
         name: "Offchain Subnames",
         description:
-          "Gasless ENS subname issuance using CCIP-Read. Always free — no charge to Namespace or end users regardless of volume.",
+          "Gasless ENS subname issuance using CCIP-Read. Always free - no charge to Namespace or end users regardless of volume.",
         price: "0",
         priceCurrency: "USD",
       },

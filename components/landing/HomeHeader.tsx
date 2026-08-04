@@ -1,5 +1,5 @@
 /**
- * HomeHeader — Hero section (`section_home-header`)
+ * HomeHeader - Hero section (`section_home-header`)
  * Includes: tag chip, h1, canvas particles, dotlottie player, mobile video, subcopy, CTA buttons
  */
 "use client";
@@ -200,7 +200,7 @@ export function HomeHeader() {
                 <p style={{ fontSize: "0.9375rem", lineHeight: 1.5, margin: 0 }}>
                   <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>&gt;850k</span>
                   <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> subnames. </span>
-                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>16M</span>
+                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>21M</span>
                   <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> resolutions. </span>
                   <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>30+</span>
                   <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> clients.</span>

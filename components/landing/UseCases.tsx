@@ -1,4 +1,4 @@
-/** UseCases section — `section_use-cases` */
+/** UseCases section - `section_use-cases` */
 
 interface UseCase {
   id: string;
@@ -16,7 +16,7 @@ const USE_CASES_ROWS: UseCase[][] = [
       title: "Wallet names",
       description: "Users get a human-readable wallet name during onboarding or in app, improving UX, social presence, and transaction safety.",
       image: "/assets/images/usecase-wallet.avif",
-      imageAlt: "ENS subnames for wallet names — use case illustration",
+      imageAlt: "ENS subnames for wallet names - use case illustration",
       srcSet: "/assets/images/usecase-wallet-500.avif 500w, /assets/images/usecase-wallet-800.avif 800w, /assets/images/usecase-wallet.avif 826w",
     },
     {
@@ -24,7 +24,7 @@ const USE_CASES_ROWS: UseCase[][] = [
       title: "Chain identity system",
       description: "L2s and rollups offer subnames to all users as a unified identity layer for the chain. One namespace for all users and builders.",
       image: "/assets/images/usecase-defi.avif",
-      imageAlt: "ENS chain identity system for L2 rollups — use case illustration",
+      imageAlt: "ENS chain identity system for L2 rollups - use case illustration",
       srcSet: "/assets/images/usecase-defi-500.avif 500w, /assets/images/usecase-defi-800.avif 800w, /assets/images/usecase-defi.avif 826w",
     },
   ],
@@ -34,7 +34,7 @@ const USE_CASES_ROWS: UseCase[][] = [
       title: "Decentralized websites",
       description: "Deploy websites to decentralized, censorship-resistant domains. Permanent and unblockable.",
       image: "/assets/images/usecase-gaming.avif",
-      imageAlt: "Decentralized ENS websites — use case illustration",
+      imageAlt: "Decentralized ENS websites - use case illustration",
       srcSet: "/assets/images/usecase-gaming-500.avif 500w, /assets/images/usecase-gaming-800.avif 800w, /assets/images/usecase-gaming-1080.avif 1080w, /assets/images/usecase-gaming-1600.avif 1600w, /assets/images/usecase-gaming.avif 1694w",
     },
   ],
@@ -44,7 +44,7 @@ const USE_CASES_ROWS: UseCase[][] = [
       title: "AI Agent identity",
       description: "Assign AI agents persistent, multi-chain ENS identities, compliant with ERC-8004.",
       image: "/assets/images/usecase-events.avif",
-      imageAlt: "AI agent ENS identity — use case illustration",
+      imageAlt: "AI agent ENS identity - use case illustration",
       srcSet: "/assets/images/usecase-events-500.avif 500w, /assets/images/usecase-events-800.avif 800w, /assets/images/usecase-events.avif 827w",
     },
     {
@@ -52,7 +52,7 @@ const USE_CASES_ROWS: UseCase[][] = [
       title: "In-app usernames",
       description: "Register user.brand.eth for every user at signup. Works across any wallet or protocol that supports ENS.",
       image: "/assets/images/usecase-dao.avif",
-      imageAlt: "In-app ENS usernames — use case illustration",
+      imageAlt: "In-app ENS usernames - use case illustration",
       srcSet: "/assets/images/usecase-dao-500.avif 500w, /assets/images/usecase-dao-800.avif 800w, /assets/images/usecase-dao.avif 826w",
     },
   ],
@@ -62,7 +62,7 @@ const USE_CASES_ROWS: UseCase[][] = [
       title: "Payments and DeFi apps",
       description: "Replace 0x addresses with human-readable names. Fewer errors, faster payments, no copy-paste anxiety.",
       image: "/assets/images/usecase-social.avif",
-      imageAlt: "ENS payments and DeFi apps — use case illustration",
+      imageAlt: "ENS payments and DeFi apps - use case illustration",
       srcSet: "/assets/images/usecase-social-500.avif 500w, /assets/images/usecase-social-800.avif 800w, /assets/images/usecase-social-1080.avif 1080w, /assets/images/usecase-social-1600.avif 1600w, /assets/images/usecase-social.avif 1692w",
     },
   ],
@@ -72,7 +72,7 @@ const USE_CASES_ROWS: UseCase[][] = [
       title: "Wallet-as-a-Service",
       description: "Bundle identity into every wallet created. Automatically assign ENS subnames at signup.",
       image: "/assets/images/usecase-ai.avif",
-      imageAlt: "Wallet-as-a-Service ENS naming — use case illustration",
+      imageAlt: "Wallet-as-a-Service ENS naming - use case illustration",
       srcSet: "/assets/images/usecase-ai-500.avif 500w, /assets/images/usecase-ai-800.avif 800w, /assets/images/usecase-ai.avif 826w",
     },
     {
@@ -80,17 +80,7 @@ const USE_CASES_ROWS: UseCase[][] = [
       title: "Community names",
       description: "Give every member an identity that follows them across wallets, dApps, and ENS-enabled social platforms.",
       image: "/assets/images/usecase-custom.svg",
-      imageAlt: "Community ENS names — use case illustration",
-    },
-  ],
-  [
-    {
-      id: "raas",
-      title: "Rollup-as-a-Service",
-      description: "Deploy chains with native identity built in. Offer subnames as default usernames under a shared root namespace.",
-      image: "/assets/images/usecase-identity.avif",
-      imageAlt: "Rollup-as-a-Service ENS identity — use case illustration",
-      srcSet: "/assets/images/usecase-identity-500.avif 500w, /assets/images/usecase-identity-800.avif 800w, /assets/images/usecase-identity-1080.avif 1080w, /assets/images/usecase-identity-1600.avif 1600w, /assets/images/usecase-identity.avif 1694w",
+      imageAlt: "Community ENS names - use case illustration",
     },
   ],
 ];

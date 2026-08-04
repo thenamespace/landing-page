@@ -151,7 +151,7 @@ async function run() {
   }
 
   if (DRY_RUN) {
-    console.log("🧪 DRY RUN — no broadcast emails will be sent to the audience");
+    console.log("🧪 DRY RUN - no broadcast emails will be sent to the audience");
     if (TEST_EMAIL) {
       console.log(`🧪 Preview emails will be sent to: ${TEST_EMAIL}`);
     }

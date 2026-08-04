@@ -99,14 +99,6 @@ function WaaSIcon() {
   );
 }
 
-function RaaSIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M5.3575 8.125L1.875 10L5.3575 11.875M5.3575 8.125L10 10.625L14.6425 8.125M5.3575 8.125L1.875 6.25L10 1.875L18.125 6.25L14.6425 8.125M5.3575 11.875L1.875 13.75L10 18.125L18.125 13.75L14.6425 11.875M5.3575 11.875L10 14.375L14.6425 11.875M14.6425 8.125L18.125 10L14.6425 11.875" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  );
-}
-
 function WebIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -214,6 +206,16 @@ function ENSMCPIcon() {
   );
 }
 
+function ENSDiamondsIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M5.41667 2.5H14.5833L17.9167 7.08333L10 17.5L2.08333 7.08333L5.41667 2.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M2.08333 7.08333H17.9167" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M7.5 7.08333L10 17.5L12.5 7.08333L10 2.5L7.5 7.08333Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
 function CustomSolutionsIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -268,13 +270,16 @@ function ENSxAIIcon() {
 
 /* ─── Solutions dropdown items ─── */
 const SOLUTIONS_ITEMS = [
-  { label: "Wallets", href: "/#wallet-names", icon: <WalletsIcon /> },
-  { label: "L2s / Rollups", href: "/#chain-identity-system", icon: <RollupsIcon /> },
-  { label: "Payment apps", href: "/#payments-and-defi-apps", icon: <PaymentIcon /> },
-  { label: "WaaS", href: "/#waas", icon: <WaaSIcon /> },
-  { label: "RaaS", href: "/#raas", icon: <RaaSIcon /> },
-  { label: "Decentralized Websites", href: "/#decentralized-websites", icon: <WebIcon /> },
-  { label: "AI agents", href: "/#ai-agent-names", icon: <AIIcon /> },
+  { label: "Wallets", href: "/solutions/wallets", icon: <WalletsIcon /> },
+  { label: "L2s / Rollups", href: "/solutions/l2s-rollups", icon: <RollupsIcon /> },
+  { label: "Fintechs & Neobanks", href: "/solutions/fintechs-neobanks", icon: <PaymentIcon /> },
+  { label: "WaaS", href: "/solutions/waas", icon: <WaaSIcon /> },
+  { label: "Decentralized Websites", href: "/solutions/decentralized-websites", icon: <WebIcon /> },
+  { label: "AI agents", href: "/solutions/ai-agents", icon: <AIIcon /> },
+  { label: "Payment Apps (V2)", href: "/solutions/ens-for-payment-apps", icon: <PaymentIcon /> },
+  { label: "WaaS (V2)", href: "/solutions/ens-for-wallet-as-a-service", icon: <WaaSIcon /> },
+  { label: "Decentralized Websites (V2)", href: "/solutions/ens-decentralized-websites", icon: <WebIcon /> },
+  { label: "AI Agents (V2)", href: "/solutions/ens-for-ai-agents", icon: <AIIcon /> },
 ];
 
 /* ─── Products dropdown items ─── */
@@ -285,6 +290,7 @@ const PRODUCTS2_ITEMS = [
   { label: "ENS Widget", href: "#ens-widget", icon: <WidgetIcon /> },
   { label: "Subpages", href: "#subpages", icon: <SubpagesIcon /> },
   { label: "Resolvio", href: "#resolvio", icon: <ResolvioIcon /> },
+  { label: "ENS Diamonds", href: "https://ens.diamonds", external: true, icon: <ENSDiamondsIcon /> },
   { label: "ENS MCP", href: "https://github.com/thenamespace/ens-mcp", external: true, icon: <ENSMCPIcon /> },
   { label: "Custom Solutions", href: "#", icon: <CustomSolutionsIcon /> },
 ];
@@ -403,6 +409,7 @@ export function Navbar() {
           </Dropdown>
 
           <a href="/blog" className="navbar_link w-nav-link">Blog</a>
+          <a href="/about" className="navbar_link w-nav-link">About</a>
 
           {/* Mobile CTA */}
           <div className="margin-top margin-xxsmall show-tablet">

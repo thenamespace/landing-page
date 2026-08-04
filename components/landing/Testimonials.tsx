@@ -1,6 +1,6 @@
 "use client";
 
-/** Testimonials section — `section_testimonials` */
+/** Testimonials section - `section_testimonials` */
 
 import { useEffect, useRef, RefObject } from "react";
 
