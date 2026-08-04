@@ -689,8 +689,8 @@ html {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
 }
 .solution-sendflow-card.is-good {
-  background: linear-gradient(160deg, rgba(126, 226, 168, 0.12), rgba(126, 226, 168, 0.03) 60%);
-  border-color: rgba(126, 226, 168, 0.28);
+  background: linear-gradient(160deg, rgba(84, 116, 246, 0.16), rgba(84, 116, 246, 0.04) 60%);
+  border-color: rgba(84, 116, 246, 0.38);
 }
 .solution-sendflow-label {
   font-family: 'SF Mono', 'Fira Mono', ui-monospace, monospace;
@@ -728,7 +728,7 @@ html {
 .solution-sendflow-ok {
   margin-top: 0.8rem;
   font-size: 0.78rem;
-  color: #7ee2a8;
+  color: #8fb0ff;
   font-family: 'SF Mono', 'Fira Mono', ui-monospace, monospace;
 }
 .solution-sendflow-btn {
@@ -742,8 +742,8 @@ html {
   color: rgba(255, 255, 255, 0.5);
 }
 .solution-sendflow-btn.is-pay {
-  background: #7ee2a8;
-  color: #14201a;
+  background: #5474f6;
+  color: #fff;
 }
 
 /* Risks + mitigations (light zone) */
