@@ -276,7 +276,6 @@ const SOLUTIONS_ITEMS = [
   { label: "WaaS", href: "/solutions/waas", icon: <WaaSIcon /> },
   { label: "Decentralized Websites", href: "/solutions/decentralized-websites", icon: <WebIcon /> },
   { label: "AI agents", href: "/solutions/ai-agents", icon: <AIIcon /> },
-  { label: "AI Agents (V2)", href: "/solutions/ens-for-ai-agents", icon: <AIIcon /> },
 ];
 
 /* ─── Products dropdown items ─── */
