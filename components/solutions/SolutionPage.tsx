@@ -317,34 +317,53 @@ function HeroBrowser({ name }: { name: string }) {
 }
 
 
+
+
 function HeroAgent({ name }: { name: string }) {
+  const [label, ...rest] = name.split(".");
+  const domain = rest.join(".");
+  const brand = (rest[0] ?? "yourplatform").replace(/\.eth$/, "");
   return (
-    <div className="solution-agentcard" aria-hidden="true">
-      <div className="solution-agentcard-head">
-        <span className="solution-plook-mock-avatar" />
-        <span className="solution-agentcard-name">{name}</span>
-        <span className="solution-agentcard-badge">&#10004;</span>
+    <div className="solution-alookup" aria-hidden="true">
+      <div className="solution-code-chrome">
+        <span className="solution-code-dot" />
+        <span className="solution-code-dot" />
+        <span className="solution-code-dot" />
+        <span className="solution-code-label">Agent lookup</span>
       </div>
-      <div className="solution-agentcard-rows">
-        <div className="solution-agentcard-row">
-          <span>operator</span>
-          <b>yourplatform.eth</b>
+      <div className="solution-alookup-body">
+        <div className="solution-alookup-cmd">
+          <i>&gt;</i> resolve <b>{name}</b>
         </div>
-        <div className="solution-agentcard-row">
-          <span>wallet</span>
-          <b>0x4f3a&hellip;c8d2 <i className="is-ok">&#10003; verified</i></b>
+        <div className="solution-alookup-rows">
+          <div className="solution-alookup-row">
+            <span>owner</span>
+            <b>{domain}</b>
+          </div>
+          <div className="solution-alookup-row">
+            <span>endpoint</span>
+            <b>agents.{brand}.com/{label}</b>
+          </div>
+          <div className="solution-alookup-row">
+            <span>erc8004</span>
+            <b className="is-ok">registered &#10003;</b>
+          </div>
+          {[
+            ["eth", "0x4f3a\u2026c8d2"],
+            ["base", "0x4f3a\u2026c8d2"],
+            ["btc", "bc1q\u2026x2vw"],
+            ["sol", "8kJq\u2026p4Fn"],
+          ].map(([c, a], ci) => (
+            <div key={c} className="solution-alookup-row">
+              <span>{ci === 0 ? "wallets" : ""}</span>
+              <em className="solution-alookup-chain">{c}</em>
+              <b>{a}</b>
+            </div>
+          ))}
         </div>
-        <div className="solution-agentcard-row">
-          <span>endpoint</span>
-          <b>api.youragents.xyz</b>
+        <div className="solution-alookup-ok">
+          &#10003; identity verified onchain
         </div>
-        <div className="solution-agentcard-row">
-          <span>erc-8004</span>
-          <b>registered &middot; token #4271</b>
-        </div>
-      </div>
-      <div className="solution-agentcard-meta">
-        resolve &rarr; verify &rarr; transact
       </div>
     </div>
   );
@@ -907,6 +926,56 @@ export function SolutionPage({ solution }: { solution: Solution }) {
       )}
       </>)}
 
+      {/* ── Standards trio (optional, dark) ── */}
+      {s.standards && (
+        <section className="section_solution-standards">
+          <div padding-global="">
+            <div
+              container="large"
+              className="padding-section-large is-top-medium"
+            >
+              <div className="margin-bottom margin-xlarge">
+                <Eyebrow num={nextNum()} label={s.standards.label} />
+                <h2 className="solution-section-heading">
+                  {s.standards.heading}
+                </h2>
+                {s.standards.lead && (
+                  <p className="text-size-medium text-weight-medium solution-terminal-paragraph">
+                    {s.standards.lead}
+                  </p>
+                )}
+              </div>
+              <div className="solution-standards-grid">
+                {s.standards.items.map((st) => (
+                  <div key={st.tag} className="solution-standard-card">
+                    <em>{st.tag}</em>
+                    <h3 className="heading-style-h6">{st.title}</h3>
+                    <p className="text-weight-medium">{st.description}</p>
+                    {st.keys && (
+                      <div className="solution-standard-keys">
+                        {st.keys.map((k) => (
+                          <code key={k}>{k}</code>
+                        ))}
+                      </div>
+                    )}
+                    {st.link && (
+                      <a
+                        href={st.link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="solution-dev-link"
+                      >
+                        {st.link.label} <span aria-hidden="true">→</span>
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── Feature comparison table (optional, dark) ── */}
       {s.featureTable && (
         <section className="section_solution-table">
@@ -1158,6 +1227,9 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                 {s.risks.items.map((r) => (
                   <div key={r.title} className="solution-risk-card is-dark">
                     {r.tag && <em className="solution-risk-tag">{r.tag}</em>}
+                    {r.visual && (
+                      <SolutionBenefitVisual kind={r.visual} name={s.heroName} />
+                    )}
                     <h3 className="heading-style-h6">{r.title}</h3>
                     <p className="text-weight-medium solution-risk-detail">
                       {r.description}
@@ -1650,7 +1722,167 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   </p>
                 )}
               </div>
-              {s.deliver.style === "list" ? (
+              {s.deliver.style === "split" ? (
+                <div className="solution-pbento">
+                  {s.deliver.items
+                    .filter((o) => o.group === "product")
+                    .map((o) => (
+                      <div
+                        key={o.title}
+                        className={`solution-pbento-card${o.tag ? " is-brand" : ""}`}
+                      >
+                        {o.logo ? (
+                          <div className="solution-namera-head">
+                            <span
+                              className={`solution-product-tile${o.logoFramed ? " is-framed" : ""}`}
+                            >
+                              <img src={o.logo} alt="" loading="lazy" />
+                            </span>
+                            <h3 className="heading-style-h6">{o.title}</h3>
+                            {o.tag && (
+                              <span className="solution-namera-by">{o.tag}</span>
+                            )}
+                          </div>
+                        ) : (
+                          <h3 className="heading-style-h6">{o.title}</h3>
+                        )}
+                        <p className="text-weight-medium">{o.description}</p>
+                        {o.chips && (
+                          <div className="solution-namera-chips">
+                            {o.chips.map((c) => (
+                              <span key={c} className="solution-fact-chip">
+                                {c}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        <div className="solution-namera-links">
+                          {o.link && (
+                            <a
+                              href={o.link.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="solution-pbento-link"
+                            >
+                              {o.link.label} <span aria-hidden="true">→</span>
+                            </a>
+                          )}
+                          {o.link2 && (
+                            <a
+                              href={o.link2.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="solution-pbento-link"
+                            >
+                              {o.link2.label} <span aria-hidden="true">→</span>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  <div className="solution-pbento-svchead" aria-hidden="true">
+                    <span>Tools and services</span>
+                  </div>
+                  <div className="solution-manifest is-light solution-pbento-manifest">
+                    {s.deliver.items
+                      .filter((o) => o.group === "service")
+                      .map((o, si) => (
+                        <div key={o.title} className="solution-manifest-row">
+                          <span className="solution-manifest-num" aria-hidden="true">
+                            {String(si + 1).padStart(2, "0")}
+                          </span>
+                          <h3 className="heading-style-h6">{o.title}</h3>
+                          <p className="text-weight-medium">{o.description}</p>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              ) : s.deliver.style === "tiered" ? (
+                <div className="solution-tiered">
+                  {s.deliver.items.filter((o) => o.size === "hero").map((o) => (
+                    <div key={o.title} className="solution-tiered-hero">
+                      <div>
+                        <div className="solution-namera-head">
+                          <img
+                            src="/assets/images/namera-logo.png"
+                            alt="Namera logo"
+                            className="solution-namera-tile-img"
+                            loading="lazy"
+                          />
+                          <h3 className="solution-tiered-title">{o.title}</h3>
+                          {o.tag && (
+                            <span className="solution-namera-by">{o.tag}</span>
+                          )}
+                        </div>
+                        <p className="text-weight-medium">{o.description}</p>
+                        {o.chips && (
+                          <div className="solution-namera-chips">
+                            {o.chips.map((c) => (
+                              <span key={c} className="solution-fact-chip">
+                                {c}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        <div className="solution-namera-links">
+                          {o.link && (
+                            <a
+                              href={o.link.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="solution-dev-link"
+                            >
+                              {o.link.label} <span aria-hidden="true">→</span>
+                            </a>
+                          )}
+                          {o.link2 && (
+                            <a
+                              href={o.link2.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="solution-dev-link"
+                            >
+                              {o.link2.label} <span aria-hidden="true">→</span>
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                      {o.visual && (
+                        <SolutionBenefitVisual
+                          kind={o.visual}
+                          name={s.heroName}
+                        />
+                      )}
+                    </div>
+                  ))}
+                  <div className="solution-tiered-medium">
+                    {s.deliver.items.filter((o) => o.size === "medium").map((o) => (
+                      <div key={o.title} className="solution-outcome-card">
+                        <h3 className="heading-style-h6">{o.title}</h3>
+                        <p className="text-weight-medium">{o.description}</p>
+                        {o.link && (
+                          <a
+                            href={o.link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="solution-dev-link"
+                          >
+                            {o.link.label} <span aria-hidden="true">→</span>
+                          </a>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="solution-tiered-small">
+                    {s.deliver.items.filter((o) => !o.size).map((o) => (
+                      <div key={o.title} className="solution-outcome-card">
+                        <h3 className="heading-style-h6">{o.title}</h3>
+                        <p className="text-weight-medium">{o.description}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : s.deliver.style === "list" ? (
                 <div className="solution-manifest is-light">
                   {s.deliver.items.map((o, oi) => (
                     <div key={o.title} className="solution-manifest-row">

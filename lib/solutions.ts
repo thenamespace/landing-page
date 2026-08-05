@@ -97,7 +97,7 @@ export interface Solution {
     label: string;
     heading: string;
     theme?: "light" | "dark";
-    items: { tag?: string; title: string; description: string; fix?: string }[];
+    items: { tag?: string; title: string; description: string; fix?: string; visual?: "chains" | "meta" | "endpoints" }[];
   };
   /** Optional two-card contrast section (dark zone), mono values with verdicts. */
   versus?: {
@@ -156,6 +156,19 @@ export interface Solution {
     recommendedRow?: number;
     recommendation?: string;
   };
+  /** Optional standards trio (dark zone): tagged cards with record-key chips. */
+  standards?: {
+    label: string;
+    heading: string;
+    lead?: string;
+    items: {
+      tag: string;
+      title: string;
+      description: string;
+      keys?: string[];
+      link?: { label: string; href: string };
+    }[];
+  };
   /** Optional deliverables grid (dark zone, after the tree): compact 4-col cards. */
   deliver?: {
     label?: string;
@@ -163,9 +176,24 @@ export interface Solution {
     lead?: string;
     /** Grid columns (default 4). */
     columns?: 2 | 4;
-    /** "cards" (default) or "list": spec-sheet rows with mono index. */
-    style?: "cards" | "list";
-    items: { title: string; description: string }[];
+    /** "cards" (default), "list" (spec-sheet rows), "tiered", or "split" (products shelf + services ledger). */
+    style?: "cards" | "list" | "tiered" | "split";
+    items: {
+      title: string;
+      description: string;
+      tag?: string;
+      size?: "hero" | "medium";
+      group?: "product" | "service";
+      glyph?: string;
+      hue?: string;
+      logo?: string;
+      /** Framed logos render inside a bordered white tile. */
+      logoFramed?: boolean;
+      visual?: "policies" | "mcpq" | "latency" | "codecomp" | "mintw" | "nsapp";
+      chips?: string[];
+      link?: { label: string; href: string };
+      link2?: { label: string; href: string };
+    }[];
   };
   /** Optional architecture explainer (light zone, after the tree): step pillars + light comparison table. */
   architecture?: {
@@ -2439,7 +2467,7 @@ export const SOLUTIONS: Solution[] = [
       label: "Fleet scale",
       heading: "Name agents as you deploy them",
       paragraph:
-        "One SDK call per agent, in the same flow that creates its keys. Gasless offchain issuance means naming ten thousand agents costs nothing, and identities survive key rotations and redeployments: records update, the name endures.",
+        "Issue a name with the same call that creates the agent's keys. Offchain issuance is gasless and free at any volume, and when you rotate keys or redeploy, you update the records - the name stays the same.",
       cta: { label: "Read the Docs", href: DOCS, external: true },
       stats: [
         { value: "850k+", label: "names on the same infrastructure" },
@@ -2470,34 +2498,90 @@ export const SOLUTIONS: Solution[] = [
         ],
       },
     },
+    standards: {
+      label: "Standards",
+      heading: "The standards behind agent identity",
+      lead: "Agent identity on ENS is being standardized in the open.",
+      items: [
+        {
+          tag: "ENSIP-25",
+          title: "Registry verification",
+          description:
+            "A standard text record that attests an ENS name controls a specific agent registered onchain - in ERC-8004 or any other registry. Wallets and apps check the record and show a verified agent instead of trusting a claim.",
+          keys: ["agent-registration[registry][agentId]"],
+          link: { label: "Read the spec", href: "https://docs.ens.domains/ensip/25/" },
+        },
+        {
+          tag: "ENSIP-26",
+          title: "Agent text records",
+          description:
+            "Standard records that describe an agent and how to reach it - MCP, A2A, or web endpoints - so one name is the discovery and connection point for an agent across chains. Merged and live in production.",
+          keys: ["agent-context", "agent-endpoint[mcp]"],
+          link: { label: "Read the spec", href: "https://docs.ens.domains/ensip/26/" },
+        },
+        {
+          tag: "Node metadata",
+          title: "Typed metadata for ENS nodes",
+          description:
+            "An ENS-sponsored standard in development for attaching structured, typed records - roles, categories, labels - directly to ENS nodes, so agent capabilities become machine-readable instead of freeform text.",
+          keys: ["typed records, schemas on IPFS"],
+          link: { label: "Read the write-up", href: "https://lighthouse.cx/writing/260414-ens-metadata" },
+        },
+      ],
+    },
     deliver: {
       label: "What you get",
       heading: "What is included",
-      columns: 2,
+      style: "split",
       items: [
         {
-          title: "Programmatic subname issuance",
-          description: "For agent fleets, at any scale.",
-        },
-        {
           title: "Namera",
-          description: "Smart account and identity infrastructure for agents, with SDK and CLI.",
-        },
-        {
-          title: "ERC-8004 integration support",
-          description: "Hands-on help wiring your agents into the registries.",
+          tag: "By Namespace",
+          group: "product",
+          logo: "/assets/images/namera-logo.png",
+          description:
+            "Programmable permission infrastructure for autonomous agents. Smart accounts, scoped session keys, and policies define exactly what your agents can do onchain.",
+          link: { label: "Visit namera.ai", href: "https://namera.ai" },
         },
         {
           title: "ENS MCP",
-          description: "So your models can query ENS directly in natural language.",
+          group: "product",
+          logo: "/assets/images/ens-mark-Blue.svg",
+          logoFramed: true,
+          description: "Your models query ENS in natural language, over the Model Context Protocol.",
+          link: { label: "GitHub", href: "https://github.com/thenamespace/ens-mcp" },
         },
         {
-          title: "Resolvio",
-          description: "For fast resolution and reverse lookups at agent speed.",
+          title: "Namespace App",
+          group: "product",
+          logo: "/assets/images/favicon-128.png",
+          description: "No-code namespace management - create namespaces and issue subnames with no engineering.",
+          link: { label: "Launch App", href: "https://app.namespace.ninja/" },
+        },
+        {
+          title: "REST API and TypeScript SDK",
+          group: "service",
+          description: "Issuance, records and resolution at fleet scale.",
+        },
+        {
+          title: "Hosted resolver and gateway",
+          group: "service",
+          description: "CCIP-Read infrastructure, run and monitored by us.",
+        },
+        {
+          title: "ERC-8004 integration support",
+          group: "service",
+          description: "Hands-on wiring into the registries.",
         },
         {
           title: "Records schema guidance",
-          description: "What to publish, where, and how, so your agents are legible to counterparties you have never met.",
+          group: "service",
+          description: "What to publish, where, and how.",
+        },
+        {
+          title: "Direct support",
+          group: "service",
+          description: "A shared channel with the engineers.",
         },
       ],
     },
@@ -2534,7 +2618,7 @@ export const SOLUTIONS: Solution[] = [
         "Agent-to-agent discovery, verifiable delegation, portable reputation, and payment flows where the counterparty is checkable. For platforms issuing agents, a branded namespace makes every agent you deploy carry your name into every interaction it has.",
       caseBullets: [
         "Agents other agents can discover and verify",
-        "Reputation that travels across platforms",
+        "Context that travels across platforms",
         "Payment flows with checkable counterparties",
         "Your brand on every agent you deploy",
       ],
@@ -2585,6 +2669,16 @@ export const SOLUTIONS: Solution[] = [
         question: "Do we need ENS if we already use ERC-8004?",
         answer:
           "You do not strictly need it, and you will want it. ERC-8004 gives an agent a token ID and a registration file. ENS gives it a name that resolves in every wallet, explorer, and app already deployed, plus a records layer for everything the registry does not cover. They compose deliberately.",
+      },
+      {
+        question: "Can an agent register its own name autonomously?",
+        answer:
+          "Yes. Issuance is an API call, so an agent with credentials and a wallet can name itself or name sub-agents it spawns. You set the policy on what it is allowed to do.",
+      },
+      {
+        question: "How do you revoke a compromised agent identity?",
+        answer:
+          "The operator controls the name and the identity token. Records can be updated or cleared immediately, the agent wallet can be unset, and the identity can be transferred or retired. Because ownership is onchain, revocation does not depend on a platform cooperating.",
       },
       {
         question: "How does a counterparty verify an agent's wallet?",

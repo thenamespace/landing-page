@@ -15,7 +15,41 @@ export type BenefitVisualKind =
   | "brands"
   | "provision"
   | "whitelabel"
-  | "bulk";
+  | "bulk"
+  | "chains"
+  | "meta"
+  | "endpoints"
+  | "policies"
+  | "mcpq"
+  | "latency"
+  | "codecomp"
+  | "mintw"
+  | "nsapp";
+
+
+function ChainIcon({ chain }: { chain: string }) {
+  if (chain === "eth")
+    return (
+      <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M8 1 3.5 8.1 8 10.8l4.5-2.7L8 1Z" fill="#8fb0ff" />
+        <path d="M8 11.9 3.5 9.2 8 15l4.5-5.8L8 11.9Z" fill="#5474f6" />
+      </svg>
+    );
+  if (chain === "base")
+    return (
+      <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+        <circle cx="8" cy="8" r="7" fill="#2151f5" />
+        <rect x="1" y="7" width="9" height="2" rx="1" fill="#fff" />
+      </svg>
+    );
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M3 3.5h8.5L13 5H4.5L3 3.5Z" fill="#4fc3f7" />
+      <path d="M3 7.2h8.5L13 8.7H4.5L3 7.2Z" fill="#8f5cf6" />
+      <path d="M3 11h8.5L13 12.5H4.5L3 11Z" fill="#7ee2a8" />
+    </svg>
+  );
+}
 
 /**
  * Compact decorative scene rendered at the top of a benefit card. Each kind
@@ -301,6 +335,137 @@ export function SolutionBenefitVisual({
           ))}
           <div className="solution-bviz-chips">
             <span className="solution-bviz-chip is-more">+48,000 backfilled</span>
+          </div>
+        </>
+      )}
+
+      {kind === "chains" && (
+        <>
+          {[
+            ["eth", "0x4f3a\u2026c8d2"],
+            ["base", "0x4f3a\u2026c8d2"],
+            ["sol", "8kJq\u2026x2vw"],
+          ].map(([c, a]) => (
+            <div key={c} className="solution-bviz-row is-slim">
+              <span className="solution-bviz-app solution-bviz-chain">
+                <ChainIcon chain={c} />
+                {c}
+              </span>
+              <span className="solution-bviz-mono">{a}</span>
+            </div>
+          ))}
+        </>
+      )}
+
+      {kind === "meta" && (
+        <>
+          {[
+            ["operator", "yourplatform.eth"],
+            ["policy", "rate-limited \u00b7 capped"],
+            ["registration", "erc-8004 #4271"],
+          ].map(([k2, v]) => (
+            <div key={k2} className="solution-bviz-row is-slim">
+              <span className="solution-bviz-app">{k2}</span>
+              <span className="solution-bviz-mono">{v}</span>
+            </div>
+          ))}
+        </>
+      )}
+
+      {kind === "endpoints" && (
+        <>
+          {[
+            ["agent-endpoint[mcp]", "mcp.youragents.xyz"],
+            ["agent-endpoint[a2a]", "a2a.youragents.xyz"],
+            ["agent-context", "\u2713 set \u00b7 ENSIP-26"],
+          ].map(([k2, v]) => (
+            <div key={k2} className="solution-bviz-row is-slim">
+              <span className="solution-bviz-app">{k2}</span>
+              <span className="solution-bviz-mono">{v}</span>
+            </div>
+          ))}
+        </>
+      )}
+
+      {kind === "policies" && (
+        <>
+          {[
+            ["gas cap", "0.02 ETH / day"],
+            ["rate limit", "10 tx / hour"],
+            ["session key", "expires in 24h"],
+          ].map(([k2, v]) => (
+            <div key={k2} className="solution-bviz-row is-slim">
+              <span className="solution-bviz-app">{k2}</span>
+              <span className="solution-bviz-mono">{v}</span>
+              <span className="solution-bviz-tag is-ok">&#10003;</span>
+            </div>
+          ))}
+        </>
+      )}
+
+      {kind === "mcpq" && (
+        <>
+          <div className="solution-bviz-row is-slim">
+            <span className="solution-bviz-mono is-quiet">&gt; who runs researcher.youragents.eth?</span>
+          </div>
+          <div className="solution-bviz-row is-slim">
+            <span className="solution-bviz-mono"><b>yourplatform.eth</b></span>
+            <span className="solution-bviz-tag is-ok">&#10003; verified</span>
+          </div>
+        </>
+      )}
+
+      {kind === "latency" && (
+        <>
+          <div className="solution-bviz-row is-slim">
+            <span className="solution-bviz-mono">resolve(alice.eth)</span>
+            <span className="solution-bviz-tag is-ok">4 ms</span>
+          </div>
+          <div className="solution-bviz-row is-slim">
+            <span className="solution-bviz-mono">batch(500 names)</span>
+            <span className="solution-bviz-tag is-accent">cached</span>
+          </div>
+        </>
+      )}
+
+      {kind === "codecomp" && (
+        <>
+          <div className="solution-bviz-field">
+            <span className="solution-bviz-mono">
+              <i>&lt;</i><b>ClaimName</b> <i>parent=</i>"youragents.eth" <i>/&gt;</i>
+            </span>
+          </div>
+          <div className="solution-bviz-ok">renders a full claim flow</div>
+        </>
+      )}
+
+      {kind === "mintw" && (
+        <>
+          <div className="solution-bviz-field">
+            <span className="solution-bviz-mono">
+              <b>agent-07</b>
+              <i>.youragents.eth</i>
+            </span>
+          </div>
+          <div className="solution-bviz-chips">
+            <span className="solution-bviz-chip is-more">Mint &middot; gasless</span>
+          </div>
+        </>
+      )}
+
+      {kind === "nsapp" && (
+        <>
+          {["researcher", "trader"].map((l) => (
+            <div key={l} className="solution-bviz-row is-slim">
+              <span className="solution-bviz-mono">
+                <b>{l}</b>
+                <i>.youragents.eth</i>
+              </span>
+              <span className="solution-bviz-tag is-ok">&#10003; live</span>
+            </div>
+          ))}
+          <div className="solution-bviz-chips">
+            <span className="solution-bviz-chip is-more">+848 agents</span>
           </div>
         </>
       )}
