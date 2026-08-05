@@ -11,7 +11,11 @@ export type BenefitVisualKind =
   | "registry"
   | "profile"
   | "verify"
-  | "contracts";
+  | "contracts"
+  | "brands"
+  | "provision"
+  | "whitelabel"
+  | "bulk";
 
 /**
  * Compact decorative scene rendered at the top of a benefit card. Each kind
@@ -225,6 +229,78 @@ export function SolutionBenefitVisual({
           <div className="solution-bviz-row is-slim">
             <span className="solution-bviz-mono is-dim">0x7a1f&hellip;03c9</span>
             <span className="solution-bviz-tag is-bad">unlabeled</span>
+          </div>
+        </>
+      )}
+
+      {kind === "brands" && (
+        <>
+          {[
+            ["alice", "acmewallet", "#7ee2a8"],
+            ["bob", "gamestudio", "#f0b86c"],
+            ["carol", "fintechapp", "#e39ff6"],
+          ].map(([n, b, c]) => (
+            <div key={b} className="solution-bviz-row is-slim">
+              <span className="solution-bviz-mono">
+                <b>{n}</b>
+                <i>.</i>
+                <span style={{ color: c, fontWeight: 600 }}>{b}</span>
+                <i>.eth</i>
+              </span>
+              <span className="solution-bviz-tag is-ok">own namespace</span>
+            </div>
+          ))}
+        </>
+      )}
+
+      {kind === "provision" && (
+        <>
+          <div className="solution-bviz-row is-slim">
+            <span className="solution-bviz-mono">createWallet(userId)</span>
+            <span className="solution-bviz-tag is-ok">&#10003; wallet</span>
+          </div>
+          <div className="solution-bviz-row is-slim">
+            <span className="solution-bviz-mono">
+              <b>{label}</b>
+              <i>.{domain}</i>
+            </span>
+            <span className="solution-bviz-tag is-accent">&#10003; named</span>
+          </div>
+          <div className="solution-bviz-chips">
+            <span className="solution-bviz-chip is-more">same server-side call</span>
+          </div>
+        </>
+      )}
+
+      {kind === "whitelabel" && (
+        <>
+          <div className="solution-bviz-row is-slim">
+            <span className="solution-bviz-mono">
+              <b>{label}</b>
+              <i>.{domain}</i>
+            </span>
+            <span className="solution-bviz-tag is-ok">their feature</span>
+          </div>
+          <div className="solution-bviz-row is-slim">
+            <span className="solution-bviz-mono is-dim">powered by Namespace</span>
+            <span className="solution-bviz-tag is-accent">invisible</span>
+          </div>
+        </>
+      )}
+
+      {kind === "bulk" && (
+        <>
+          {["0x4f3a&hellip;c8d2", "0x91b7&hellip;e410"].map((a, ix) => (
+            <div key={a} className="solution-bviz-row is-slim">
+              <span
+                className="solution-bviz-mono is-dim"
+                dangerouslySetInnerHTML={{ __html: a }}
+              />
+              <span className="solution-bviz-tag is-ok">&#10003; named</span>
+            </div>
+          ))}
+          <div className="solution-bviz-chips">
+            <span className="solution-bviz-chip is-more">+48,000 backfilled</span>
           </div>
         </>
       )}

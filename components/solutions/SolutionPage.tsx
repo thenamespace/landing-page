@@ -1,3 +1,4 @@
+import React from "react";
 /**
  * SolutionPage - shared template for /solutions/[slug] pages.
  *
@@ -37,7 +38,7 @@ function Eyebrow({
 function ProofStrip() {
   return (
     <p className="solution-proof-strip">
-      <span className="solution-proof-num">&gt;850k</span>
+      <span className="solution-proof-num">850k+</span>
       <span className="solution-proof-label"> subnames</span>
       <span className="solution-proof-dot" aria-hidden="true">
         {" "}
@@ -50,7 +51,7 @@ function ProofStrip() {
         ·{" "}
       </span>
       <span className="solution-proof-num">30+</span>
-      <span className="solution-proof-label"> clients</span>
+      <span className="solution-proof-label"> partners</span>
       <span className="solution-proof-dot" aria-hidden="true">
         {" "}
         ·{" "}
@@ -267,6 +268,88 @@ function HeroTree({ name }: { name: string }) {
   );
 }
 
+
+function HeroBrowser({ name }: { name: string }) {
+  return (
+    <div className="solution-browser" aria-hidden="true">
+      <div className="solution-browser-chrome">
+        <span className="solution-code-dot" />
+        <span className="solution-code-dot" />
+        <span className="solution-code-dot" />
+        <div className="solution-browser-bar">
+          <span className="solution-browser-lock">&#10003;</span>
+          {name}
+        </div>
+      </div>
+      <div className="solution-browser-page">
+        <div className="solution-browser-nav">
+          <span className="solution-browser-logo" />
+          <span className="solution-browser-navname">yourapp</span>
+          <span className="solution-browser-navlinks">
+            <i />
+            <i />
+            <i />
+          </span>
+        </div>
+        <div className="solution-browser-hero">
+          <div className="solution-browser-headline">Always online.</div>
+          <div className="solution-browser-sub">
+            No registrar. No server. No takedowns.
+          </div>
+          <div className="solution-browser-btn">Enter app</div>
+        </div>
+        <div className="solution-browser-cards">
+          {["docs", "app", "blog"].map((sub) => (
+            <div key={sub} className="solution-browser-card">
+              <span className="solution-browser-cardname">
+                <b>{sub}</b>.yourapp.eth
+              </span>
+              <span className="solution-browser-cardlive">&#9679; live</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="solution-browser-meta">
+        content-addressed &middot; bafybei&hellip;q2fe &middot; no server, no registrar
+      </div>
+    </div>
+  );
+}
+
+
+function HeroAgent({ name }: { name: string }) {
+  return (
+    <div className="solution-agentcard" aria-hidden="true">
+      <div className="solution-agentcard-head">
+        <span className="solution-plook-mock-avatar" />
+        <span className="solution-agentcard-name">{name}</span>
+        <span className="solution-agentcard-badge">&#10004;</span>
+      </div>
+      <div className="solution-agentcard-rows">
+        <div className="solution-agentcard-row">
+          <span>operator</span>
+          <b>yourplatform.eth</b>
+        </div>
+        <div className="solution-agentcard-row">
+          <span>wallet</span>
+          <b>0x4f3a&hellip;c8d2 <i className="is-ok">&#10003; verified</i></b>
+        </div>
+        <div className="solution-agentcard-row">
+          <span>endpoint</span>
+          <b>api.youragents.xyz</b>
+        </div>
+        <div className="solution-agentcard-row">
+          <span>erc-8004</span>
+          <b>registered &middot; token #4271</b>
+        </div>
+      </div>
+      <div className="solution-agentcard-meta">
+        resolve &rarr; verify &rarr; transact
+      </div>
+    </div>
+  );
+}
+
 export function SolutionPage({ solution }: { solution: Solution }) {
   const s = solution;
   let sectionCount = 0;
@@ -327,6 +410,10 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   <HeroSendFlow name={s.heroName} />
                 ) : s.heroVisual === "tree" ? (
                   <HeroTree name={s.heroName} />
+                ) : s.heroVisual === "browser" ? (
+                  <HeroBrowser name={s.heroName} />
+                ) : s.heroVisual === "agent" ? (
+                  <HeroAgent name={s.heroName} />
                 ) : (
                   <HeroNameCard name={s.heroName} />
                 )}
@@ -442,7 +529,18 @@ export function SolutionPage({ solution }: { solution: Solution }) {
           >
             <div className="margin-bottom margin-xlarge">
               <Eyebrow num={nextNum()} label="The problem" />
-              <h2 className="solution-section-heading">{s.pains.heading}</h2>
+              <h2 className="solution-section-heading">
+                {s.pains.heading.split("\n").map((line, li) => (
+                  <span key={li} className="cta_heading-line">
+                    {line}
+                  </span>
+                ))}
+              </h2>
+              {s.pains.lead && (
+                <p className="text-size-medium text-weight-medium solution-terminal-paragraph">
+                  {s.pains.lead}
+                </p>
+              )}
             </div>
             {s.pains.style === "spotlight" ? (
               <SolutionPainsSpotlight items={s.pains.items} />
@@ -592,7 +690,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   <div key={step.title} className="solution-howto-step">
                     <em>{String(i + 1).padStart(2, "0")}</em>
                     <h3 className="heading-style-h6">{step.title}</h3>
-                    <p className="text-weight-medium">{step.body}</p>
+                    <p className="text-weight-medium">{renderRich(step.body)}</p>
                   </div>
                 ))}
               </div>
@@ -661,6 +759,28 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   ))}
                 </h2>
               </div>
+              {s.outcomes.flow && (
+                <div className="solution-flow-wrap">
+                  <div className="solution-flow" aria-hidden="true">
+                    {s.outcomes.flow.steps.map((st, si) => (
+                      <React.Fragment key={st.label}>
+                        {si > 0 && (
+                          <span className="solution-flow-arrow">&rarr;</span>
+                        )}
+                        <span className="solution-flow-node">
+                          <b>{st.label}</b>
+                          <i>{st.sub}</i>
+                        </span>
+                      </React.Fragment>
+                    ))}
+                  </div>
+                  {s.outcomes.flow.caption && (
+                    <p className="solution-flow-caption">
+                      {s.outcomes.flow.caption}
+                    </p>
+                  )}
+                </div>
+              )}
               {s.outcomes.style === "list" ? (
                 <div className="solution-manifest">
                   {s.outcomes.items.map((o, i) => (
@@ -738,7 +858,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   <div key={step.title} className="solution-howto-step">
                     <em>{String(i + 1).padStart(2, "0")}</em>
                     <h3 className="heading-style-h6">{step.title}</h3>
-                    <p className="text-weight-medium">{step.body}</p>
+                    <p className="text-weight-medium">{renderRich(step.body)}</p>
                   </div>
                 ))}
               </div>
@@ -848,12 +968,17 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                 </p>
               </div>
               <div className="solution-tenants">
-                {s.tenants.names.map((n) => (
-                  <div key={n.suffix} className="solution-tenant">
-                    <b>{n.label}</b>
-                    {n.suffix}
-                  </div>
-                ))}
+                {s.tenants.names.map((n) => {
+                  const parts = n.suffix.replace(/^\./, "").split(".");
+                  const brand = parts[0];
+                  const tld = parts.slice(1).join(".");
+                  return (
+                    <div key={n.suffix} className="solution-tenant">
+                      <b>{n.label}</b>.
+                      <span className="solution-tenant-brand">{brand}</span>.{tld}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -887,6 +1012,128 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                     <p className="solution-risk-fix">{card.verdict}</p>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Terminal / deploy log (optional, dark) ── */}
+      {s.terminal && (
+        <section className="section_solution-terminal">
+          <div padding-global="">
+            <div
+              container="large"
+              className="padding-section-large is-top-medium"
+            >
+              <div className="solution-or-divider" aria-hidden="true">
+                <span>or</span>
+              </div>
+              <div className="solution-pinme-panel">
+              <div className="solution-terminal">
+                <div>
+                  <div className="solution-pinme-tag">{s.terminal.label}</div>
+                  <h2 className="solution-section-heading">
+                    {s.terminal.heading}
+                  </h2>
+                  <p className="text-size-medium text-weight-medium solution-terminal-paragraph">
+                    {s.terminal.paragraph}
+                  </p>
+                  {s.terminal.cta && (
+                    <div className="button-group solution-terminal-cta">
+                      <WebflowButton
+                        label={s.terminal.cta.label}
+                        href={s.terminal.cta.href}
+                        variant="white"
+                        external={s.terminal.cta.external ?? false}
+                      />
+                      {s.terminal.cta2 && (
+                        <WebflowButton
+                          label={s.terminal.cta2.label}
+                          href={s.terminal.cta2.href}
+                          variant="hero-outline"
+                          external={s.terminal.cta2.external ?? false}
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+                <div className="solution-code-block">
+                  <div className="solution-code-chrome">
+                    <span className="solution-code-dot" />
+                    <span className="solution-code-dot" />
+                    <span className="solution-code-dot" />
+                    <span className="solution-code-label">
+                      {s.terminal.windowLabel}
+                    </span>
+                  </div>
+                  <pre>
+                    <code>
+                      {s.terminal.lines.map((line, i) => (
+                        <span key={i} className="solution-term-line">
+                          <span className={`solution-term-icon is-${line.kind}`}>
+                            {line.kind === "cmd" ? "$" : line.kind === "ok" ? "✓" : "●"}
+                          </span>{" "}
+                          {line.text}
+                          {line.accent && (
+                            <span className="solution-term-accent">
+                              {"  "}
+                              {line.accent}
+                            </span>
+                          )}
+                          {line.note && (
+                            <span className="solution-term-note">
+                              {" "}
+                              · {line.note}
+                            </span>
+                          )}
+                          {"\n"}
+                        </span>
+                      ))}
+                    </code>
+                  </pre>
+                </div>
+              </div>
+              {(s.terminal.quotes || s.terminal.stats) && (
+                <div className="solution-pinme-footer is-stacked">
+                  {s.terminal.quotes && (
+                    <div className="solution-pinme-quotes">
+                      {s.terminal.quotes.map((q) => (
+                        <div key={q.attribution} className="solution-pinme-quote">
+                          <p>"{q.quote}"</p>
+                          <div className="solution-pinme-attribution">
+                            {q.avatar && (
+                              <img src={q.avatar} alt="" loading="lazy" />
+                            )}
+                            <span>{q.attribution}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div className="solution-pinme-statsrow">
+                    {s.terminal.stats && (
+                      <div className="solution-pinme-stats">
+                        {s.terminal.stats.map((st) => (
+                          <div key={st.label} className="solution-pinme-stat">
+                            <b>{st.value}</b>
+                            <span>{st.label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {s.terminal.link && (
+                      <a
+                        href={s.terminal.link.href}
+                        className="solution-cstory-link"
+                      >
+                        {s.terminal.link.label}{" "}
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    )}
+                  </div>
+                </div>
+              )}
               </div>
             </div>
           </div>
@@ -966,75 +1213,6 @@ export function SolutionPage({ solution }: { solution: Solution }) {
         </section>
       )}
 
-      {/* ── Terminal / deploy log (optional, dark) ── */}
-      {s.terminal && (
-        <section className="section_solution-terminal">
-          <div padding-global="">
-            <div
-              container="large"
-              className="padding-section-large is-top-medium"
-            >
-              <div className="solution-terminal">
-                <div>
-                  <Eyebrow num={nextNum()} label={s.terminal.label} />
-                  <h2 className="solution-section-heading">
-                    {s.terminal.heading}
-                  </h2>
-                  <p className="text-size-medium text-weight-medium solution-terminal-paragraph">
-                    {s.terminal.paragraph}
-                  </p>
-                  {s.terminal.cta && (
-                    <div className="button-group solution-terminal-cta">
-                      <WebflowButton
-                        label={s.terminal.cta.label}
-                        href={s.terminal.cta.href}
-                        variant="hero-outline"
-                        external={s.terminal.cta.external ?? false}
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className="solution-code-block">
-                  <div className="solution-code-chrome">
-                    <span className="solution-code-dot" />
-                    <span className="solution-code-dot" />
-                    <span className="solution-code-dot" />
-                    <span className="solution-code-label">
-                      {s.terminal.windowLabel}
-                    </span>
-                  </div>
-                  <pre>
-                    <code>
-                      {s.terminal.lines.map((line, i) => (
-                        <span key={i} className="solution-term-line">
-                          <span className={`solution-term-icon is-${line.kind}`}>
-                            {line.kind === "cmd" ? "$" : line.kind === "ok" ? "✓" : "●"}
-                          </span>{" "}
-                          {line.text}
-                          {line.accent && (
-                            <span className="solution-term-accent">
-                              {"  "}
-                              {line.accent}
-                            </span>
-                          )}
-                          {line.note && (
-                            <span className="solution-term-note">
-                              {" "}
-                              · {line.note}
-                            </span>
-                          )}
-                          {"\n"}
-                        </span>
-                      ))}
-                    </code>
-                  </pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* ── Namespace tree + pillars (optional, light zone) ── */}
       {s.tree && (
         <section className="section_solution-tree">
@@ -1100,6 +1278,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                         <b>{pt.label}</b> {pt.body}
                       </p>
                     ))}
+                    {s.caseStory.quote && (
                     <div className="solution-cstory-quotecard">
                       <blockquote className="solution-cstory-quote">
                         "{s.caseStory.quote}"
@@ -1115,6 +1294,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                         <span>{s.caseStory.attribution}</span>
                       </div>
                     </div>
+                    )}
                     <div className="solution-cstory-links">
                       <a
                         href={s.caseStory.ctaHref}
@@ -1205,7 +1385,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   <div key={step.title} className="solution-pillar">
                     <em>{String(i + 1).padStart(2, "0")}</em>
                     <h3 className="heading-style-h6">{step.title}</h3>
-                    <p className="text-weight-medium">{step.body}</p>
+                    <p className="text-weight-medium">{renderRich(step.body)}</p>
                   </div>
                 ))}
               </div>
@@ -1384,7 +1564,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
       <section className="section_solution-features">
         <div
           padding-global=""
-          className="section-inner-background no-border-radius background-color-secondary"
+          className={`section-inner-background ${s.desire || s.howTo?.theme === "light" ? "no-border-radius" : "is-top-only"} background-color-secondary`}
         >
           <div
             container="large"
@@ -1453,7 +1633,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
         <section className="section_solution-deliver">
           <div
             padding-global=""
-            className="section-inner-background no-border-radius background-color-secondary"
+            className={`section-inner-background ${s.timeline || s.solution ? "no-border-radius" : "is-top-only"} background-color-secondary`}
           >
             <div
               container="large"
@@ -1470,7 +1650,20 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   </p>
                 )}
               </div>
-              <div className="solution-outcomes-grid is-on-light">
+              {s.deliver.style === "list" ? (
+                <div className="solution-manifest is-light">
+                  {s.deliver.items.map((o, oi) => (
+                    <div key={o.title} className="solution-manifest-row">
+                      <span className="solution-manifest-num" aria-hidden="true">
+                        {String(oi + 1).padStart(2, "0")}
+                      </span>
+                      <h3 className="heading-style-h6">{o.title}</h3>
+                      <p className="text-weight-medium">{o.description}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+              <div className={`solution-outcomes-grid is-on-light${s.deliver!.columns === 2 ? " is-two" : ""}`}>
                 {s.deliver.items.map((o) => (
                   <div key={o.title} className="solution-outcome-card">
                     <h3 className="heading-style-h6">{o.title}</h3>
@@ -1478,6 +1671,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   </div>
                 ))}
               </div>
+              )}
             </div>
           </div>
         </section>
@@ -1598,7 +1792,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
         <section className="section_solution-whyus">
           <div
             padding-global=""
-            className={`section-inner-background ${s.desire || s.timeline ? "no-border-radius" : "is-top-only"} background-color-secondary`}
+            className={`section-inner-background ${s.desire || s.timeline || s.deliver || s.howTo?.theme === "light" ? "no-border-radius" : "is-top-only"} background-color-secondary`}
           >
             <div
               container="large"
@@ -1800,7 +1994,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
       )}
 
       {/* ── Proof ── */}
-      {s.proofStyle === "wall" ? null : (
+      {s.proofStyle === "wall" || !s.testimonials ? null : (
       <section className="section_solution-proof">
         <div
           padding-global=""

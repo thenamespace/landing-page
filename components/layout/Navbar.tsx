@@ -276,9 +276,6 @@ const SOLUTIONS_ITEMS = [
   { label: "WaaS", href: "/solutions/waas", icon: <WaaSIcon /> },
   { label: "Decentralized Websites", href: "/solutions/decentralized-websites", icon: <WebIcon /> },
   { label: "AI agents", href: "/solutions/ai-agents", icon: <AIIcon /> },
-  { label: "Payment Apps (V2)", href: "/solutions/ens-for-payment-apps", icon: <PaymentIcon /> },
-  { label: "WaaS (V2)", href: "/solutions/ens-for-wallet-as-a-service", icon: <WaaSIcon /> },
-  { label: "Decentralized Websites (V2)", href: "/solutions/ens-decentralized-websites", icon: <WebIcon /> },
   { label: "AI Agents (V2)", href: "/solutions/ens-for-ai-agents", icon: <AIIcon /> },
 ];
 

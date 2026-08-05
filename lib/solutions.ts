@@ -40,7 +40,7 @@ export interface Solution {
   /** Example subname shown in the hero name-card visual. */
   heroName: string;
   /** Hero visual: the default name card, the phone claim-flow mockup, or the send-flow comparison. */
-  heroVisual?: "namecard" | "phone" | "sendflow" | "tree";
+  heroVisual?: "namecard" | "phone" | "sendflow" | "tree" | "browser" | "agent";
   metaTitle: string;
   metaDescription: string;
   keywords: string[];
@@ -119,6 +119,10 @@ export interface Solution {
     heading: string;
     paragraph: string;
     cta?: SolutionCta;
+    cta2?: SolutionCta;
+    quotes?: { quote: string; attribution: string; avatar?: string }[];
+    stats?: { value: string; label: string }[];
+    link?: { label: string; href: string };
     windowLabel: string;
     lines: { kind: "cmd" | "ok" | "live"; text: string; accent?: string; note?: string }[];
   };
@@ -157,6 +161,10 @@ export interface Solution {
     label?: string;
     heading: string;
     lead?: string;
+    /** Grid columns (default 4). */
+    columns?: 2 | 4;
+    /** "cards" (default) or "list": spec-sheet rows with mono index. */
+    style?: "cards" | "list";
     items: { title: string; description: string }[];
   };
   /** Optional architecture explainer (light zone, after the tree): step pillars + light comparison table. */
@@ -180,8 +188,8 @@ export interface Solution {
     tag: string;
     heading: string;
     points: { label: string; body: string }[];
-    quote: string;
-    attribution: string;
+    quote?: string;
+    attribution?: string;
     quoteAvatar?: string;
     ctaLabel: string;
     ctaHref: string;
@@ -213,10 +221,15 @@ export interface Solution {
     columns?: 2 | 3 | 4;
     /** "cards" (default) or "list": enclosed spec-sheet rows with mono index. */
     style?: "cards" | "list";
+    /** Optional pipeline strip rendered above the grid. */
+    flow?: {
+      steps: { label: string; sub: string }[];
+      caption?: string;
+    };
     items: {
       title: string;
       description: string;
-      visual?: "root" | "claimsite" | "registry" | "profile" | "verify" | "contracts";
+      visual?: "root" | "claimsite" | "registry" | "profile" | "verify" | "contracts" | "onboarding" | "revenue" | "brands" | "provision" | "whitelabel" | "bulk";
     }[];
   };
   /** Optional big-text explainer panel (dark zone). **text** renders accented. Fact columns or chip strip below. */
@@ -260,6 +273,7 @@ export interface Solution {
   };
   pains: {
     heading: string;
+    lead?: string;
     /** "grid" (default) or "spotlight": scroll-driven one-at-a-time focus. */
     style?: "grid" | "spotlight";
     items: { question: string; detail: string }[];
@@ -330,7 +344,7 @@ export interface Solution {
   };
   /** "grid" (default): two cards + stat band. "wall": the full homepage Wall of Love marquee. */
   proofStyle?: "grid" | "wall";
-  testimonials: SolutionTestimonial[];
+  testimonials?: SolutionTestimonial[];
   faqs: SolutionFaqItem[];
   /** Optional: render the homepage-style illustrated three-card CTA instead of the panel. */
   ctaCards?: {
@@ -1376,7 +1390,6 @@ export const SOLUTIONS: Solution[] = [
       heading: "How to add usernames to your app",
       intro: "Three integration points, then a choice of name type.",
       afterOutcomes: true,
-      theme: "light",
       steps: [
         { title: "Point a name at our resolver", body: "You keep ownership of the root name." },
         { title: "Issue at account creation", body: "One API call, no gas, no contract deployment." },
@@ -1388,66 +1401,137 @@ export const SOLUTIONS: Solution[] = [
         rows: [
           ["Offchain", "Free, gasless, unlimited", "You control issuance and management.", "Instant", "Every user by default, issued at signup."],
           ["L2 onchain", "Cents of L2 gas", "User-owned NFT, transferable", "Seconds", "Premium or power users"],
+          ["L1 onchain", "Mainnet gas", "User-owned NFT, fully trustless", "Block time", "Flagship and institutional accounts"],
         ],
       },
       recommendedRow: 0,
     },
-    solution: {
-      heading: "How Namespace does it",
-      paragraph:
-        "Namespace powers naming for production payment flows - including Filpay usernames on Filecoin - with 21M+ resolutions served at 100% uptime.",
-      features: [
+    caseStory: {
+      tag: "Case study · Filecoin x Namespace",
+      heading: "Payment usernames, live in production",
+      points: [
         {
-          title: "A payable name for every customer",
-          description:
-            "Issue offchain subnames at signup - gasless, instant, free at any volume. Naming a million customers costs what naming one does.",
+          label: "Situation.",
+          body: "Filecoin wanted readable identities for sending and receiving - names people can type instead of addresses.",
         },
         {
-          title: "Resolution in your send flow",
-          description:
-            "Resolve any ENS name to the right address for the right chain via SDK or REST API - with multi-chain address records built in.",
+          label: "Built.",
+          body: "Filpay usernames on Namespace infrastructure: issuance, resolution, and multi-chain address records, operated as a multi-year partnership.",
         },
         {
-          title: "Fraud surface, reduced by design",
-          description:
-            "Address poisoning, spoofing, and clipboard hijacking all exploit unreadable hex. Names remove the failure mode instead of warning about it.",
+          label: "Result.",
+          body: "Usernames that resolve across the ENS ecosystem, on the same stack that serves 21M+ resolutions in production.",
+        },
+      ],
+      ctaLabel: "Read our case studies",
+      ctaHref: "/blog",
+      visualName: "alice.filpay.eth",
+    },
+    proofStyle: "wall",
+    ctaCards: {
+      heading: "Send-flow live in days,\nnot quarters",
+      subheading: "It's time to give your customers payable names.",
+      cards: [
+        {
+          title: "Try it without code",
+          description: "Issue your first usernames in minutes with the no-code app. No contracts, no gas.",
+          button: { label: "Launch App", href: "https://app.namespace.ninja/" },
+          image: "/assets/images/cta-decoration-2.svg",
+          imageAlt: "Issue payable ENS usernames with no code required",
         },
         {
-          title: "Bank-grade operational posture",
-          description:
-            "Signed, verifiable resolution via standard ENS mechanisms (CCIP-Read / EIP-3668), operated with SLAs, monitoring, and protocol-update management.",
+          title: "Build it into your app",
+          description: "Add username claiming and send-flow resolution with a few lines of TypeScript.",
+          button: { label: "Start Building Free", href: "https://docs.namespace.ninja/developer-guide/guide/create-offchain-subnames" },
+          image: "/assets/images/cta-decoration-1.svg",
+          imageAlt: "Build payable names with the Namespace SDK and API",
+        },
+        {
+          title: "Partner with Namespace",
+          description: "Custom features, white-glove integration, partner pricing. Let's scope your integration on the call.",
+          button: { label: "Book a Discovery Call", href: "https://cal.com/thecap.eth/discovery" },
+          image: "/assets/images/cta-decoration-3.svg",
+          imageAlt: "Partner with Namespace for payable name infrastructure",
         },
       ],
     },
-    steps: {
-      heading: "Live in three steps",
+    deliver: {
+      label: "What you get",
+      heading: "What is included",
+      columns: 2,
       items: [
         {
-          title: "Claim your namespace",
-          description:
-            "Point yourbank.eth at Namespace infrastructure - no contracts to deploy, no keys to babysit.",
+          title: "Subname API and SDK",
+          description: "For issuance and record management.",
         },
         {
-          title: "Name customers at signup",
-          description:
-            "One SDK call in your onboarding flow gives every customer a payable name.",
+          title: "Resolvio",
+          description: "Our resolution API, with bulk resolution and caching. Free, and self-hostable if your compliance team prefers it.",
         },
         {
-          title: "Resolve names in your send flow",
-          description:
-            "Accept any ENS name anywhere your app accepts an address - verified, multi-chain, trustless.",
+          title: "ENS Components",
+          description: "Drop-in React components for claim flows and profile editing.",
+        },
+        {
+          title: "Multi-chain address records",
+          description: "Under a single name.",
+        },
+        {
+          title: "Reserved and blocked name lists",
+          description: "To prevent impersonation of your brand, support staff, or well-known users.",
+        },
+        {
+          title: "No-code dashboard",
+          description: "For operations and support teams.",
         },
       ],
-      code: SDK_SNIPPET,
-      codeLabel: "Give every customer a payable name",
     },
-    stats: [
-      { value: "21M", label: "resolutions served at 100% uptime" },
-      { value: "100+", label: "chains with address records" },
-      { value: "$0", label: "per customer name, any volume" },
-      { value: "Days", label: "to a live send-flow integration" },
-    ],
-    testimonials: [T.patricio, T.brantly],
+    whyUs: {
+      label: "Why Namespace",
+      heading: "Why teams choose Namespace",
+      lead: "Namespace is the ENS DAO-backed service provider.",
+      tableCaption: "Build it yourself, or don't",
+      table: {
+        columns: ["", "In-house", "Namespace"],
+        rows: [
+          ["Issuance and resolution infra", "You build, audit and maintain", "Managed and monitored"],
+          ["Uptime and monitoring", "Your on-call rotation", "Operated with SLAs"],
+          ["Reserved and blocked name lists", "You write and enforce the policy", "Included and managed"],
+          ["Standards work", "You track ENSIPs yourself", "Follow and actively contribute."],
+          ["Engineering to production", "A quarter, realistically", "Days to weeks"],
+          ["Subname expertise", "You start from zero", "Experts in offchain, L1, and L2 subnames"],
+          ["Lock-in", "None, but you maintain it all", "None: exportable names, standard ENS records"],
+        ],
+      },
+      highlightColumn: 2,
+      stats: [
+        { value: "850k+", label: "Subnames issued" },
+        { value: "21M", label: "Resolutions served" },
+        { value: "30+", label: "Partnerships and integrations" },
+        { value: "221", label: "Namespaces issuing subnames with us" },
+      ],
+      trustedBy: ["Celo", "Filecoin", "POAP", "Unicorn"],
+      badge: "ENS DAO Service Provider",
+    },
+    bizPricing: {
+      caseHeading: "The business case",
+      caseParagraph:
+        "Names pay for themselves in avoided losses and support tickets - and they open a revenue line. Fintechs price premium and short labels, earn on renewals, and turn usernames into a paid tier of their crypto features.",
+      caseBullets: [
+        "Fewer wrong-send losses and refund disputes",
+        "Fewer 'did I send this right?' support tickets",
+        "Premium and short labels, priced by you",
+        "Named customers carry your brand into other apps",
+      ],
+      pricingHeading: "Our pricing, plainly",
+      pricingParagraph:
+        "If names are free for your customers, we charge nothing. We charge only on priced subnames and only earn when you do.",
+      facts: [
+        { value: "Free", label: "Offchain subnames and integration support" },
+        { value: "5%", label: "On paid onchain mints through our infra" },
+        { value: "5-10%", label: "On mints when we build your integration for free, routed to the ENS DAO" },
+      ],
+    },
     faqs: [
       {
         question: "Does this actually reduce payment errors and fraud?",
@@ -1467,12 +1551,47 @@ export const SOLUTIONS: Solution[] = [
       {
         question: "Is resolution reliable enough for a regulated product?",
         answer:
-          "Resolution is trustless and verifiable: offchain records are signed and verified onchain via CCIP-Read (EIP-3668), the same standard the broader ENS ecosystem relies on. Namespace has served 21M+ resolutions at 100% uptime and operates with SLAs.",
+          "Resolution is trustless and verifiable: offchain records are signed and verified onchain via CCIP-Read (EIP-3668), the same standard the broader ENS ecosystem relies on. Namespace has served 21M+ resolutions at 99.9% uptime and operates with SLAs.",
       },
       {
         question: "Do our customers need to know what ENS is?",
         answer:
           "No. To your customers it's just a username - they pick it at signup and pay people by name, like every other feature in your app. The ENS layer underneath is what makes that username work outside your app too.",
+      },
+      {
+        question: "Can we use our own domain instead of a crypto name?",
+        answer:
+          "Yes. ENS supports DNS domains through DNSSEC integration, so usernames can live under yourbank.id or yourbank.com instead of a .eth name. World runs world.id usernames this way - 17 million of them. Your customers see your brand, not a crypto TLD.",
+      },
+      {
+        question: "Does the recipient need a username too?",
+        answer:
+          "No. Your app can send to any raw address. Names are an improvement on both sides but a requirement on neither, so nothing breaks for users who do not have one.",
+      },
+      {
+        question: "Does issuing names create custody or regulatory exposure?",
+        answer:
+          "Issuing a name does not hold, move, or create a claim on user funds. It is a naming and routing record. Your existing custody and transmission posture is unchanged. We are happy to walk your compliance team through the architecture.",
+      },
+      {
+        question: "What happens to a user's name if they leave our app?",
+        answer:
+          "Offchain names remain under your namespace and you decide the policy. Onchain names are user-owned NFTs that travel with them. If you want names to be genuinely portable, issue onchain.",
+      },
+      {
+        question: "Is the offchain database a privacy problem?",
+        answer:
+          "Offchain names are stored in a database we operate, containing the name, the address, and any records you set. It holds no more personal data than the public chain already does. It can also be self-hosted if you need the data inside your own perimeter.",
+      },
+      {
+        question: "Can we import users who already have ENS names?",
+        answer:
+          "Yes. Read their existing primary name first and display it. Users often hold several names, and ENS handles that natively.",
+      },
+      {
+        question: "What is the resolution latency on a send?",
+        answer:
+          "Resolvio caches aggressively and supports bulk resolution, so a send-flow lookup does not add perceptible delay. Contact lists and transaction histories can be resolved in batches rather than one call at a time.",
       },
       FAQ_BUILD_VS_BUY,
       FAQ_TIMELINE,
@@ -1521,9 +1640,9 @@ export const SOLUTIONS: Solution[] = [
     },
     hero: {
       tag: "For Wallet-as-a-Service",
-      headline: "Ship wallets with identity built in",
+      headline: "Ship identity with every wallet you create",
       subheadline:
-        "Bundle an ENS username into every wallet you provision - automatically, via API. Your customers get branded names for their users; you get a differentiator that isn't a price cut.",
+        "A branded ENS namespace for every customer on your platform, and a name for every wallet you provision - issued with the same call that creates the wallet.",
       primaryCta: {
         label: "Book a Discovery Call",
         href: BOOK_CALL,
@@ -1533,114 +1652,107 @@ export const SOLUTIONS: Solution[] = [
     },
     howItWorks: {
       label: "How platform usernames work",
-      lead: "WaaS platforms name every wallet they provision - **user.theirbrand.eth** - with one API call in the same flow that creates the wallet. Each customer brand gets its own namespace, names resolve in 1,000+ apps across 100+ chains, and Namespace operates the infrastructure behind your white label.",
-      facts: [
-        {
-          title: "What you get",
-          description: "'ENS usernames included' as a platform feature, scoped per customer brand.",
-        },
-        {
-          title: "How long it takes",
-          description: "One call added to provisioning; bulk backfill covers existing wallets.",
-        },
-        {
-          title: "What it costs",
-          description: "Free at any volume, funded by the ENS DAO.",
-        },
+      lead: "Wallet-as-a-Service platforms can bundle ENS usernames into every wallet they provision, so each end user receives a readable name like **user.theirbrand.eth** - or **user.theirbrand.id**, under a DNS domain the customer already owns - at creation. Namespace provides the infrastructure behind it: a separate namespace for every customer brand, issuance through a single API, white-label management, and no smart contracts for you or your customers to deploy. The names are standard ENS records, so they resolve in every ENS-aware wallet and app rather than only inside the platform that issued them.",
+      chips: [
+        "A namespace for every brand",
+        "One API call at wallet creation",
+        "Fully white-label",
+        "No contracts",
+        "Works with any domain",
+        "Free at any volume",
       ],
     },
-    definition: {
-      question: "How does ENS identity work for Wallet-as-a-Service platforms?",
-      answer:
-        "Each wallet you provision gets an ENS subname at creation - user.customerbrand.eth - in the same API flow that creates the wallet.",
-    },
-    definitionPoints: [
-      {
-        title: "Named at provisioning",
-        description:
-          "Subname creation runs in the same API call flow that creates the wallet. No separate identity step.",
-      },
-      {
-        title: "Free at platform scale",
-        description:
-          "Offchain subnames are gasless and free at any volume, so per-wallet naming is viable across millions of wallets.",
-      },
-      {
-        title: "Scoped per customer brand",
-        description:
-          "Every business customer gets its own namespace under its own ENS name. Tenants never share one.",
-      },
-      {
-        title: "Real ENS reach",
-        description:
-          "Names resolve in 1,000+ apps and across 100+ chains, not just inside your platform.",
-      },
-    ],
     pains: {
-      heading: "Sound familiar?",
+      heading: "Embedded wallets are commoditized. Identity is not.",
+      lead: "You win on developer experience, and a raw address is the worst part of the experience you ship.",
+      style: "spotlight",
       items: [
         {
-          question:
-            "Does every embedded-wallet provider look the same on a comparison table?",
+          question: "0x addresses are bad UX.",
           detail:
-            "Key management, gas sponsorship, social login - table stakes across the category. When features converge, deals come down to price. You need a row on that table competitors can't check.",
+            "Every wallet you provision ships a 42-character string as its identity - the least human screen in the products your customers build, at the exact moment their users' activation is won or lost. Every major consumer wallet has moved past it: Uniswap has issued more than **2 million** [uni.eth usernames](https://blog.uniswap.org/introducing-uni-eth-your-unique-web3-username), Gemini gives every user a free [gemini.eth username](https://ens.domains/blog/post/gemini-smart-wallet), and Base has issued more than **2.7 million** [Basenames](https://www.base.org/names). Your customers' users expect the same.",
         },
         {
-          question: "Do the wallets you provision have no identity at all?",
+          question: "Addresses are a security liability.",
           detail:
-            "You create millions of wallets that are pure key material - anonymous hex your customers then have to make usable. Every one of them ships an address where a name should be.",
+            "Address poisoning attacks work by planting a lookalike address in a user's transaction history and waiting for a copy-paste. After Ethereum's Fusaka upgrade cut fees, dust transfers used for poisoning surged from about **20% to over 70%** of stablecoin transfer activity at the peak, [per Coin Metrics](https://coinmetrics.substack.com/p/state-of-the-network-issue-349). A single victim [lost 4,556 ETH](https://blockchain.news/flashnews/ethereum-security-alert-4-556-eth-lost-to-address-poisoning-mimicking-galaxy-digital-deposit-what-traders-need-to-know) in January 2026 to exactly this pattern. Every unnamed wallet you provision carries that surface into your customers' products.",
         },
         {
-          question:
-            "Has 'identity layer' been on your roadmap for three quarters?",
+          question: "Differentiation moves up the stack.",
           detail:
-            "Building naming means resolvers, gateways, multi-tenant namespaces, and ENSIP compliance - a permanent infrastructure commitment that keeps losing the prioritization fight to core wallet features. So it never ships.",
+            "Passkeys, social login, gas sponsorship, and smart accounts are now table stakes across the category, and the market is consolidating around a few large owners. When key management is a solved commodity, differentiation moves up the stack. Identity is the layer directly above it.",
         },
       ],
     },
-    desire: {
-      heading: "What your platform could ship",
-      paragraph:
-        "One API integration, and 'ENS usernames included' becomes a line on your pricing page - for every customer, at every wallet creation.",
-      bullets: [
-        "Every wallet you provision comes with a name under your customer's brand - user.theirbrand.eth.",
-        "Namespaces are cleanly scoped per customer, managed through one API.",
-        "Names resolve across 1,000+ apps and 100+ chains - real ENS, not display-name decoration.",
-        "Zero marginal cost: offchain issuance is gasless and free at any volume.",
+    outcomes: {
+      label: "In your product",
+      heading: "How branded\nnamespaces work",
+      columns: 2,
+      items: [
+        {
+          title: "One namespace per customer",
+          visual: "brands",
+          description:
+            "Your customer brings theirbrand.eth or a DNS domain they already own, or you provision one for them. Their users get user.theirbrand.eth. Their branding, not yours, and not ours.",
+        },
+        {
+          title: "Issued at wallet creation",
+          visual: "provision",
+          description:
+            "The same server-side call that creates the wallet issues the name and writes the address record. Your customers do not have to build a claim flow unless they want one.",
+        },
+        {
+          title: "White-label management",
+          visual: "whitelabel",
+          description:
+            "Namespace does not need to appear anywhere in your customer's experience. Reserved names, pricing, and policy are configurable per brand.",
+        },
+        {
+          title: "Ready-made claim UI when they want it",
+          visual: "onboarding",
+          description:
+            "ENS Components gives your customers a registration and profile-editing interface as React components, so a custom claim flow ships in hours instead of sprints.",
+        },
+        {
+          title: "Bulk backfill for existing wallets",
+          visual: "bulk",
+          description:
+            "The API supports bulk operations, so wallets you have already provisioned can be named retroactively.",
+        },
+        {
+          title: "A feature you can price",
+          visual: "revenue",
+          description:
+            "Identity becomes a line item in your plans rather than a support question.",
+        },
       ],
     },
-    solution: {
-      heading: "How Namespace does it",
-      paragraph:
-        "Namespace works with wallet-infrastructure teams like OpenFort to put identity inside the wallet-creation flow itself.",
-      features: [
-        {
-          title: "API-first, wallet-flow native",
-          description:
-            "Create a subname in the same backend flow that provisions the wallet - REST API or TypeScript SDK, with bulk operations for migrations.",
-        },
-        {
-          title: "Multi-tenant namespaces",
-          description:
-            "Each customer brand gets its own namespace under its own ENS name, managed programmatically from your platform.",
-        },
-        {
-          title: "Free at platform scale",
-          description:
-            "Offchain subnames cost nothing at any volume - naming a million wallets costs what naming one does. Onchain available where customers want NFT ownership.",
-        },
-        {
-          title: "Infrastructure you don't operate",
-          description:
-            "Resolvers, gateways, indexing, and protocol updates are Namespace's job, with SLAs. Your platform gets the feature without the pager duty.",
-        },
+    howTo: {
+      label: "How it works",
+      heading: "How a WaaS platform integrates ENS",
+      intro: "Three integration points, then a choice of what to offer your customers.",
+      afterOutcomes: true,
+      steps: [
+        { title: "Brand setup", body: "Each customer's root name - .eth or a DNS domain they already own - is pointed at our resolver, once, at onboarding, through your admin dashboard." },
+        { title: "Provision with the wallet", body: "One authenticated API call issues the subname and sets the address record." },
+        { title: "Resolution is automatic", body: "Resolution follows [ERC-3668](https://eips.ethereum.org/EIPS/eip-3668) and [ENSIP-10](https://docs.ens.domains/ensip/10), which means every ENS-aware app already knows how to read your names. Nothing to integrate on either side." },
       ],
+      tableCaption: "What to offer your customers",
+      table: {
+        columns: ["Mode", "Cost to you", "Silent provisioning", "End user owns it", "Best as"],
+        rows: [
+          ["Offchain", "Free at any volume", "Yes", "No", "The default in every plan"],
+          ["Onchain L2", "Gas per mint", "Requires a user transaction", "Yes", "A premium tier you upsell"],
+          ["Onchain L1", "Mainnet gas", "Requires a user transaction", "Yes, fully trustless", "Flagship customers and institutional accounts"],
+        ],
+      },
+      recommendedRow: 0,
     },
     featureTable: {
       label: "Differentiation",
-      heading: "The row they can't check",
+      heading: "The feature the others don't have",
       intro:
-        "Key management, gas sponsorship and social login are table stakes across the category. When the stacks converge, deals go to the cheaper platform. Change the table.",
+        "Key management, gas sponsorship, and social login are on every provider's pricing page. ENS usernames aren't - which makes them the easiest way to stop competing on price.",
       columns: ["Your platform", "Other WaaS"],
       rows: [
         { feature: "Key management", a: true, b: true },
@@ -1650,68 +1762,145 @@ export const SOLUTIONS: Solution[] = [
       ],
     },
     tenants: {
-      label: "Multi-tenant by design",
+      label: "One namespace per brand",
       heading: "Every brand gets its own namespace",
       paragraph:
-        "Each customer operates under its own ENS name, managed through your platform's API integration. Tenants never share a namespace, and your customers present usernames as their feature.",
+        "Each customer operates under its own ENS name - or a DNS domain they already own - managed through your platform's API integration. Brands never share a namespace, and your customers present usernames as their feature.",
       names: [
-        { label: "user", suffix: ".acmewallet.eth" },
-        { label: "user", suffix: ".gamestudio.eth" },
-        { label: "user", suffix: ".fintechapp.eth" },
-        { label: "user", suffix: ".creatorhub.eth" },
+        { label: "alice", suffix: ".acmewallet.eth" },
+        { label: "bob", suffix: ".gamestudio.id" },
+        { label: "carol", suffix: ".fintechapp.me" },
+        { label: "dave", suffix: ".creatorhub.eth" },
       ],
     },
-    pricing: {
-      label: "Pricing",
-      heading: "Free, funded by ENS DAO",
-      paragraph:
-        "Namespace is an ENS DAO-funded service provider: our services are free or subsidized. Offchain names are gasless and free at any volume, so naming a million wallets costs what naming one does.",
-      figure: "$0",
-      figureNote: "per wallet named, at any volume",
-      rows: [
-        { item: "Issuing names", value: "$0" },
-        { item: "Resolving names", value: "$0" },
-        { item: "Infrastructure & SLAs", value: "ENS DAO subsidized" },
-      ],
-    },
-    steps: {
-      heading: 'Three steps to "usernames included"',
-      style: "cards",
+    deliver: {
+      label: "What you get",
+      heading: "What is included",
+      columns: 2,
       items: [
         {
-          title: "Scope the platform integration",
-          description:
-            "We map naming onto your wallet-provisioning flow and your customer onboarding model.",
+          title: "Per-brand API",
+          description: "Separate namespaces, keys, and policy for every customer brand.",
         },
         {
-          title: "Add one call to provisioning",
-          description:
-            "Subname creation runs in the same backend flow that creates the wallet. Bulk operations cover existing wallets.",
+          title: "TypeScript SDK and REST API",
+          description: "LLM-friendly and documented for fast integration.",
         },
         {
-          title: "Switch it on per customer",
-          description:
-            "Each brand on your platform enables usernames for its users. You own the feature; Namespace runs the infrastructure with SLAs.",
+          title: "White-label dashboard",
+          description: "For managing your customer brands.",
+        },
+        {
+          title: "Reserved and blocked name lists",
+          description: "Per brand.",
+        },
+        {
+          title: "Migration support",
+          description: "POAP moved its existing naming system to Namespace with no downtime for users.",
+        },
+        {
+          title: "Custom engineering",
+          description: "When the standard tools do not fit your architecture, we build what does.",
+        },
+        {
+          title: "ENS Components",
+          description: "Optional - for customers who want their own claim UI.",
+        },
+        {
+          title: "Resolvio",
+          description: "Optional - resolution with bulk lookups and caching.",
         },
       ],
     },
-    stats: [
-      { value: "1 call", label: "to name a wallet at provisioning" },
-      { value: "$0", label: "per wallet named, any volume" },
-      { value: ">850k", label: "subnames managed in production" },
-      { value: "100%", label: "uptime, operated with SLAs" },
-    ],
-    testimonials: [T.joan, T.simon],
+    whyUs: {
+      label: "Why Namespace",
+      heading: "Why platforms choose Namespace",
+      lead: "Namespace is the ENS DAO-backed service provider.",
+      tableCaption: "Build it yourself, or don't",
+      table: {
+        columns: ["", "In-house", "Namespace"],
+        rows: [
+          ["Per-brand naming infra", "You build, audit and maintain", "Managed and monitored"],
+          ["CCIP-Read gateway", "You run it, and its uptime is yours", "Managed and monitored"],
+          ["Reserved-name policy per brand", "You write and enforce it", "Included and managed"],
+          ["Standards work", "You track ENSIPs yourself", "Follow and actively contribute."],
+          ["Engineering to production", "Quarters, multiplied by every brand", "One to two weeks"],
+          ["Subname expertise", "You start from zero", "Experts in offchain, L1, and L2 subnames"],
+          ["Lock-in", "None, but you maintain it all", "None: roots stay with your customers, standard ENS records"],
+        ],
+      },
+      highlightColumn: 2,
+      stats: [
+        { value: "850k+", label: "Subnames issued" },
+        { value: "21M", label: "Resolutions served" },
+        { value: "30+", label: "Partnerships and integrations" },
+        { value: "221", label: "Namespaces issuing subnames with us" },
+      ],
+      trustedBy: ["Celo", "Filecoin", "POAP", "Unicorn"],
+      badge: "ENS DAO Service Provider",
+    },
+    bizPricing: {
+      caseHeading: "The business case",
+      caseParagraph:
+        "Include offchain names in every plan to close feature-parity gaps in your sales cycle. Sell onchain names, premium tiers, and custom namespaces as upsells - your customers price names to their own users and keep that revenue.",
+      caseBullets: [
+        "'Usernames included' in every plan",
+        "Onchain and premium names as paid tiers",
+        "Your customers keep their name revenue",
+        "Revenue share negotiable for platform partners",
+      ],
+      pricingHeading: "Our pricing, plainly",
+      pricingParagraph:
+        "If names are free for end users, we charge nothing. We charge only on priced subnames and only earn when your customers do.",
+      facts: [
+        { value: "Free", label: "Offchain subnames at platform volume" },
+        { value: "5%", label: "On paid onchain mints through our infra" },
+        { value: "5-10%", label: "On mints when we build your integration for free, routed to the ENS DAO" },
+      ],
+    },
+    proofStyle: "wall",
+    ctaCards: {
+      heading: "Usernames included,\nlive in two weeks",
+      subheading: "It's time to ship identity with every wallet.",
+      cards: [
+        {
+          title: "Try it without code",
+          description: "Issue your first usernames in minutes with the no-code app. No contracts, no gas.",
+          button: { label: "Launch App", href: "https://app.namespace.ninja/" },
+          image: "/assets/images/cta-decoration-2.svg",
+          imageAlt: "Issue ENS usernames with no code required",
+        },
+        {
+          title: "Build it into your platform",
+          description: "Add per-brand name provisioning with a few lines of TypeScript.",
+          button: { label: "Start Building Free", href: "https://docs.namespace.ninja/developer-guide/guide/create-offchain-subnames" },
+          image: "/assets/images/cta-decoration-1.svg",
+          imageAlt: "Build platform usernames with the Namespace SDK and API",
+        },
+        {
+          title: "Partner with Namespace",
+          description: "Custom features, white-glove integration, partner pricing. Let's scope your integration on the call.",
+          button: { label: "Book a Discovery Call", href: "https://cal.com/thecap.eth/discovery" },
+          image: "/assets/images/cta-decoration-3.svg",
+          imageAlt: "Partner with Namespace for platform identity",
+        },
+      ],
+    },
     faqs: [
       {
-        question: "Can namespaces be isolated per customer?",
+        question: "How are customer brands kept separate?",
         answer:
-          "Yes. Each customer brand operates under its own ENS name (user.theirbrand.eth) with its own namespace, managed through your platform's API integration. Tenants never share a namespace.",
+          "Each customer has its own root name, its own namespace, and its own policy configuration. Issuance is scoped per brand through your API key. Brands are isolated from each other and never share a namespace.",
       },
       {
-        question: "What's the cost model at platform volume?",
+        question: "Can our customers use their existing domain instead of a .eth name?",
         answer:
-          "Free. Namespace is an ENS DAO-funded service provider, so its services are free or subsidized. There is no per-name or per-lookup cost to your platform or your customers, at any volume.",
+          "Yes. ENS supports DNS domains through DNSSEC integration, so a customer's usernames can live under theirbrand.id or theirbrand.com instead of a .eth name. World runs world.id usernames this way - 17 million of them. The feature ships under the domain your customer already markets.",
+      },
+      {
+        question: "Who owns the names, us or our customer?",
+        answer:
+          "Your customer owns their root name. We recommend it stays with them rather than with you, because it makes the offer easier to sell and easier to leave, which counterintuitively makes it easier to keep.",
       },
       {
         question: "Can we white-label this as our own feature?",
@@ -1719,12 +1908,36 @@ export const SOLUTIONS: Solution[] = [
           "Yes. The integration is API-level - your customers interact with your platform, not with Namespace. You present usernames as your feature; Namespace operates the infrastructure behind it.",
       },
       {
+        question: "What's the cost model at platform volume?",
+        answer:
+          "Offchain issuance and resolution are free at any volume - Namespace is an ENS DAO-funded service provider. If your customers charge for names, our standard fee is 5% of paid mints only, and revenue share for platform partners is negotiable.",
+      },
+      {
+        question: "Does it scale?",
+        answer:
+          "We manage more than 850,000 subnames today and have served over 21 million resolution requests. Offchain issuance has no per-name cost and no practical volume ceiling.",
+      },
+      {
         question: "Can existing wallets be named retroactively?",
         answer:
           "Yes. The API supports bulk operations, so you can backfill names for existing wallets as well as assign them at creation.",
       },
+      {
+        question: "Can our customers migrate an existing username system?",
+        answer:
+          "Yes. POAP did exactly this, moving its naming infrastructure to Namespace without downtime for users. We scope migrations individually.",
+      },
+      {
+        question: "What happens if a customer leaves our platform?",
+        answer:
+          "Their root name and records are theirs. This is not a lock-in mechanism, and pretending otherwise would make the feature harder to sell in the first place.",
+      },
+      {
+        question: "Do we need to deploy contracts?",
+        answer:
+          "No, not for offchain names. Onchain issuance uses already-deployed audited contracts.",
+      },
       FAQ_TIMELINE,
-      FAQ_LOCK_IN,
     ],
     finalCta: {
       heading: "Add the row competitors can't check",
@@ -1743,7 +1956,8 @@ export const SOLUTIONS: Solution[] = [
   {
     slug: "decentralized-websites",
     navLabel: "Decentralized Websites",
-    heroName: "yourapp.eth",
+    heroName: "yourapp.eth.limo",
+    heroVisual: "browser",
     metaTitle: "Decentralized Websites on ENS - Unstoppable Frontends",
     metaDescription:
       "Deploy websites to ENS domains that no registrar can seize and no host can take down. Censorship-resistant frontends on ENS + IPFS, live at yourname.eth.",
@@ -1771,59 +1985,102 @@ export const SOLUTIONS: Solution[] = [
       tag: "For Decentralized Websites",
       headline: "Websites that can't be taken down",
       subheadline:
-        "Deploy your frontend to an ENS domain - no registrar to seize it, no host to deplatform it. Content lives on decentralized storage, resolves from yourname.eth, and stays up.",
-      primaryCta: {
-        label: "Book a Discovery Call",
-        href: BOOK_CALL,
-        external: true,
-      },
-      secondaryCta: { label: "Launch the App", href: APP, external: true },
+        "Publish to an ENS domain and IPFS instead of a DNS registrar and a server. No hosting account, no nameservers, no registrar that can be phished into pointing your users somewhere else.",
+      primaryCta: { label: "Deploy a Site", href: APP, external: true },
+      secondaryCta: { label: "Read the Docs", href: DOCS, external: true },
     },
     howItWorks: {
-      label: "How decentralized websites work",
-      lead: "Your frontend lives at **yourapp.eth**: the ENS name's contenthash points to content on IPFS, and gateways like eth.limo serve it to any browser. No registrar controls the name and no single host serves the content, so there is no takedown lever to pull.",
-      facts: [
+      label: "How ENS websites work",
+      lead: "A decentralized website is a site whose content is stored on IPFS and whose address is an ENS domain rather than a DNS domain. The site's content hash is written to the ENS domain's contenthash record - **yourapp.eth** points at a cryptographic hash of the exact content - and visitors reach it through ENS-aware browsers or gateways such as eth.limo. Because there is no registrar, nameserver, or hosting account in the path, the site cannot be redirected by a DNS hijack or removed by a hosting provider. Namespace provides the ENS subname and record infrastructure that makes this practical at scale.",
+      chips: [
+        "No DNS",
+        "No server",
+        "Content-addressed and verifiable",
+        "Resolves through eth.limo",
+        "Free subnames",
+      ],
+    },
+    pains: {
+      heading: "Why frontends are\nthe weakest link in web3",
+      style: "spotlight",
+      items: [
         {
-          title: "What you get",
-          description: "A permanent address for your frontend that no one can seize.",
+          question: "Contracts live forever. Interfaces do not.",
+          detail:
+            "Protocols are credibly neutral and permissionless at the contract layer, and then they are served to users through a registrar account and a hosting provider. When the team moves on or the grant money runs out, the site quietly disappears. The contracts keep running. Nobody can reach them.",
         },
         {
-          title: "How long it takes",
-          description: "One deploy: publish to IPFS, point the contenthash, live.",
+          question: "DNS is a live attack surface.",
+          detail:
+            "Curve Finance had its curve.fi domain [hijacked at the registrar level in May 2025](https://news.curve.finance/curve-domain-incident/), redirecting users to a decoy site that existed only to harvest wallet signatures. The smart contracts were never touched. Curve had already suffered [DNS hijacks in 2022 and 2024](https://threesigma.xyz/blog/exploit/defi-front-end-exploits), and after the 2025 incident the team [moved domains and pushed users toward ENS](https://crypto.news/curve-finance-confirms-migration-to-new-domain-after-dns-hijack/). [Arrakis Finance was hit the same way](https://threesigma.xyz/blog/exploit/defi-front-end-exploits) in January 2025. This is not a rare failure mode. It is a recurring one.",
         },
         {
-          title: "What it costs",
-          description: "Free or subsidized - Namespace is funded by the ENS DAO.",
+          question: "Deplatforming is one policy decision away.",
+          detail:
+            "Your registrar, your DNS provider, and your host are three separate companies, each of which can be compelled or convinced to disconnect you. That has [already happened to crypto interfaces](https://en.wikipedia.org/wiki/Tornado_Cash) - Tornado Cash's web domain and GitHub repositories were taken down within hours of the 2022 sanctions announcement.",
+        },
+        {
+          question: "Users cannot verify they are on the real site.",
+          detail:
+            "A DNS name resolves to whatever the current record says. A contenthash resolves to a cryptographic hash of the exact content. One of those is verifiable and one is a promise.",
         },
       ],
     },
-    definition: {
-      question: "What is a decentralized website?",
-      answer:
-        "An ENS domain paired with content on decentralized storage: the name's contenthash points to the site, and gateways serve it to any browser.",
+    outcomes: {
+      label: "In your product",
+      heading: "How ENS websites work",
+      columns: 3,
+      flow: {
+        steps: [
+          { label: "./build", sub: "your files" },
+          { label: "bafybei\u2026q2fe", sub: "IPFS content ID" },
+          { label: "yourapp.eth", sub: "contenthash, onchain" },
+          { label: "yourapp.eth.limo", sub: "any browser" },
+        ],
+        caption:
+          "Content-addressed end to end: change one byte and it is a different CID. The record is controlled only by the domain's owner.",
+      },
+      items: [
+        {
+          title: "Subnames give you a whole site structure",
+          description:
+            "docs.yourapp.eth, app.yourapp.eth, blog.yourapp.eth, all under one domain you own, each with its own contenthash.",
+        },
+        {
+          title: "Updating is a record change",
+          description:
+            "Deploy new content, write the new hash, done. No cache invalidation across a CDN, no nameserver propagation.",
+        },
+        {
+          title: "Keep your DNS domain too",
+          description:
+            "Run both. Many teams keep the DNS domain for reach and publish the ENS version as the canonical, verifiable, unkillable copy.",
+        },
+      ],
     },
-    definitionPoints: [
-      {
-        title: "No registrar to seize",
-        description:
-          "The ENS name is controlled by your keys, not a DNS registrar's compliance department.",
+    howTo: {
+      label: "How it works",
+      heading: "How to publish a website to ENS",
+      intro: "Three steps, then an honest comparison.",
+      afterOutcomes: true,
+      steps: [
+        { title: "Get a domain", body: "A .eth domain you own, or a subname under one you already have. Issue subnames for each site or environment." },
+        { title: "Pin your build to IPFS", body: "Any pinning service works. PinMe reduces this to a single command: pinme upload ./build-folder." },
+        { title: "Write the contenthash and share the link", body: "Set the EIP-1577 contenthash record on the domain, through the Namespace app, the SDK, or the API. yourapp.eth.limo works immediately, everywhere." },
+      ],
+      tableCaption: "ENS hosting versus DNS hosting",
+      table: {
+        columns: ["", "DNS + hosting", "ENS + IPFS"],
+        rows: [
+          ["Can be hijacked at the registrar", "Yes", "No registrar involved"],
+          ["Can be taken down by a host", "Yes", "No host involved"],
+          ["Content is verifiable by the visitor", "No", "Yes, content-addressed"],
+          ["Renewal risk", "Domain expiry loses everything", "ENS domain renewal, records persist"],
+          ["Works in every browser unmodified", "Yes", "Through a gateway such as eth.limo"],
+          ["Dynamic server-side rendering", "Yes", "No, static content only"],
+        ],
       },
-      {
-        title: "No host to take down",
-        description:
-          "Content lives on IPFS, served by whichever nodes pin it. No single party can pull it offline.",
-      },
-      {
-        title: "Works in any browser",
-        description:
-          "Gateways like eth.limo serve the site to standard browsers. No wallet, extension or plugin required.",
-      },
-      {
-        title: "A proven stack",
-        description:
-          "Namespace runs the naming layer, working with partners like PinMe and ETH.LIMO in the decentralized web.",
-      },
-    ],
+    },
     risks: {
       label: "Attack surface",
       heading: "Every kill switch, removed",
@@ -1833,7 +2090,7 @@ export const SOLUTIONS: Solution[] = [
           tag: "DNS seizure",
           title: "There is no registrar",
           description:
-            "Court orders and compliance departments seize DNS domains every week. Your ENS name is controlled by your keys, and only your keys.",
+            "Court orders and compliance departments seize DNS domains every week. Your ENS domain is controlled by your keys, and only your keys.",
           fix: "Nothing to seize.",
         },
         {
@@ -1853,129 +2110,185 @@ export const SOLUTIONS: Solution[] = [
       ],
     },
     terminal: {
-      label: "Deploys",
-      heading: "Ship like normal. Stay up forever.",
+      label: "PinMe × Namespace",
+      heading: "Or use PinMe",
       paragraph:
-        "Every deploy publishes your build to IPFS and updates the ENS contenthash through the Namespace API, as part of CI/CD. The name your users know never changes; the content behind it does.",
-      cta: { label: "Read the PinMe Case Study", href: "/blog/case-study-pinme-forever-frontends" },
-      windowLabel: "deploy log",
+        "One command does all three steps: pins your build, sets the contenthash, hands you the link. PinMe is built on Namespace infrastructure and free to use.",
+      cta: { label: "Visit PinMe", href: "https://pinme.eth.limo", external: true },
+      cta2: { label: "View on GitHub", href: "https://github.com/glitternetwork/pinme", external: true },
+      quotes: [
+        {
+          quote:
+            "Namespace has been a core partner for PinMe. Their APIs are extremely easy to use, their subdomain infrastructure is stable and built for the long term.",
+          attribution: "Ted - Co-founder of PinMe",
+          avatar: "/assets/images/testimonial-ted.jpg",
+        },
+        {
+          quote:
+            "Namespace has quickly become the go-to platform for managing ENS subnames. What was once confusing and error-prone is now a streamlined, intuitive experience.",
+          attribution: "Ben - Co-founder of ETH.LIMO",
+          avatar: "/assets/images/testimonial-ben.avif",
+        },
+      ],
+      stats: [
+        { value: "815k+", label: "Deployments" },
+        { value: "2.6M+", label: "Monthly requests via eth.limo" },
+      ],
+      link: { label: "Read the full case study", href: "/blog/case-study-pinme-forever-frontends" },
+      windowLabel: "pinme",
       lines: [
-        { kind: "cmd", text: "npm run build" },
-        { kind: "ok", text: "built in 1.2s" },
-        { kind: "cmd", text: "deploy --target ipfs" },
-        { kind: "ok", text: "pinned", accent: "bafybei…q2fe" },
-        { kind: "ok", text: "contenthash updated", accent: "yourapp.eth" },
-        { kind: "live", text: "live at yourapp.eth", note: "any browser via eth.limo" },
+        { kind: "cmd", text: "npm install -g pinme" },
+        { kind: "cmd", text: "pinme upload ./dist" },
+        { kind: "ok", text: "pinned", accent: "bafybei\u2026q2fe" },
+        { kind: "live", text: "live at", accent: "yoursite.pinit.eth.limo" },
       ],
     },
-    stats: [
-      { value: "0", label: "parties able to take your site down" },
-      { value: "100%", label: "uptime across 21M+ resolutions" },
-      { value: "Any", label: "browser, via gateways like eth.limo" },
-      { value: "1 name", label: "forever, however often you deploy" },
-    ],
-    pains: {
-      heading: "Sound familiar?",
+    deliver: {
+      label: "What you get",
+      heading: "What is included",
+      style: "list",
       items: [
         {
-          question: "Could one takedown notice erase your frontend tonight?",
-          detail:
-            "DNS domains get seized. Hosts get subpoenaed. CDNs deplatform. Your protocol may be unstoppable onchain while its front door hangs on a single registrar's compliance department.",
+          title: "Subname issuance",
+          description: "For site structure, at any scale - free offchain, or onchain for full ownership.",
         },
         {
-          question: "Playing whack-a-mole with mirror domains?",
-          detail:
-            "app-v2.xyz, app-mirror.com, a Telegram pin with 'current working link' - every mirror is a new address users must trust, and phishers love the confusion. Resilience by mirror is a treadmill.",
+          title: "Contenthash record management",
+          description: "Through the app, SDK, or API.",
         },
         {
-          question: "Tried IPFS and watched it rot?",
-          detail:
-            "Self-managed IPFS means pinning that lapses, hashes that change with every deploy, and links that break silently. Content-addressing without naming and persistence isn't a website - it's a snapshot.",
+          title: "API-driven deploys",
+          description: "Fit publishing into CI/CD, so it is part of your pipeline rather than a manual step.",
+        },
+        {
+          title: "One-command deploys",
+          description: "Build your own single-command deployment service on our issuance and record APIs.",
+        },
+        {
+          title: "Permanent pinning",
+          description: "Implemented from your ENS domain, so your content stays available and your site does not rot.",
         },
       ],
     },
-    desire: {
-      heading: "What a permanent frontend looks like",
-      paragraph:
-        "One name your users trust, content nobody can pull down, and deploys that update the name - not the URL.",
-      bullets: [
-        "Your app lives at yourname.eth - a domain no registrar can seize and no court order can quietly reroute.",
-        "Content is verifiable by hash: users get exactly the frontend you deployed, not a tampered copy.",
-        "Every deploy updates the ENS contenthash - the name stays constant while the site evolves.",
-        "Accessible from any browser via gateways like eth.limo - no plugins required.",
+    whyUs: {
+      label: "Why Namespace",
+      heading: "Why builders choose Namespace",
+      lead: "Namespace is the ENS DAO-backed service provider, and our infrastructure is behind the largest deployment of ENS contenthash records to date.",
+      tableCaption: "Build it yourself, or don't",
+      table: {
+        columns: ["", "In-house", "Namespace"],
+        rows: [
+          ["Contenthash and record infra", "You build, audit and maintain", "Managed and monitored"],
+          ["Subname issuance at scale", "Your own registrar stack", "One API call"],
+          ["Pinning and persistence", "You babysit IPFS nodes", "Handled through our infrastructure and partners"],
+          ["Standards work", "You track ENSIPs and EIP-1577 yourself", "Follow and actively contribute."],
+          ["Engineering to production", "Weeks of plumbing", "Minutes for a site, days for CI/CD"],
+          ["Subname expertise", "You start from zero", "Experts in offchain, L1, and L2 subnames"],
+          ["Lock-in", "None, but you maintain it all", "None: your root domain stays yours, records are standard ENS and exportable, and onchain names keep resolving without us"],
+        ],
+      },
+      highlightColumn: 2,
+      stats: [
+        { value: "850k+", label: "Subnames issued" },
+        { value: "21M", label: "Resolutions served" },
+        { value: "30+", label: "Partnerships and integrations" },
+        { value: "221", label: "Namespaces issuing subnames with us" },
+      ],
+      trustedBy: ["Celo", "Filecoin", "POAP", "Unicorn"],
+      badge: "ENS DAO Service Provider",
+    },
+    bizPricing: {
+      caseHeading: "The business case",
+      caseParagraph:
+        "A frontend that cannot be seized is an insurance policy for your protocol - and a namespace others can publish under is a product.",
+      caseBullets: [
+        "A canonical, verifiable copy of your frontend",
+        "Community publishing under your namespace",
+        "Price registrations if you want a revenue line",
+      ],
+      pricingHeading: "Our pricing, plainly",
+      pricingParagraph:
+        "If publishing under your domain is free, we charge nothing. We charge only on priced subnames and only earn when you do.",
+      facts: [
+        { value: "Free", label: "Offchain subnames and contenthash records" },
+        { value: "5%", label: "On paid onchain mints through our infra" },
+        { value: "5-10%", label: "On mints when we build your integration for free, routed to the ENS DAO" },
       ],
     },
-    solution: {
-      heading: "How Namespace does it",
-      paragraph:
-        "Namespace is the naming layer of the decentralized-web stack - partnering with PinMe on Forever Frontends and trusted by the co-founders of ETH.LIMO.",
-      features: [
+    proofStyle: "wall",
+    ctaCards: {
+      heading: "A site in minutes,\na pipeline in days",
+      subheading: "It's time to make your frontend permanent.",
+      cards: [
         {
-          title: "ENS domains done right",
-          description:
-            "Name setup, contenthash records, and resolution configured correctly - the naming half of the decentralized web, handled.",
+          title: "Deploy a site now",
+          description: "Issue a domain and set the contenthash from the no-code app in minutes.",
+          button: { label: "Launch App", href: "https://app.namespace.ninja/" },
+          image: "/assets/images/cta-decoration-2.svg",
+          imageAlt: "Deploy a decentralized website on ENS with no code",
         },
         {
-          title: "Subnames for every deployment",
-          description:
-            "Issue app.yourname.eth, docs.yourname.eth, v2.yourname.eth - structured namespaces for staging, versions, and products.",
+          title: "Automate it in CI",
+          description: "Publish to IPFS and update the contenthash on every deploy via the API.",
+          button: { label: "Read the Docs", href: "https://docs.namespace.ninja/" },
+          image: "/assets/images/cta-decoration-1.svg",
+          imageAlt: "Automate ENS website deploys with the Namespace API",
         },
         {
-          title: "Gateway-accessible by default",
-          description:
-            "Sites resolve through public gateways like eth.limo, so any browser reaches them - decentralized doesn't mean niche.",
-        },
-        {
-          title: "Managed records via API",
-          description:
-            "Update contenthash and records programmatically on every deploy - CI/CD for unstoppable frontends.",
-        },
-      ],
-    },
-    steps: {
-      heading: "Live in three steps",
-      items: [
-        {
-          title: "Set up your ENS name",
-          description:
-            "Configure yourname.eth (and subnames) on Namespace infrastructure.",
-        },
-        {
-          title: "Deploy to decentralized storage",
-          description:
-            "Publish your site to IPFS - with partners like PinMe handling persistent pinning.",
-        },
-        {
-          title: "Point the name at the content",
-          description:
-            "Set the contenthash and your site is live at yourname.eth - permanently, from any browser via eth.limo.",
+          title: "Publishing at scale",
+          description: "Custom features, white-glove integration, partner pricing. Let's scope it on a call.",
+          button: { label: "Book a Call", href: "https://cal.com/thecap.eth/discovery" },
+          image: "/assets/images/cta-decoration-3.svg",
+          imageAlt: "Partner with Namespace for publishing at scale",
         },
       ],
     },
-    testimonials: [T.ted, T.ben],
     faqs: [
       {
-        question: "Can users without a crypto wallet visit the site?",
+        question: "How do normal users open a .eth website?",
         answer:
-          "Yes. Gateways like eth.limo serve ENS websites to any standard browser (yourname.eth.limo) - no wallet, extension, or plugin required. Crypto-native browsers and wallets resolve the name natively.",
+          "Append .limo. yourapp.eth.limo loads in any browser with no extension and no configuration. Brave and some other browsers resolve .eth natively. eth.link is an alternative gateway.",
       },
       {
-        question: "Who can take the site down?",
+        question: "Do visitors need a wallet or an extension?",
         answer:
-          "No single party. The ENS name is controlled by your keys, not a registrar. Content on IPFS is served by whichever nodes pin it, not one host. Removing the site would require taking your keys and every pinned copy - there is no takedown lever.",
+          "No. Gateways handle resolution server-side, so a visitor with no crypto knowledge and no wallet can read the site normally.",
       },
       {
-        question: "How do updates and deploys work?",
+        question: "Who keeps the content online?",
         answer:
-          "Each deploy publishes new content to IPFS and updates the ENS contenthash record - programmatically, via API, as part of CI/CD. The name your users know never changes.",
+          "IPFS content stays available as long as at least one node pins it. Use a pinning service, run your own node, or use a tool like PinMe that pins for you. Filecoin adds incentivized long-term persistence.",
       },
       {
-        question: "Is this production-proven?",
+        question: "How do I update the site?",
         answer:
-          "Yes. Namespace partners with PinMe on Forever Frontends - permanently pinned, ENS-addressed sites - and its infrastructure is trusted by teams like ETH.LIMO, the gateway serving much of the decentralized web today.",
+          "Deploy new content, get a new content identifier, and write it to the contenthash record. The domain stays the same. There is no propagation delay of the kind DNS has.",
       },
-      FAQ_TIMELINE,
-      FAQ_LOCK_IN,
+      {
+        question: "Can I use my existing DNS domain too?",
+        answer:
+          "Yes. Run both. Many teams keep the DNS domain for reach and publish the ENS version as the canonical, verifiable, unkillable copy. Curve moved to a new DNS domain after its hijack and simultaneously pushed users toward ENS access.",
+      },
+      {
+        question: "Do .eth sites get indexed by search engines?",
+        answer:
+          "Gateway URLs such as yourapp.eth.limo are ordinary HTTPS URLs and can be crawled and indexed. Treat the gateway URL as your canonical for SEO purposes and make sure the content is rendered server-side or statically.",
+      },
+      {
+        question: "What does it cost?",
+        answer:
+          "Offchain subnames are free to issue. An ENS domain registration costs gas plus the ENS registration fee. Pinning costs depend on your provider, and many tiers are free at small scale.",
+      },
+      {
+        question: "What are the limitations?",
+        answer:
+          "Content must be static. There is no server-side rendering, no backend, and no dynamic API in the same origin. Most web3 frontends are static builds that call contracts and APIs from the client, which is exactly what this suits.",
+      },
+      {
+        question: "Is this actually censorship-resistant, or just harder to censor?",
+        answer:
+          "Gateways can be blocked, which is why multiple gateways exist and why ENS-native browser resolution matters. The content itself and the pointer to it cannot be altered by anyone but the domain owner. That is a meaningfully different threat model from a registrar that can be phished.",
+      },
     ],
     finalCta: {
       heading: "Give your frontend a permanent address",
@@ -1998,6 +2311,7 @@ export const SOLUTIONS: Solution[] = [
     slug: "ai-agents",
     navLabel: "AI agents",
     heroName: "agent.yourplatform.eth",
+    heroVisual: "agent",
     metaTitle: "ENS Identity for AI Agents - ERC-8004 Names",
     metaDescription:
       "Give AI agents persistent, verifiable ENS identities - ERC-8004 compliant, multi-chain, resolvable everywhere. Named agents are agents you can trust, pay, and audit.",
@@ -2023,66 +2337,59 @@ export const SOLUTIONS: Solution[] = [
         "Proprietary agent registries nobody else resolves; spreadsheet inventories of agent keys; identity bolted on after the incident, not before.",
     },
     hero: {
-      tag: "For AI Agents",
-      headline: "Agents need names, not just keys",
+      tag: "Names for AI Agents",
+      headline: "Names and identities for AI agents",
       subheadline:
-        "Give every AI agent a persistent, verifiable ENS identity - ERC-8004 compliant, multi-chain, resolvable across web3. Named agents can be discovered, verified, paid, and audited. Anonymous keys can't.",
+        "Give every AI agent a persistent, verifiable ENS identity - ERC-8004 compliant, multi-chain, resolvable across web3. Named agents can be discovered, verified, paid, and audited.",
       primaryCta: {
-        label: "Book a Discovery Call",
+        label: "Book a Call",
         href: BOOK_CALL,
         external: true,
       },
       secondaryCta: {
-        label: "Join the ENS x AI Group",
+        label: "Join ENS x AI group",
         href: "https://t.me/ensxai",
         external: true,
       },
     },
     howItWorks: {
       label: "How agent identity works",
-      lead: "Agents get persistent, verifiable names - **agent.yourplatform.eth** - with addresses, metadata and service endpoints stored on the name, aligned with ERC-8004. Counterparties resolve the name to verify an agent before trusting or paying it, on any chain ENS reaches.",
-      facts: [
+      lead: "AI agents need identity for the same reason businesses do: counterparties must know who they are dealing with before they transact. An ENS name gives an agent a readable, permanent identifier like **agent.yourplatform.eth**, with records for its owner, its endpoint, its capabilities, and its wallet address. ERC-8004, the Trustless Agents standard, adds three onchain registries for identity, reputation, and validation. Namespace builds the naming and smart account infrastructure that makes agent identity usable in production.",
+      chips: [
+        "ERC-8004 compatible",
+        "Portable across platforms",
+        "Verifiable ownership",
+        "Wallet included",
+        "Free at any volume",
+      ],
+    },
+    pains: {
+      heading: "Agents transact, and nobody can tell which one did",
+      lead: "The identity layer agents need already exists. It just has not been pointed at them yet.",
+      style: "spotlight",
+      items: [
         {
-          title: "What you get",
-          description: "A verifiable identity for every agent, discoverable across web3.",
+          question: "An agent with no identity is an address with no history.",
+          detail:
+            "When an agent calls another agent, there is nothing to check. No owner, no capabilities, no track record, no way to tell a legitimate service from an impersonator using a similar-looking address.",
         },
         {
-          title: "How long it takes",
-          description: "One SDK call per agent, in the same flow that creates its keys.",
+          question: "The industry still authenticates agents with shared secrets.",
+          detail:
+            "A February 2026 survey by Strata Identity and the Cloud Security Alliance found that only **23%** of organizations had a formal agent identity management strategy, **45.6%** were still using shared API keys for agent authentication, and only **21.9%** treated agents as independent identity-bearing entities. Shared API keys do not survive contact with agents that hold funds.",
         },
         {
-          title: "What it costs",
-          description: "Free at any volume, funded by the ENS DAO.",
+          question: "Reputation does not travel and discovery does not exist.",
+          detail:
+            "An agent that has performed well on one platform arrives at the next one with nothing. Without a portable identifier, every reputation system is a silo, and every agent starts from zero forever. There is no directory. If your agent can do something useful, there is no canonical place for another agent to find that out and verify it.",
+        },
+        {
+          question: "Payments amplify all of the above.",
+          detail:
+            "Agents are starting to hold and move funds. The moment money is involved, 'which agent is this and who is responsible for it' stops being a design question and becomes a liability question.",
         },
       ],
     },
-    definition: {
-      question: "What is ENS identity for AI agents?",
-      answer:
-        "Each agent gets a persistent, human-readable name - like agent.yourplatform.eth - backed by verifiable onchain records.",
-    },
-    definitionPoints: [
-      {
-        title: "ERC-8004 aligned",
-        description:
-          "Built to the emerging Ethereum standard for trustless agent identity, not a proprietary registry.",
-      },
-      {
-        title: "Verifiable records",
-        description:
-          "Addresses, metadata and service endpoints live on the agent's name for counterparties to check before trusting or paying it.",
-      },
-      {
-        title: "Anchored across chains",
-        description:
-          "One identity that resolves anywhere ENS does, surviving key rotations and redeployments.",
-      },
-      {
-        title: "Issued at fleet scale",
-        description:
-          "Create and manage agent identities programmatically via SDK and API, gasless at any volume.",
-      },
-    ],
     versus: {
       label: "The difference a name makes",
       heading: "Two agents ask for $500. Which do you pay?",
@@ -2141,116 +2448,170 @@ export const SOLUTIONS: Solution[] = [
         { value: "ERC-8004", label: "aligned with the agent standard" },
       ],
     },
-    pains: {
-      heading: "Sound familiar?",
+    howTo: {
+      label: "How it works",
+      heading: "How ENS and ERC-8004 fit together",
+      intro: "Name the agent, write the records, register it - then any counterparty can verify before transacting.",
+      afterOutcomes: true,
+      steps: [
+        { title: "Name the agent", body: "Issue agent.yourplatform.eth programmatically as you deploy - one API call per agent, in the same flow that creates its keys." },
+        { title: "Write the records", body: "Owner, endpoint, capabilities, wallet address, and a pointer to the ERC-8004 registration file." },
+        { title: "Register in ERC-8004", body: "Mint the identity token and point its URI at the registration file. Counterparties resolve the name, read the records, and check the registry before transacting." },
+      ],
+      tableCaption: "What each layer provides",
+      table: {
+        columns: ["", "ENS", "ERC-8004"],
+        rows: [
+          ["Human-readable identifier", "Yes", "Token ID only"],
+          ["Resolves in existing wallets and apps", "Yes, 1,000+ today", "No"],
+          ["Onchain identity registry", "Records on the name", "Yes, ERC-721 registry"],
+          ["Portable reputation", "Via records", "Yes, Reputation Registry"],
+          ["Validation hooks", "No", "Yes, Validation Registry"],
+        ],
+      },
+    },
+    deliver: {
+      label: "What you get",
+      heading: "What is included",
+      columns: 2,
       items: [
         {
-          question: "Are your agents just anonymous keys moving money?",
-          detail:
-            "Agents sign transactions, hold funds, and negotiate with counterparties - identified by nothing but a hex address. No name, no metadata, no way for anyone (including you) to tell one agent from another at a glance.",
+          title: "Programmatic subname issuance",
+          description: "For agent fleets, at any scale.",
         },
         {
-          question: "What happens when someone spoofs one of your agents?",
-          detail:
-            "Without verifiable identity, any key can claim to be your trading agent, your support bot, your payment router. One convincing impostor and the question every user asks becomes 'how do I know this agent is real?'",
+          title: "Namera",
+          description: "Smart account and identity infrastructure for agents, with SDK and CLI.",
         },
         {
-          question: "Built an agent registry that only you can read?",
-          detail:
-            "An internal database of agent keys works - inside your platform. The agent economy is cross-platform by definition: your agents transact with agents and apps you don't control. Identity that isn't a shared standard isn't identity.",
+          title: "ERC-8004 integration support",
+          description: "Hands-on help wiring your agents into the registries.",
+        },
+        {
+          title: "ENS MCP",
+          description: "So your models can query ENS directly in natural language.",
+        },
+        {
+          title: "Resolvio",
+          description: "For fast resolution and reverse lookups at agent speed.",
+        },
+        {
+          title: "Records schema guidance",
+          description: "What to publish, where, and how, so your agents are legible to counterparties you have never met.",
         },
       ],
     },
-    desire: {
-      heading: "What a trusted agent fleet looks like",
-      paragraph:
-        "Every agent you deploy is discoverable by name, verifiable by anyone, and accountable by design.",
-      bullets: [
-        "Each agent gets agent.yourplatform.eth - persistent identity that survives key rotations and redeployments.",
-        "Counterparties verify an agent's records before trusting it - identity resolves anywhere ENS does.",
-        "ERC-8004 alignment means your agents plug into the emerging trust layer, not a proprietary silo.",
-        "Your platform's name is on every agent - visibly, verifiably - turning trust into brand.",
+    whyUs: {
+      label: "Why Namespace",
+      heading: "Why agent platforms choose Namespace",
+      lead: "Namespace is the ENS DAO-backed service provider, and our ENS MCP server is listed in the official ENS documentation.",
+      tableCaption: "Build it yourself, or don't",
+      table: {
+        columns: ["", "In-house", "Namespace"],
+        rows: [
+          ["Naming and records infra", "You build, audit and maintain", "Managed and monitored"],
+          ["ERC-8004 wiring", "You interpret the spec alone", "Hands-on integration support"],
+          ["Agent smart accounts", "Another workstream", "Namera, included"],
+          ["Standards work", "You track ENSIPs yourself", "Follow and actively contribute."],
+          ["Engineering to production", "Quarters, realistically", "A day for naming, two weeks for full identity"],
+          ["Subname expertise", "You start from zero", "Experts in offchain, L1, and L2 subnames"],
+          ["Lock-in", "None, but you maintain it all", "None: onchain names and identity tokens are operator-owned"],
+        ],
+      },
+      highlightColumn: 2,
+      stats: [
+        { value: "850k+", label: "Subnames issued" },
+        { value: "21M", label: "Resolutions served" },
+        { value: "30+", label: "Partnerships and integrations" },
+        { value: "221", label: "Namespaces issuing subnames with us" },
+      ],
+      trustedBy: ["Celo", "Filecoin", "POAP", "Unicorn"],
+      badge: "ENS DAO Service Provider",
+    },
+    bizPricing: {
+      caseHeading: "The business case",
+      caseParagraph:
+        "Agent-to-agent discovery, verifiable delegation, portable reputation, and payment flows where the counterparty is checkable. For platforms issuing agents, a branded namespace makes every agent you deploy carry your name into every interaction it has.",
+      caseBullets: [
+        "Agents other agents can discover and verify",
+        "Reputation that travels across platforms",
+        "Payment flows with checkable counterparties",
+        "Your brand on every agent you deploy",
+      ],
+      pricingHeading: "Our pricing, plainly",
+      pricingParagraph:
+        "If names are free for your agents, we charge nothing. We charge only on priced subnames and only earn when you do.",
+      facts: [
+        { value: "Free", label: "Offchain subnames at fleet scale" },
+        { value: "5%", label: "On paid onchain mints through our infra" },
+        { value: "5-10%", label: "On mints when we build your integration for free, routed to the ENS DAO" },
       ],
     },
-    solution: {
-      heading: "How Namespace does it",
-      paragraph:
-        "Namespace builds agent naming on the same infrastructure that runs 850k+ subnames in production - and convenes the ENS x AI working group.",
-      features: [
+    proofStyle: "wall",
+    ctaCards: {
+      heading: "A named fleet in a day,\nfull identity in two weeks",
+      subheading: "It's time to make your agents verifiable.",
+      cards: [
         {
-          title: "ERC-8004-compliant identities",
-          description:
-            "Persistent, multi-chain ENS identities aligned with the emerging standard for trustless agent registration and verification.",
+          title: "Try it without code",
+          description: "Issue your first agent names in minutes with the no-code app. No contracts, no gas.",
+          button: { label: "Launch App", href: "https://app.namespace.ninja/" },
+          image: "/assets/images/cta-decoration-2.svg",
+          imageAlt: "Issue ENS agent names with no code required",
         },
         {
-          title: "Programmatic issuance at fleet scale",
-          description:
-            "Name agents at deployment via SDK or API - gasless offchain issuance means naming ten thousand agents costs nothing.",
+          title: "Build it into your stack",
+          description: "Name agents as you deploy them with a few lines of TypeScript.",
+          button: { label: "Start Building Free", href: "https://docs.namespace.ninja/developer-guide/guide/create-offchain-subnames" },
+          image: "/assets/images/cta-decoration-1.svg",
+          imageAlt: "Build agent identity with the Namespace SDK and API",
         },
         {
-          title: "Rich, verifiable records",
-          description:
-            "Store addresses, metadata, and service endpoints on the agent's name - the data counterparties need to verify and interact with it.",
-        },
-        {
-          title: "Cross-platform by default",
-          description:
-            "Agent names resolve across 100+ chains and 1,000+ apps - identity that works in the open agent economy, not just your walled garden.",
+          title: "Partner with Namespace",
+          description: "Custom features, white-glove integration, partner pricing. Let's scope your integration on the call.",
+          button: { label: "Book a Discovery Call", href: "https://cal.com/thecap.eth/discovery" },
+          image: "/assets/images/cta-decoration-3.svg",
+          imageAlt: "Partner with Namespace for agent identity",
         },
       ],
     },
-    steps: {
-      heading: "Live in three steps",
-      items: [
-        {
-          title: "Claim your agent namespace",
-          description:
-            "Point yourplatform.eth at Namespace infrastructure as the root for your agent fleet.",
-        },
-        {
-          title: "Name agents at deployment",
-          description:
-            "One SDK call per agent - identity created alongside the agent's keys.",
-        },
-        {
-          title: "Let the ecosystem verify",
-          description:
-            "Counterparties resolve and verify your agents anywhere ENS works. Audit trails come free with named actors.",
-        },
-      ],
-      code: SDK_SNIPPET,
-      codeLabel: "Name an agent at deployment",
-    },
-    stats: [
-      { value: ">850k", label: "names on the same infrastructure" },
-      { value: "$0", label: "per agent named, gasless at fleet scale" },
-      { value: "100+", label: "chains where agent identity resolves" },
-      { value: "ERC-8004", label: "aligned with the agent identity standard" },
-    ],
-    testimonials: [T.simon, T.brantly],
     faqs: [
       {
         question: "What is ERC-8004?",
         answer:
-          "ERC-8004 is an emerging Ethereum standard for trustless AI agent identity - giving agents onchain registrations that counterparties can discover and verify. Namespace issues ENS-based agent identities aligned with it, so agents carry standard, interoperable identity rather than proprietary IDs.",
+          "ERC-8004, Trustless Agents, is an Ethereum standard defining three lightweight onchain registries: an Identity Registry (an ERC-721 where each agent mints a token pointing to its registration file), a Reputation Registry for publishing and reading feedback signals, and a Validation Registry for validator results. It went to mainnet in January 2026. It makes agents discoverable and gives trust signals a standard shape across organizational boundaries.",
       },
       {
-        question: "What survives when an agent's keys rotate?",
+        question: "Do we need ENS if we already use ERC-8004?",
         answer:
-          "The name. An agent's ENS identity persists across key rotations, redeployments, and infrastructure moves - records update, the identity endures. That persistence is what makes reputation possible.",
+          "You do not strictly need it, and you will want it. ERC-8004 gives an agent a token ID and a registration file. ENS gives it a name that resolves in every wallet, explorer, and app already deployed, plus a records layer for everything the registry does not cover. They compose deliberately.",
       },
       {
-        question: "What can be stored on an agent's name?",
+        question: "How does a counterparty verify an agent's wallet?",
         answer:
-          "Multi-chain addresses, text records for metadata (operator, model, policy), and service endpoints. Everything a counterparty needs to verify what the agent is and how to interact with it - resolvable through standard ENS tooling.",
+          "Ownership of the ERC-8004 identity token is enforced onchain. The agent's operating wallet is set separately and can only be updated after proving control of the new wallet through an EIP-712 or ERC-1271 signature, and it is cleared automatically on transfer so a new owner must re-verify. The ENS name resolves to those records, so verification starts from something a human can read.",
       },
       {
-        question: "Does naming scale to large agent fleets?",
+        question: "What about agent payments?",
         answer:
-          "Yes. Offchain issuance is gasless and free at any volume, and the API supports bulk operations. Namespace runs 850k+ subnames in production; fleets of agents are the same infrastructure pattern.",
+          "ERC-8004 leaves payment rails out of scope by design, and shows how payment proofs can enrich feedback signals instead. Identity sits underneath payments: the rail moves the money, the identity tells you who you are paying. Namera pairs the identity with a smart account so an agent can hold and move funds under policy.",
+      },
+      {
+        question: "Does this work across chains?",
+        answer:
+          "Yes. ERC-8004 registries are deployed as per-chain singletons and use CAIP-10 chain-agnostic addressing, and ENS resolves across more than 100 chains. An agent can be referenced consistently regardless of where it operates.",
+      },
+      {
+        question: "Our framework already handles agent auth. Why is this different?",
+        answer:
+          "Most frameworks handle authentication inside their own boundary, which is fine until an agent needs to be trusted outside it. Protocols like MCP and A2A cover capability advertisement and messaging but do not cover discovery and trust across organizations. That is the gap ERC-8004 was written to fill.",
+      },
+      {
+        question: "What does it cost at fleet scale?",
+        answer:
+          "Offchain issuance is free at any volume - naming ten thousand agents costs nothing. If you charge for names, our standard fee is 5% of paid mints only.",
       },
       FAQ_TIMELINE,
-      FAQ_LOCK_IN,
     ],
     finalCta: {
       heading: "Name your agents before you scale them",
