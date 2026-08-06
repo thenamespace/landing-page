@@ -109,7 +109,7 @@ export default function AboutPage() {
                   <p className="text-weight-medium solution-definition-answer">
                     A decentralized internet where every user, AI agent, smart
                     contract and asset is identified by a name first and an
-                    address second, making web3 as legible as the web.
+                    address second.
                   </p>
                 </div>
               </div>
@@ -162,22 +162,169 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Products showcase */}
+      <section className="section_about-products">
+        <div padding-global="">
+          <div container="large" className="padding-section-large is-top-medium">
+            <div className="margin-bottom margin-xlarge">
+              <div className="solution-eyebrow">
+                <span className="solution-eyebrow-num">02</span>
+                <span className="solution-eyebrow-rule" aria-hidden="true" />
+                <span className="solution-eyebrow-label">Our products</span>
+              </div>
+              <h2 className="solution-section-heading">
+                Everything we have shipped
+              </h2>
+            </div>
+            <div className="about-index">
+              {[
+                {
+                  tag: "Core",
+                  title: "Offchain Subnames",
+                  href: "https://app.namespace.ninja/offchain",
+                  host: "app.namespace.ninja",
+                  desc: "Issue ENS subnames at any scale - no gas, no infra, no contracts.",
+                },
+                {
+                  tag: "Core",
+                  title: "Onchain Subnames",
+                  href: "https://app.namespace.ninja/onchain",
+                  host: "app.namespace.ninja",
+                  desc: "Mint L1 or L2 subnames on Ethereum, Base or Optimism.",
+                },
+                {
+                  tag: "Dev tools",
+                  title: "SDK / API",
+                  href: "https://docs.namespace.ninja/developer-guide/sdks/introduction",
+                  host: "docs.namespace.ninja",
+                  desc: "ENS subname registrations and management in your apps.",
+                },
+                {
+                  tag: "Dev tools",
+                  title: "ENS Components",
+                  href: "https://enscomponents.com/",
+                  host: "enscomponents.com",
+                  desc: "Ready-made React components for registrations and records.",
+                },
+                {
+                  tag: "AI",
+                  title: "ENS MCP",
+                  href: "https://github.com/thenamespace/ens-mcp",
+                  host: "github.com",
+                  desc: "AI models query and interact with ENS in real time.",
+                },
+                {
+                  tag: "Resolution",
+                  title: "Resolvio",
+                  href: "https://resolvio.xyz/",
+                  host: "resolvio.xyz",
+                  desc: "Universal API-first ENS resolution service.",
+                },
+                {
+                  tag: "Embed",
+                  title: "ENS Widget",
+                  href: "https://app.namespace.ninja/widgets",
+                  host: "app.namespace.ninja",
+                  desc: "Embed subname registrations directly in your website.",
+                },
+                {
+                  tag: "White-label",
+                  title: "Subpages",
+                  href: "https://github.com/thenamespace/subpages",
+                  host: "github.com",
+                  desc: "Launch a white-label subname minting site in minutes.",
+                },
+                {
+                  tag: "Community",
+                  title: "ENS Diamonds",
+                  href: "https://ens.diamonds",
+                  host: "ens.diamonds",
+                  desc: "Pool ETH with friends to claim premium ENS names together.",
+                },
+                {
+                  tag: "Agents",
+                  title: "Namera",
+                  href: "https://namera.ai",
+                  host: "namera.ai",
+                  desc: "Programmable permission infrastructure for autonomous agents.",
+                },
+                {
+                  tag: "Services",
+                  title: "Custom Solutions",
+                  href: BOOK_CALL,
+                  host: "cal.com",
+                  desc: "Bespoke ENS infrastructure, scoped, built and operated by us.",
+                },
+              ].map((prod) => (
+                <a
+                  key={prod.title}
+                  href={prod.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="about-index-row"
+                >
+                  <span className="about-index-tag">{prod.tag}</span>
+                  <span className="about-index-name">{prod.title}</span>
+                  <span className="about-index-desc">{prod.desc}</span>
+                  <span className="about-index-host">
+                    {prod.host} <i aria-hidden="true">&#8599;</i>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Namespace vs ENS */}
       <section className="section_about-ens">
         <div padding-global="">
           <div container="large" className="padding-section-large is-top-medium">
-            <div className="solution-definition">
-              <div className="solution-definition-marker" aria-hidden="true" />
-              <div className="solution-definition-body">
-                <h2 className="heading-style-h5">How is Namespace different from ENS?</h2>
-                <p className="text-weight-medium solution-definition-answer">
-                  ENS is the naming protocol; Namespace is the execution and
-                  distribution engine built on top of it. ENS defines how
-                  names work; Namespace builds the systems - resolvers, APIs,
-                  SDKs, managed infrastructure - that make naming usable at
-                  scale. We are an official ENS service provider, supported by
-                  the ENS DAO since 2023.
+            <div className="margin-bottom margin-xlarge">
+              <h2 className="solution-section-heading">
+                How is Namespace different from ENS?
+              </h2>
+            </div>
+            <div className="about-vs">
+              <div className="about-vs-col">
+                <div className="about-vs-head">
+                  <span className="about-vs-tile is-framed">
+                    <img
+                      src="/assets/images/ens-mark-Blue.svg"
+                      alt="ENS logo"
+                      loading="lazy"
+                    />
+                  </span>
+                  <h3 className="heading-style-h6">ENS</h3>
+                  <span className="about-vs-tag">The protocol</span>
+                </div>
+                <p className="text-weight-medium">
+                  The naming protocol. ENS defines how names work - the
+                  registries, resolvers, and records the whole ecosystem
+                  reads.
                 </p>
+              </div>
+              <div className="about-vs-col">
+                <div className="about-vs-head">
+                  <span className="about-vs-tile">
+                    <img
+                      src="/assets/images/favicon-128.png"
+                      alt="Namespace logo"
+                      loading="lazy"
+                    />
+                  </span>
+                  <h3 className="heading-style-h6">Namespace</h3>
+                  <span className="about-vs-tag">The engine on top</span>
+                </div>
+                <p className="text-weight-medium">
+                  The execution and distribution engine built on ENS -
+                  resolvers, APIs, SDKs, and managed infrastructure that make
+                  naming usable at scale.
+                </p>
+              </div>
+              <div className="about-vs-foot">
+                Official ENS service provider &middot; supported by the ENS
+                DAO since 2023
               </div>
             </div>
           </div>
