@@ -681,7 +681,7 @@ export const SOLUTIONS: Solution[] = [
     },
     howItWorks: {
       label: "How wallet usernames work",
-      lead: "Wallets give every user a readable name - **alice.yourwallet.eth** - by issuing ENS subnames during onboarding. Namespace issues them offchain over CCIP-Read, so there are no contracts to deploy, no gas for the user and no limit on volume. The names resolve in 1,000+ ENS-enabled apps across 100+ chains, which removes address copy-paste errors and puts your brand in every transaction a user makes.",
+      lead: "Wallets give every user a readable name - **alice.yourwallet.eth** - by issuing ENS subnames during onboarding. An ENS subname is what your users experience as their username. Namespace issues them offchain over CCIP-Read, so there are no contracts to deploy, no gas for the user and no limit on volume. The names resolve in 1,000+ ENS-enabled apps across 100+ chains, which removes address copy-paste errors and puts your brand in every transaction a user makes.",
       chips: [
         "Gasless",
         "No contracts to deploy",
@@ -807,6 +807,11 @@ export const SOLUTIONS: Solution[] = [
           "No, not for offchain names. You point an existing name at our resolver and call an API. Onchain issuance uses audited contracts that are already deployed.",
       },
       FAQ_BUILD_VS_BUY,
+      {
+        question: "What is the difference between ENS names, subnames, and usernames?",
+        answer:
+          "They describe the same thing at different levels. An ENS name is any Ethereum Name Service identifier. A subname (or subdomain) is a name issued under a parent you control, like alice.yourwallet.eth. Username is simply what your product calls that subname when a user sees it. Namespace issues ENS subnames that your users experience as usernames.",
+      },
       FAQ_LOCK_IN,
       FAQ_TIMELINE,
     ],
@@ -898,7 +903,7 @@ export const SOLUTIONS: Solution[] = [
     },
     howItWorks: {
       label: "How chain identity works",
-      lead: "An L2 identity system is a chain-wide naming service for your chain built on ENS. Every user, builder, app, and contract gets a readable name under one root - **user.yourchain.eth**, or a DNS domain you already own, like **yourchain.id** - registered on your chain and resolvable everywhere. Namespace designs, builds, and operates the whole stack as an official ENS service provider: registrar and resolver contracts, CCIP-Read gateways, indexers, and the registration frontend. The names resolve across 100+ chains and in 1,000+ apps from day one, so your chain's identity is legible far outside its own ecosystem.",
+      lead: "An L2 identity system is a chain-wide naming service for your chain built on ENS. Every user, builder, app, and contract gets a readable name under one root - **user.yourchain.eth**, or a DNS domain you already own, like **yourchain.id** - registered on your chain and resolvable everywhere. These names are ENS subnames, surfaced to your users as usernames. Namespace designs, builds, and operates the whole stack as an official ENS service provider: registrar and resolver contracts, CCIP-Read gateways, indexers, and the registration frontend. The names resolve across 100+ chains and in 1,000+ apps from day one, so your chain's identity is legible far outside its own ecosystem.",
       chips: [
         "L1 and L2 chains",
         "Shared across ecosystems",
@@ -1341,7 +1346,7 @@ export const SOLUTIONS: Solution[] = [
     },
     howItWorks: {
       label: "How payable names work",
-      lead: "Fintechs and neobanks can give every customer a payable username like **alice.yourbank.eth** or **alice.yourbank.id**, issued at signup. Instead of pasting a 42-character wallet address, the sender just types a name. Namespace creates these names through an API, with no gas cost and no contract deployment. One name holds address records for every chain you support, so it always resolves to the right address on the right chain before the money moves. The names are not locked to your app. They resolve in wallets, explorers, and other fintechs, so cross-app transfers happen without either side integrating the other.",
+      lead: "Fintechs and neobanks can give every customer a payable username - an ENS subname like **alice.yourbank.eth** or **alice.yourbank.id** - issued at signup. Instead of pasting a 42-character wallet address, the sender just types a name. Namespace creates these names through an API, with no gas cost and no contract deployment. One name holds address records for every chain you support, so it always resolves to the right address on the right chain before the money moves. The names are not locked to your app. They resolve in wallets, explorers, and other fintechs, so cross-app transfers happen without either side integrating the other.",
       chips: [
         "Free",
         "Gasless",

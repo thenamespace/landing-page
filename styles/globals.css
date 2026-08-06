@@ -30,25 +30,33 @@ html {
 
 /* ── Prose ─────────────────────────────────────────────── */
 .post-prose {
-  max-width: 44rem;
-  font-size: 1.0625rem;
-  line-height: 1.8;
+  max-width: 43rem;
+  font-size: 1.2rem;
+  line-height: 1.75;
+  font-weight: 420;
+  color: #2b2b30;
+  letter-spacing: -0.003em;
 }
 .post-prose > * + * {
-  margin-top: 1.25em;
+  margin-top: 1.4em;
+}
+.post-prose p {
+  color: #33333a;
 }
 .post-prose h2 {
-  margin-top: 3rem;
-  font-size: 1.5rem;
+  margin-top: 3.25rem;
+  font-size: 1.8rem;
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   font-weight: 700;
+  color: #1a1a1f;
 }
 .post-prose h3 {
-  margin-top: 2.25rem;
-  font-size: 1.175rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  margin-top: 2.5rem;
+  font-size: 1.35rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  color: #1a1a1f;
 }
 .post-prose h4 {
   margin-top: 1.75rem;
@@ -59,13 +67,16 @@ html {
   opacity: 0.7;
 }
 .post-prose a {
+  color: #4665e8;
+  font-weight: 500;
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
-  transition: opacity 0.15s;
+  text-decoration-color: rgba(70, 101, 232, 0.4);
+  transition: text-decoration-color 0.15s;
 }
 .post-prose a:hover {
-  opacity: 0.75;
+  text-decoration-color: #4665e8;
 }
 .post-prose ul {
   list-style: disc;
@@ -76,15 +87,17 @@ html {
   padding-left: 1.5rem;
 }
 .post-prose li {
-  margin: 0.4rem 0;
+  margin: 0.55rem 0;
   line-height: 1.7;
+  color: #33333a;
 }
 .post-prose li > ul,
 .post-prose li > ol {
   margin-top: 0.25rem;
 }
 .post-prose strong {
-  font-weight: 600;
+  font-weight: 680;
+  color: #1a1a1f;
 }
 .post-prose blockquote {
   border-left: 2px solid currentColor;

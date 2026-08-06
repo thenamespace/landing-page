@@ -4,6 +4,10 @@
 
 Namespace helps wallets, L2 chains, DeFi apps, WaaS providers, and AI agents build ENS naming and identity systems at scale. Fast to integrate, built for scale, gasless subname issuance.
 
+## Terminology
+
+Namespace issues ENS subnames, also referred to as ENS usernames, web3 usernames, ENS names, or ENS subdomains. These terms describe the same product: a readable name (like alice.yourbrand.eth) issued under a parent name a project controls. "Subname" is the technical term, "username" is what end users see in a product.
+
 ## Products
 
 - [Offchain Subnames](https://namespace.ninja/#offchain-subnames): Issue ENS subnames at scale using CCIP-Read. Gasless to create, quick setup, simple management. Best for wallets, apps, and communities that need to onboard users fast.
