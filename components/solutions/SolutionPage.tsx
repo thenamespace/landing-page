@@ -201,22 +201,20 @@ export function HeroPhone({ name }: { name: string }) {
           </span>
         </div>
         <div className="sol-uni-claim">
-          <div className="sol-uni-claim-body">
-            <b>Claim your username</b>
-            <span>One name for every app you touch.</span>
-            <span className="sol-uni-claim-btn">Claim now</span>
+          <b className="sol-uni-claim-h">Claim your username</b>
+          <span className="sol-uni-claim-sub">
+            One name for every app you touch.
+          </span>
+          <div className="sol-uni-claim-social">
+            <span className="sol-uni-avastack">
+              <span className="sol-face g1" />
+              <span className="sol-face g2" />
+              <span className="sol-face g3" />
+              <span className="sol-uni-avamore">+2.4k</span>
+            </span>
+            <span className="sol-uni-claim-count">claimed this week</span>
           </div>
-          <div className="sol-uni-claim-pills">
-            <span className="sol-uni-fpill t1">
-              <span className="sol-face g1" />milo
-            </span>
-            <span className="sol-uni-fpill t2">
-              <span className="sol-face g2" />juno
-            </span>
-            <span className="sol-uni-fpill t3">
-              <span className="sol-face g3" />remy
-            </span>
-          </div>
+          <span className="sol-uni-claim-btn">Claim your name</span>
         </div>
         <div className="sol-uni-tabs">
           <span className="sol-uni-tab">Tokens</span>
