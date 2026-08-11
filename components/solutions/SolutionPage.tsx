@@ -119,23 +119,280 @@ export function HeroPhone({ name }: { name: string }) {
   const label = dot > 0 ? name.slice(0, dot) : name;
   const suffix = dot > 0 ? name.slice(dot) : "";
   return (
-    <div className="solution-phone-wrapper" aria-hidden="true">
-      <div className="solution-phone-glow" />
-      <div className="solution-phone">
-        <div className="solution-phone-screen">
-          <div className="solution-phone-title">Pick your username</div>
-          <p className="solution-phone-sub">This is you, everywhere onchain.</p>
-          <div className="solution-phone-input">
-            <b>{label}</b>
-            <span>{suffix}</span>
-          </div>
-          <div className="solution-phone-avail">
-            <i />
-            {name} is available
-          </div>
-          <div className="solution-phone-claim">Claim username</div>
-          <div className="solution-phone-note">free · no gas · instant</div>
+    <div className="sol-uni-hero" aria-hidden="true">
+      {/* Wallet phone (partial, left) */}
+      <div className="sol-uni-phone">
+        <div className="sol-uni-head">
+          <span className="sol-uni-pfp">
+            <img src="/assets/images/alice-hatter.png" alt="" />
+          </span>
+          <svg className="sol-uni-gear" width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 15.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7z"
+              stroke="currentColor"
+              strokeWidth="1.8"
+            />
+            <path
+              d="M19.4 13a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-2.9 1.09V21a2 2 0 11-4 0v-.09A1.65 1.65 0 004.6 19.4l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 003 13H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 7.1l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6V3a2 2 0 114 0v.09a1.65 1.65 0 002.9 1.09l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0021 9v.09a1.65 1.65 0 001.51.91H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              opacity="0.55"
+            />
+          </svg>
         </div>
+        <div className="sol-uni-id">
+          <span className="sol-uni-name">
+            <b>{label}</b>
+            <i>{suffix}</i>
+          </span>
+          <svg className="sol-uni-copy" width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <rect x="9" y="9" width="11" height="11" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
+            <path d="M5 15V6a2 2 0 012-2h9" stroke="currentColor" strokeWidth="1.8" />
+          </svg>
+        </div>
+        <div className="sol-uni-bal">
+          $43,251<i>.56</i>
+        </div>
+        <div className="sol-uni-chg">
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true">
+            <path d="M5 1l4 7H1l4-7z" fill="#23a35b" />
+          </svg>
+          $156.01 (0.69%)
+        </div>
+        <div className="sol-uni-actions">
+          <span className="sol-uni-act">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="6" width="18" height="12" rx="2.5" stroke="currentColor" strokeWidth="2" />
+              <path d="M6 10h5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </span>
+          <span className="sol-uni-act">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M20 4L3 11l6 2.5L11.5 20 20 4z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          <span className="sol-uni-act">
+            <span className="sol-uni-act-fill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 4v14m0 0l-5-5m5 5l5-5"
+                  stroke="#fff"
+                  strokeWidth="2.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </span>
+          <span className="sol-uni-act">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M4 8V5a1 1 0 011-1h3M20 8V5a1 1 0 00-1-1h-3M4 16v3a1 1 0 001 1h3M20 16v3a1 1 0 01-1 1h-3"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+          </span>
+        </div>
+        <div className="sol-uni-claim">
+          <div className="sol-uni-claim-body">
+            <b>Claim your username</b>
+            <span>One name for every app you touch.</span>
+            <span className="sol-uni-claim-btn">Claim now</span>
+          </div>
+          <div className="sol-uni-claim-pills">
+            <span className="sol-uni-fpill t1">
+              <span className="sol-face g1" />milo
+            </span>
+            <span className="sol-uni-fpill t2">
+              <span className="sol-face g2" />juno
+            </span>
+            <span className="sol-uni-fpill t3">
+              <span className="sol-face g3" />remy
+            </span>
+          </div>
+        </div>
+        <div className="sol-uni-tabs">
+          <span className="sol-uni-tab">Tokens</span>
+          <span className="sol-uni-tab is-dim">NFTs</span>
+          <span className="sol-uni-tab is-dim">Activity</span>
+        </div>
+        <div className="sol-uni-trow">
+          <span className="sol-uni-ticon eth">Ξ</span>
+          <span className="sol-uni-tinfo">
+            <b>Ethereum</b>
+            <span>1.24 ETH</span>
+          </span>
+          <span className="sol-uni-tval">
+            <b>$3,058</b>
+            <span className="is-up">+2.1%</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Unicorn-branded onboarding visual for the Unicorn case study: white cards
+ * on the signature chunky purple offset-shadow (see myunicornaccount.com).
+ */
+const EthIcon = () => (
+  <svg className="sol-uc-tok" viewBox="0 0 32 32" aria-hidden="true">
+    <circle cx="16" cy="16" r="16" fill="#627eea" />
+    <path fill="#fff" fillOpacity="0.9" d="M16 4l-.15.5v14.4l.15.15 6-3.55z" />
+    <path fill="#fff" d="M16 4l-6 9.95 6 3.55V4z" />
+    <path fill="#fff" fillOpacity="0.9" d="M16 18.62l-.08.1v5.13l.08.25 6-8.45z" />
+    <path fill="#fff" d="M16 24.1v-5.48l-6-3.55z" />
+  </svg>
+);
+const UsdtIcon = () => (
+  <svg className="sol-uc-tok" viewBox="0 0 32 32" aria-hidden="true">
+    <circle cx="16" cy="16" r="16" fill="#26a17b" />
+    <path
+      fill="#fff"
+      d="M17.9 14.3v-1.9h4.3V9.5H9.8v2.9h4.3v1.9c-3.5.16-6.13.85-6.13 1.68 0 .83 2.63 1.52 6.13 1.68v6.03h3.8v-6.03c3.49-.16 6.11-.85 6.11-1.68 0-.83-2.62-1.52-6.11-1.68m0 2.84v-.01c-.09.01-.54.04-1.55.04-.8 0-1.37-.02-1.57-.04v.01c-3.1-.14-5.42-.68-5.42-1.33 0-.64 2.32-1.19 5.42-1.33v2.12c.2.01.78.05 1.58.05.97 0 1.45-.04 1.54-.05v-2.12c3.09.14 5.4.69 5.4 1.33 0 .65-2.31 1.19-5.4 1.33"
+    />
+  </svg>
+);
+
+/**
+ * Unicorn case study — recreation of Unicorn's "Simple Monetization" visual:
+ * a yellow phone with a swap screen, two floating white cards on the signature
+ * purple offset-shadow showing the fee the brand earns.
+ */
+export function UnicornOnboard() {
+  return (
+    <div className="sol-uc" aria-hidden="true">
+      <div className="sol-uc-ellipse" />
+      <div className="sol-uc-phone">
+        <div className="sol-uc-phone-notch" />
+        <div className="sol-uc-screen">
+          <div className="sol-uc-screen-head" />
+          <div className="sol-uc-screen-note">You can add usernames in the swap</div>
+          <div className="sol-uc-swaprow">
+            <div className="sol-uc-swap-amt">
+              <b>1</b>
+              <span>($2277.71)</span>
+            </div>
+            <div className="sol-uc-swap-tok">
+              <EthIcon />
+              <b>ETH</b>
+              <span>6.387 ETH</span>
+              <em>Max</em>
+            </div>
+          </div>
+          <div className="sol-uc-swap-swapicon">&#8645;</div>
+          <div className="sol-uc-swaprow">
+            <div className="sol-uc-swap-amt">
+              <b>3487.18</b>
+              <span>($3486.00)</span>
+            </div>
+            <div className="sol-uc-swap-tok">
+              <UsdtIcon />
+              <b>USDT</b>
+              <span>47.883 USDT</span>
+            </div>
+          </div>
+          <div className="sol-uc-swap-fee">
+            Transaction fee <span>0.00635 ETH ($1.5)</span>
+          </div>
+          <div className="sol-uc-swap-btns">
+            <span className="is-cancel">Cancel</span>
+            <span className="is-confirm">Confirm</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="sol-uc-fcard sol-uc-fcard-1">
+        <div className="sol-uc-fcard-title">
+          <b>user.yourbrand.com</b> swaps
+        </div>
+        <div className="sol-uc-fcard-row">
+          <b>1 ETH</b>
+          <EthIcon />
+          <span className="sol-uc-fcard-arrow">&#187;</span>
+          <UsdtIcon />
+          <b>3,487.18 USDT</b>
+        </div>
+      </div>
+
+      <span className="sol-uc-connect">&#8595;</span>
+
+      <div className="sol-uc-fcard sol-uc-fcard-2">
+        <div className="sol-uc-fcard-title">
+          <b>yourbrand.com</b> makes 0.5%
+        </div>
+        <div className="sol-uc-fcard-row is-center">
+          <UsdtIcon />
+          <b>17.43 USDT</b>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Celo-branded case-study visual (Celonames): cream panel with the tiled-pill
+ * texture, Celo yellow accents, and the "get your CELO name" register card.
+ */
+export function CeloNames() {
+  return (
+    <div className="sol-celo" aria-hidden="true">
+      <img className="sol-celo-shot s1" src="/assets/images/celo-case-1.png" alt="" loading="lazy" />
+      <img className="sol-celo-shot s2" src="/assets/images/celo-case-2.png" alt="" loading="lazy" />
+    </div>
+  );
+}
+
+/**
+ * Fintech / neobank case-study visual: a clean "send money" screen showing a
+ * payment to a readable name (alice.pay.eth) instead of a 42-char address.
+ */
+export function FintechSend({ name }: { name: string }) {
+  const dot = name.indexOf(".");
+  const label = dot > 0 ? name.slice(0, dot) : name;
+  const suffix = dot > 0 ? name.slice(dot) : "";
+  return (
+    <div className="sol-fin" aria-hidden="true">
+      <div className="sol-fin-screen">
+        <div className="sol-fin-top">
+          <span className="sol-fin-back">&#8249;</span>
+          <span className="sol-fin-title">Send money</span>
+          <span className="sol-fin-x">&#215;</span>
+        </div>
+        <div className="sol-fin-to">
+          <span className="sol-fin-avatar">
+            <img src="/assets/images/alice-hatter.png" alt="" />
+          </span>
+          <div className="sol-fin-to-info">
+            <span className="sol-fin-name">
+              <b>{label}</b>
+              <i>{suffix}</i>
+            </span>
+            <span className="sol-fin-to-sub">Verified &middot; resolves on 5 chains</span>
+          </div>
+          <span className="sol-fin-check">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12.5l4 4L19 7" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        </div>
+        <div className="sol-fin-amount">
+          $50<span>.00</span>
+        </div>
+        <div className="sol-fin-from">
+          <span>From</span>
+          <b>Main balance &middot; $4,208.00</b>
+        </div>
+        <div className="sol-fin-btn">Send $50.00</div>
+        <div className="sol-fin-note">Instant &middot; no network fee</div>
       </div>
     </div>
   );
@@ -322,7 +579,7 @@ function HeroBrowser({ name }: { name: string }) {
 function HeroAgent({ name }: { name: string }) {
   const [label, ...rest] = name.split(".");
   const domain = rest.join(".");
-  const brand = (rest[0] ?? "yourplatform").replace(/\.eth$/, "");
+  const brand = (rest[0] ?? "yourapp").replace(/\.eth$/, "");
   return (
     <div className="solution-alookup" aria-hidden="true">
       <div className="solution-code-chrome">
@@ -1073,7 +1330,28 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   <div key={card.tag} className="solution-risk-card is-dark">
                     <em className="solution-risk-tag">{card.tag}</em>
                     <h3 className="heading-style-h6 solution-versus-value">
-                      {card.value}
+                      {card.value.includes(".") ? (
+                        <span className="solution-versus-name">
+                          {card.value.split(".").map((part, pi, arr) => (
+                            <React.Fragment key={pi}>
+                              {pi > 0 && <span className="is-dot">.</span>}
+                              <span
+                                className={
+                                  pi === 0
+                                    ? "is-label"
+                                    : pi === arr.length - 1
+                                      ? "is-tld"
+                                      : "is-mid"
+                                }
+                              >
+                                {part}
+                              </span>
+                            </React.Fragment>
+                          ))}
+                        </span>
+                      ) : (
+                        card.value
+                      )}
                     </h3>
                     <p className="text-weight-medium solution-risk-detail">
                       {card.description}
@@ -1399,6 +1677,12 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                         className="solution-plook-img"
                         loading="lazy"
                       />
+                    ) : s.caseStory.visualKind === "unicorn" ? (
+                      <UnicornOnboard />
+                    ) : s.caseStory.visualKind === "celo" ? (
+                      <CeloNames />
+                    ) : s.caseStory.visualKind === "fintech" ? (
+                      <FintechSend name={s.caseStory.visualName ?? s.heroName} />
                     ) : (
                       <HeroPhone name={s.caseStory.visualName ?? s.heroName} />
                     )}

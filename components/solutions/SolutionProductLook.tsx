@@ -11,65 +11,99 @@ function renderBold(text: string) {
     .map((part, i) => (i % 2 === 1 ? <b key={i}>{part}</b> : part));
 }
 
-function ClaimVisual() {
+/** Split a name into its first label and the remaining suffix (".domain.eth"). */
+function splitName(name: string) {
+  const dot = name.indexOf(".");
+  return {
+    label: dot > 0 ? name.slice(0, dot) : name,
+    suffix: dot > 0 ? name.slice(dot) : "",
+  };
+}
+
+/** A Uniswap-style name pill: colored label + gray suffix on a white capsule. */
+function NamePill({
+  name,
+  color = "pc2",
+  size = "",
+  face,
+}: {
+  name: string;
+  color?: string;
+  size?: string;
+  face?: string;
+}) {
+  const { label, suffix } = splitName(name);
   return (
-    <div className="solution-plook-mock" aria-hidden="true">
-      <div className="solution-plook-mock-title">Pick your username</div>
-      <div className="solution-plook-mock-field">
-        <span className="solution-plv-mono"><b>alice</b><i>.yourwallet.eth</i></span>
+    <span className={`sol-pill ${color} ${size}`.trim()}>
+      {face && <span className={`sol-face ${face} is-xs`} />}
+      <b>{label}</b>
+      {suffix && <i>{suffix}</i>}
+    </span>
+  );
+}
+
+function ClaimVisual({ name }: { name: string }) {
+  const { label, suffix } = splitName(name);
+  return (
+    <div className="sol-pmock" aria-hidden="true">
+      <div className="sol-pmock-title">Pick your username</div>
+      <div className="sol-pinput">
+        <b>{label}</b>
+        <span className="sol-caret" />
+        <i>{suffix}</i>
       </div>
-      <div className="solution-plv-ok">alice.yourwallet.eth is available</div>
-      <div className="solution-plook-mock-btn">Claim username</div>
-      <div className="solution-plook-mock-meta" style={{ textAlign: "center" }}>
-        free · no gas · instant
+      <div className="sol-pok">
+        <span>&#10003;</span> {name} is available
       </div>
+      <div className="sol-pbtn">Claim username</div>
+      <div className="sol-pmeta is-center">free · no gas · instant</div>
     </div>
   );
 }
 
 function SendVisual({ name }: { name: string }) {
   return (
-    <div className="solution-plook-mock" aria-hidden="true">
-      <div className="solution-plook-mock-title">Send</div>
-      <div className="solution-plook-mock-field">
-        <span className="solution-plook-mock-avatar" />
-        <span>{name}</span>
-        <span className="solution-plook-mock-check">&#10003;</span>
+    <div className="sol-pmock" aria-hidden="true">
+      <div className="sol-pmock-title">Send</div>
+      <div className="sol-pfield">
+        <NamePill name={name} color="pc2" face="is-alice" />
+        <span className="sol-pcheck">&#10003;</span>
       </div>
-      <div className="solution-plook-mock-meta">
-        resolved · avatar and profile shown before confirm
+      <div className="sol-pmeta">
+        resolved · avatar and profile shown before you confirm
       </div>
-      <div className="solution-plook-mock-amount">$50.00</div>
-      <div className="solution-plook-mock-btn">Send</div>
+      <div className="sol-pamount">$50.00</div>
+      <div className="sol-pbtn">Send</div>
     </div>
   );
 }
 
 function ProfileVisual({ name }: { name: string }) {
+  const { label } = splitName(name);
   return (
-    <div className="solution-plook-mock" aria-hidden="true">
-      <div className="solution-plv-profile-head">
-        <span className="solution-plook-mock-avatar is-large" />
+    <div className="sol-pmock" aria-hidden="true">
+      <div className="sol-pprofile">
+        <span className="sol-face is-alice is-lg" />
         <div>
-          <div className="solution-plv-profile-name">{name}</div>
-          <div className="solution-plook-mock-meta">Building onchain since 2024</div>
+          <NamePill name={name} color="pc4" />
+          <div className="sol-pmeta">Building onchain since 2024</div>
         </div>
       </div>
-      <div className="solution-plv-rows">
-        <div className="solution-plv-row">
-          <span>twitter</span>
-          <b>@alice</b>
+      <div className="sol-prows">
+        <div className="sol-prow">
+          <span className="sol-prow-key">twitter</span>
+          <span className="sol-prow-val">@{label}</span>
         </div>
-        <div className="solution-plv-row">
-          <span>eth</span>
-          <b>0x4f3a…c8d2</b>
+        <div className="sol-prow">
+          <span className="sol-prow-key">eth</span>
+          <span className="sol-prow-val">0x4f3a…c8d2</span>
         </div>
-        <div className="solution-plv-row">
-          <span>base</span>
-          <b>0x4f3a…c8d2</b>
+        <div className="sol-prow">
+          <span className="sol-prow-key">base</span>
+          <span className="sol-prow-val">0x4f3a…c8d2</span>
         </div>
       </div>
-      <div className="solution-plook-mock-meta">
+      <div className="sol-pmeta">
         standard ENS records, controlled by the user
       </div>
     </div>
@@ -77,50 +111,53 @@ function ProfileVisual({ name }: { name: string }) {
 }
 
 function EverywhereVisual({ name }: { name: string }) {
+  const apps: [string, string][] = [
+    ["Uniswap", "pc3"],
+    ["Farcaster", "pc4"],
+    ["Etherscan", "pc2"],
+  ];
   return (
-    <div className="solution-plook-mock" aria-hidden="true">
-      <div className="solution-plook-mock-title">One name, everywhere</div>
-      <div className="solution-plv-rows">
-        <div className="solution-plv-row">
-          <span>Uniswap</span>
-          <b>connected as {name}</b>
-        </div>
-        <div className="solution-plv-row">
-          <span>Farcaster</span>
-          <b>{name}</b>
-        </div>
-        <div className="solution-plv-row">
-          <span>Etherscan</span>
-          <b>{name}</b>
-        </div>
+    <div className="sol-pmock" aria-hidden="true">
+      <div className="sol-pmock-title">One name, everywhere</div>
+      <div className="sol-prows">
+        {apps.map(([app, color]) => (
+          <div key={app} className="sol-prow">
+            <span className="sol-prow-key">{app}</span>
+            <NamePill name={name} color={color} size="is-sm" />
+          </div>
+        ))}
       </div>
-      <div className="solution-plook-mock-meta">
-        your brand, in apps you do not own
-      </div>
+      <div className="sol-pmeta">your brand, in apps you do not own</div>
     </div>
   );
 }
 
 function UpgradeVisual({ name }: { name: string }) {
   return (
-    <div className="solution-plook-mock" aria-hidden="true">
-      <div className="solution-plook-mock-title">Upgrade to ownership</div>
-      <div className="solution-plv-rows">
-        <div className="solution-plv-row">
-          <span>today</span>
-          <b>{name} · offchain, free</b>
+    <div className="sol-pmock" aria-hidden="true">
+      <div className="sol-pmock-title">Upgrade to ownership</div>
+      <div className="sol-prows">
+        <div className="sol-prow">
+          <NamePill name={name} color="pc3" size="is-sm" />
+          <span className="sol-ptag">offchain · free</span>
         </div>
-        <div className="solution-plv-arrow">&#8595;</div>
-        <div className="solution-plv-row is-upgrade">
-          <span>premium</span>
-          <b>{name} · onchain NFT, user-owned</b>
+        <div className="sol-parrow">&#8595;</div>
+        <div className="sol-prow is-up">
+          <NamePill name={name} color="pc4" size="is-sm" />
+          <span className="sol-ptag is-up">onchain NFT · owned</span>
         </div>
       </div>
-      <div className="solution-plook-mock-meta">
-        same label, migrated, no rename
-      </div>
+      <div className="sol-pmeta">same label, migrated, no rename</div>
     </div>
   );
+}
+
+/** Shorten a raw 0x address to head…tail for the transform strip. */
+function shortHex(value: string) {
+  if (value.startsWith("0x") && value.length > 14) {
+    return `${value.slice(0, 6)}…${value.slice(-4)}`;
+  }
+  return value;
 }
 
 export function SolutionProductLook({ data, name }: { data: ProductLook; name: string }) {
@@ -129,7 +166,7 @@ export function SolutionProductLook({ data, name }: { data: ProductLook; name: s
   const visualFor = (kind?: string) => {
     switch (kind) {
       case "claim":
-        return <ClaimVisual />;
+        return <ClaimVisual name={name} />;
       case "profile":
         return <ProfileVisual name={name} />;
       case "everywhere":
@@ -179,14 +216,25 @@ export function SolutionProductLook({ data, name }: { data: ProductLook; name: s
             {visualFor(data.items[active]?.visual)}
           </div>
         )}
-        <div className="solution-plook-compare" aria-hidden="true">
-          <div className="solution-plook-before">
-            <s>{data.before}</s>
-            <span>before</span>
+        <div className="sol-xf" aria-hidden="true">
+          <div className="sol-xf-row is-from">
+            <span className="sol-xf-hex">{shortHex(data.before)}</span>
+            <span className="sol-xf-tag">wallet address</span>
           </div>
-          <div className="solution-plook-after">
-            <b>{data.after}</b>
-            <span>after</span>
+          <span className="sol-xf-arrow">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 5v14m0 0l-6-6m6 6l6-6"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          <div className="sol-xf-row is-to">
+            <NamePill name={data.after} color="pc2" size="is-sm" face="is-alice" />
+            <span className="sol-xf-tag is-accent">their username</span>
           </div>
         </div>
       </div>

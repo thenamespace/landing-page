@@ -24,7 +24,13 @@ export type BenefitVisualKind =
   | "latency"
   | "codecomp"
   | "mintw"
-  | "nsapp";
+  | "nsapp"
+  | "wclaim"
+  | "wsafe"
+  | "wbrand"
+  | "wrevenue"
+  | "wreach"
+  | "wnetwork";
 
 
 function ChainIcon({ chain }: { chain: string }) {
@@ -360,7 +366,7 @@ export function SolutionBenefitVisual({
       {kind === "meta" && (
         <>
           {[
-            ["operator", "yourplatform.eth"],
+            ["operator", "yourapp.eth"],
             ["policy", "rate-limited \u00b7 capped"],
             ["registration", "erc-8004 #4271"],
           ].map(([k2, v]) => (
@@ -409,7 +415,7 @@ export function SolutionBenefitVisual({
             <span className="solution-bviz-mono is-quiet">&gt; who runs researcher.youragents.eth?</span>
           </div>
           <div className="solution-bviz-row is-slim">
-            <span className="solution-bviz-mono"><b>yourplatform.eth</b></span>
+            <span className="solution-bviz-mono"><b>yourapp.eth</b></span>
             <span className="solution-bviz-tag is-ok">&#10003; verified</span>
           </div>
         </>
@@ -486,6 +492,105 @@ export function SolutionBenefitVisual({
             <span className="solution-bviz-chip is-more">+850k</span>
           </div>
         </>
+      )}
+
+      {/* ── Wallet page: Uniswap-style name pills + avatars ── */}
+      {kind === "wclaim" && (
+        <div className="sol-bscene is-center">
+          <span className="sol-pill pc2 is-sm">
+            <span className="sol-face is-alice is-xs" />
+            <b>{label}</b>
+            <i>.{domain}</i>
+          </span>
+          <span className="sol-bmeta is-ok">available · free · no gas</span>
+        </div>
+      )}
+
+      {kind === "wsafe" && (
+        <div className="sol-bscene">
+          <div className="sol-brow">
+            <span className="sol-hex">0x4f3a&hellip;c8d2</span>
+            <span className="solution-bviz-tag is-bad">lookalike</span>
+          </div>
+          <div className="sol-brow">
+            <span className="sol-pill pc3 is-sm">
+              <b>{label}</b>
+              <i>.{domain}</i>
+            </span>
+            <span className="solution-bviz-tag is-ok">&#10003; verified</span>
+          </div>
+        </div>
+      )}
+
+      {kind === "wbrand" && (
+        <div className="sol-bscene">
+          {["Uniswap", "Farcaster", "Etherscan"].map((app, i) => (
+            <div key={app} className="sol-brow">
+              <span className="sol-bapp">{app}</span>
+              <span className={`sol-pill is-xs pc${[3, 4, 2][i]}`}>
+                <b>{label}</b>
+                <i>.{domain}</i>
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {kind === "wrevenue" && (
+        <div className="sol-bscene">
+          {[
+            [label, "free", "pc1", false],
+            ["vip", "$4.99/yr", "pc5", true],
+            ["x", "$199/yr", "pc2", true],
+          ].map(([l, price, pc, paid]) => (
+            <div key={l as string} className="sol-brow">
+              <span className={`sol-pill is-xs ${pc}`}>
+                <b>{l}</b>
+                <i>.{domain}</i>
+              </span>
+              <span className={`sol-price${paid ? " is-paid" : ""}`}>{price}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {kind === "wreach" && (
+        <div className="sol-bscene">
+          <div className="solution-bviz-chips">
+            {["Ethereum", "Base", "Optimism"].map((c) => (
+              <span key={c} className="solution-bviz-chip">
+                {c}
+              </span>
+            ))}
+            <span className="solution-bviz-chip is-more">+100 chains</span>
+          </div>
+          <div className="solution-bviz-chips">
+            {["Uniswap", "Farcaster"].map((c) => (
+              <span key={c} className="solution-bviz-chip">
+                {c}
+              </span>
+            ))}
+            <span className="solution-bviz-chip is-more">+1,000 apps</span>
+          </div>
+        </div>
+      )}
+
+      {kind === "wnetwork" && (
+        <div className="sol-bcluster">
+          {[
+            [label, "pc3"],
+            ["milo", "pc2"],
+            ["juno", "pc1"],
+            ["remy", "pc4"],
+          ].map(([l, pc]) => (
+            <span key={l} className={`sol-pill is-xs ${pc}`}>
+              <b>{l}</b>
+            </span>
+          ))}
+          <span className="sol-pill is-xs pc5">
+            <b>+850k</b>
+          </span>
+        </div>
       )}
     </div>
   );

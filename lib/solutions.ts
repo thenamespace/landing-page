@@ -89,7 +89,13 @@ export interface Solution {
         | "revenue"
         | "everywhere"
         | "network"
-        | "ops";
+        | "ops"
+        | "wclaim"
+        | "wsafe"
+        | "wbrand"
+        | "wrevenue"
+        | "wreach"
+        | "wnetwork";
     }[];
   };
   /** Optional risk-and-mitigation section. Light zone by default; theme "dark" renders in the dark zone with per-card tags. */
@@ -225,6 +231,8 @@ export interface Solution {
     cta2Href?: string;
     /** Name shown in the fallback phone visual. */
     visualName?: string;
+    /** Use a branded case-study visual instead of the default phone. */
+    visualKind?: "unicorn" | "celo" | "fintech";
     image?: string;
     imageAlt?: string;
     stats?: { value: string; label: string }[];
@@ -554,37 +562,37 @@ export const SOLUTIONS: Solution[] = [
       items: [
         {
           title: "Smoother onboarding",
-          visual: "onboarding",
+          visual: "wclaim",
           description:
             "A name to claim is a better first step than an address to copy.",
         },
         {
           title: "Fewer lost funds, fewer tickets",
-          visual: "security",
+          visual: "wsafe",
           description:
             "Address poisoning, clipboard hijacking, and other address-related scams are eliminated with ENS.",
         },
         {
           title: "Your brand in every transaction",
-          visual: "brand",
+          visual: "wbrand",
           description:
             "Every alice.yourwallet.eth displayed in another app is free distribution.",
         },
         {
           title: "Revenue when you want it",
-          visual: "revenue",
+          visual: "wrevenue",
           description:
             "Free names for growth, premium names and renewals for revenue. You set the pricing.",
         },
         {
           title: "Works everywhere",
-          visual: "everywhere",
+          visual: "wreach",
           description:
             "Compatible with 100+ chains and 1,000+ apps, wallets, and protocols.",
         },
         {
           title: "Network effect",
-          visual: "network",
+          visual: "wnetwork",
           description:
             "Each new subname makes your namespace more valuable. More users, more visibility.",
         },
@@ -608,6 +616,7 @@ export const SOLUTIONS: Solution[] = [
         {
           tag: "On the profile",
           body: "Avatar, bio, socials and addresses across chains - all stored as standard ENS records the user controls.",
+          visual: "profile",
         },
         {
           tag: "Outside your app",
@@ -678,6 +687,8 @@ export const SOLUTIONS: Solution[] = [
       ctaLabel: "Read the full case study",
       ctaHref: "/blog/case-study-namespace-x-unicorn",
       visualName: "alice.unicorn.eth",
+      image: "/assets/images/unicorn-case-study.png",
+      imageAlt: "Unicorn wallet swap earning a 0.5% fee on user.yourbrand.com",
     },
     howItWorks: {
       label: "How wallet usernames work",
@@ -1170,6 +1181,7 @@ export const SOLUTIONS: Solution[] = [
       cta2Label: "Read the ENS blog post",
       cta2Href: "https://ens.domains/blog/post/celonames-powered-by-ens",
       visualName: "alice.celo.eth",
+      visualKind: "celo",
     },
     proofStyle: "wall",
     whyUs: {
@@ -1440,16 +1452,16 @@ export const SOLUTIONS: Solution[] = [
       recommendedRow: 0,
     },
     caseStory: {
-      tag: "Case study · Filecoin x Namespace",
+      tag: "Case study · Payments",
       heading: "Payment usernames, live in production",
       points: [
         {
           label: "Situation.",
-          body: "Filecoin wanted readable identities for sending and receiving - names people can type instead of addresses.",
+          body: "A payments app wanted readable identities for sending and receiving - names people can type instead of addresses.",
         },
         {
           label: "Built.",
-          body: "Filpay usernames on Namespace infrastructure: issuance, resolution, and multi-chain address records, operated as a multi-year partnership.",
+          body: "Payment usernames on Namespace infrastructure: issuance, resolution, and multi-chain address records, operated as a multi-year partnership.",
         },
         {
           label: "Result.",
@@ -1458,7 +1470,8 @@ export const SOLUTIONS: Solution[] = [
       ],
       ctaLabel: "Read our case studies",
       ctaHref: "/blog",
-      visualName: "alice.filpay.eth",
+      visualName: "alice.pay.eth",
+      visualKind: "fintech",
     },
     proofStyle: "wall",
     ctaCards: {
@@ -2343,7 +2356,7 @@ export const SOLUTIONS: Solution[] = [
   {
     slug: "ai-agents",
     navLabel: "AI agents",
-    heroName: "agent.yourplatform.eth",
+    heroName: "agent.yourapp.eth",
     heroVisual: "agent",
     metaTitle: "ENS Identity for AI Agents - ERC-8004 Names",
     metaDescription:
@@ -2387,7 +2400,7 @@ export const SOLUTIONS: Solution[] = [
     },
     howItWorks: {
       label: "How agent identity works",
-      lead: "AI agents need identity for the same reason businesses do: counterparties must know who they are dealing with before they transact. An ENS name gives an agent a readable, permanent identifier like **agent.yourplatform.eth**, with records for its owner, its endpoint, its capabilities, and its wallet address. ERC-8004, the Trustless Agents standard, adds three onchain registries for identity, reputation, and validation. Namespace builds the naming and smart account infrastructure that makes agent identity usable in production.",
+      lead: "AI agents need identity for the same reason businesses do: counterparties must know who they are dealing with before they transact. An ENS name gives an agent a readable, permanent identifier like **agent.yourapp.eth**, with records for its owner, its endpoint, its capabilities, and its wallet address. ERC-8004, the Trustless Agents standard, adds three onchain registries for identity, reputation, and validation. Namespace builds the naming and smart account infrastructure that makes agent identity usable in production.",
       chips: [
         "ERC-8004 compatible",
         "Portable across platforms",
@@ -2436,7 +2449,7 @@ export const SOLUTIONS: Solution[] = [
         },
         {
           tag: "Named agent",
-          value: "agent.yourplatform.eth",
+          value: "agent.yourapp.eth",
           description:
             "Operator, addresses, metadata and service endpoints on a name anyone can resolve, registered under ERC-8004, persistent across key rotations.",
           verdict: "Trust is a lookup.",
@@ -2487,7 +2500,7 @@ export const SOLUTIONS: Solution[] = [
       intro: "Name the agent, write the records, register it - then any counterparty can verify before transacting.",
       afterOutcomes: true,
       steps: [
-        { title: "Name the agent", body: "Issue agent.yourplatform.eth programmatically as you deploy - one API call per agent, in the same flow that creates its keys." },
+        { title: "Name the agent", body: "Issue agent.yourapp.eth programmatically as you deploy - one API call per agent, in the same flow that creates its keys." },
         { title: "Write the records", body: "Owner, endpoint, capabilities, wallet address, and a pointer to the ERC-8004 registration file." },
         { title: "Register in ERC-8004", body: "Mint the identity token and point its URI at the registration file. Counterparties resolve the name, read the records, and check the registry before transacting." },
       ],
