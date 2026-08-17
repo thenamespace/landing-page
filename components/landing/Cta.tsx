@@ -1,8 +1,17 @@
 import { WebflowButton } from "@/components/ui/WebflowButton";
+import { CAL_HREF } from "@/lib/cal";
 
 /** CTA section — `section_cta` */
 
-const CTA_CARDS = [
+type CtaCard = {
+  title: string;
+  description: string;
+  button: { label: string; href: string; cal?: boolean };
+  image: string;
+  imageAlt: string;
+};
+
+const CTA_CARDS: CtaCard[] = [
   {
     title: "Issue subnames (no code required)",
     description: "Issue onchain or offchain subnames in record time, using our no-code app.",
@@ -20,7 +29,7 @@ const CTA_CARDS = [
   {
     title: "Partner with Namespace",
     description: "Need ENS for something bigger? We scope, build, and maintain custom ENS infrastructure, from MVP to production scale.",
-    button: { label: "Book a Call", href: "https://cal.com/thecap.eth/discovery" },
+    button: { label: "Book a Call", href: CAL_HREF, cal: true },
     image: "/assets/images/cta-decoration-3.svg",
     imageAlt: "Partner with Namespace for custom ENS naming solutions",
   },
@@ -48,7 +57,7 @@ export function Cta() {
                   <p className="text-color-black-200 text-weight-medium is-linespace-smaller">{card.description}</p>
                 </div>
                 <div className="button-group">
-                  <WebflowButton label={card.button.label} href={card.button.href} variant="white" />
+                  <WebflowButton label={card.button.label} href={card.button.href} variant="white" cal={card.button.cal} />
                 </div>
               </div>
               <div className="cta_card-img-wrapper">

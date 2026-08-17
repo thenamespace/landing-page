@@ -61,13 +61,42 @@ lib/
 ├─ posts.ts              # Frontmatter + markdown loader
 ├─ markdown.ts           # remark/rehype pipeline (GFM + raw HTML passthrough)
 ├─ jsonld.tsx            # Schema.org helpers
-└─ site.ts               # Site constants (name, URL, GA ID, etc.)
+├─ cal.ts                # Cal.com booking link + popup-modal helpers
+└─ site.ts               # Site constants (name, URL, GA ID, announcement bar)
 
 public/                   # All static assets (images, videos, css, js, .well-known)
 styles/
 ├─ globals.css           # Tailwind + post-prose styles
 └─ webflow-overrides.css # Webflow CSS overrides
 ```
+
+---
+
+## Announcement bar & booking CTAs
+
+**Announcement bar** — a thin strip pinned above the navbar (e.g. "Meet us at a
+conference"). Controlled entirely from `SITE.announcement` in `lib/site.ts`:
+
+```ts
+announcement: {
+  enabled: true,            // flip to false to hide everywhere
+  id: "eth-belgrade-2026",  // bump when the message changes (re-shows it to people who dismissed the old one)
+  conf, city, dates,        // the message
+  ctaLabel: "Let's talk",   // the button — opens the Cal booking modal
+}
+```
+
+It's dismissible per browser **session** (returns on the next visit). A small
+inline script in `app/layout.tsx` hides it before first paint for already-dismissed
+sessions to avoid a layout shift. The bar offsets the fixed navbar/content via a
+`body:has(#announcement-bar)` rule in `styles/globals.css`.
+
+**Booking CTAs** — every "Book a call" / "Let's talk" button opens an in-page
+Cal.com modal. The booking link and behaviour live in `lib/cal.ts` (`CAL_SLUG` is
+the single source of truth). Buttons are real links enhanced with `handleCalClick`,
+so modifier/middle clicks and no-JS visitors still open the booking page normally.
+The Cal embed is loaded on demand (first hover/click), so pages without a CTA don't
+download it.
 
 ---
 
