@@ -2,7 +2,7 @@
 
 > ENS Subname Service Provider for Web3 Identity. Backed by ENS DAO.
 
-Namespace helps wallets, L2 chains, DeFi apps, WaaS providers, and AI agents build ENS naming and identity systems at scale. Fast to integrate, built for scale, gasless subname issuance.
+Namespace helps wallets, L2 chains, fintechs and neobanks, WaaS providers, and AI agents build ENS naming and identity systems at scale. Fast to integrate, built for scale, gasless subname issuance.
 
 ## Terminology
 
@@ -19,15 +19,16 @@ Namespace issues ENS subnames, also referred to as ENS usernames, web3 usernames
 - [ENS Components](https://enscomponents.com/): Ready-made React components for ENS name and subname registrations (onchain and offchain), record editing, and more.
 - [Subpages](https://github.com/thenamespace/subpages): Decentralized websites and profiles built on ENS subnames.
 - [Resolver for Google Sheets](https://ens-sheets.namespace.ninja/): Resolve ENS names directly inside Google Sheets.
+- [Namera](https://namera.ai): Programmable permission infrastructure for autonomous agents by Namespace. Smart accounts, scoped session keys, and policies define exactly what an agent can do onchain.
 
 ## Solutions
 
-- **Wallets**: Issue usernames to wallet users at scale using ENS subnames. Gasless, fast, no smart contract knowledge required.
-- **L2 / Rollups**: Chain-wide identity systems for Layer 2 networks. Users get `name.chain.eth` identities tied to their chain.
-- **AI Agents**: Give AI agents persistent, human-readable ENS identities. Namespace provides identity infrastructure for autonomous agents.
-- **DeFi / Payment Apps**: Replace wallet addresses with ENS names in payment flows. Improve UX and reduce send errors.
-- **WaaS (Wallet-as-a-Service)**: Integrate ENS naming into WaaS platforms for white-label wallet naming.
-- **Decentralized Websites**: Host websites and profiles on ENS subnames via IPFS and WebHash.
+- [Wallets](https://namespace.ninja/solutions/wallets): Issue ENS usernames to wallet users at scale. Gasless, fast, no smart contract knowledge required.
+- [L2s / Rollups](https://namespace.ninja/solutions/l2s-rollups): Chain-wide identity systems for Layer 2 networks. Users get `name.chain.eth` identities tied to their chain.
+- [AI Agents](https://namespace.ninja/solutions/ai-agents): Give AI agents persistent, verifiable ENS identities. ERC-8004 compliant, multi-chain, resolvable everywhere. Pairs with Namera for agent smart accounts.
+- [Fintechs & Neobanks](https://namespace.ninja/solutions/fintechs-neobanks): Replace raw wallet addresses with readable names in stablecoin and crypto payment flows. Better UX, fewer send errors.
+- [WaaS (Wallet-as-a-Service)](https://namespace.ninja/solutions/waas): Integrate ENS naming into WaaS platforms for white-label wallet naming.
+- [Decentralized Websites](https://namespace.ninja/solutions/decentralized-websites): Host websites and profiles on ENS subnames via IPFS and WebHash.
 
 ## Documentation
 
