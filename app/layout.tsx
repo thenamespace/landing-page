@@ -2,8 +2,9 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "../styles/globals.css";
 import "../styles/webflow-page-overrides.css";
-import { SITE } from "@/lib/site";
+import { SITE, annDismissedKey, ANN_DISMISSED_VALUE } from "@/lib/site";
 import { JsonLd, organizationSchema, websiteSchema } from "@/lib/jsonld";
+import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -53,9 +54,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html
+      lang="en"
+      className={SITE.announcement.enabled ? "has-announcement" : undefined}
+      suppressHydrationWarning
+    >
       <head>
-        {/* Webflow shared CSS - source of truth for all visual classes */}
+        {/*
+          No-flash announcement bar: if this session already dismissed the bar,
+          mark <html> before first paint so the bar is hidden and the nav/content
+          offset is removed — avoiding the SSR-render-then-unmount layout jump.
+        */}
+        {SITE.announcement.enabled ? (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `(function(){try{if(sessionStorage.getItem(${JSON.stringify(
+                annDismissedKey(SITE.announcement.id),
+              )})===${JSON.stringify(
+                ANN_DISMISSED_VALUE,
+              )}){document.documentElement.classList.add('ann-dismissed');}}catch(e){}})();`,
+            }}
+          />
+        ) : null}
+
+        {/* Webflow shared CSS — source of truth for all visual classes */}
         <link
           rel="stylesheet"
           href="/assets/css/namespace-dev.webflow.shared.3f58c4ac4.css"
@@ -79,6 +101,7 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <AnnouncementBar />
         {children}
 
         {/* ── GSAP + ScrollTrigger + Observer - sticky benefits, scroll anims ── */}

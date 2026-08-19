@@ -1,3 +1,7 @@
+"use client";
+
+import { CAL_HREF, calTriggerProps } from "@/lib/cal";
+
 function ButtonArrow() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="auto" viewBox="0 0 16 16" fill="none" shapeRendering="crispEdges">
@@ -43,7 +47,8 @@ export function Solutions() {
           <div className="button-group is-center">
             <a
               data-wf--component-button-primary--variant="primary-large"
-              href="https://cal.com/thecap.eth/discovery"
+              href={CAL_HREF}
+              {...calTriggerProps()}
               target="_blank"
               rel="noopener noreferrer"
               className="button w-variant-af6e9889-a545-3801-8ad3-ccb7e3d0b06d w-inline-block"

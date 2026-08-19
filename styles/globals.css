@@ -28,6 +28,39 @@ html {
   scroll-padding-top: 5rem;
 }
 
+/* ── Announcement bar ──────────────────────────────────── */
+/*
+ * The bar (#announcement-bar) is position:fixed at top:0. When it's enabled,
+ * the root layout adds `.has-announcement` to <html>, which slides the fixed
+ * navbar and the page content down by its height. We drive this with a plain
+ * class (not :has()) so the offset works on every browser. Dismissing the bar
+ * adds `.ann-dismissed`, which collapses --announcement-h to 0 and everything
+ * snaps back up.
+ */
+:root {
+  --announcement-h: 2.5rem;
+}
+.has-announcement .navbar2_component {
+  top: var(--announcement-h);
+}
+.has-announcement .page-wrapper {
+  padding-top: var(--announcement-h);
+}
+html.has-announcement {
+  scroll-padding-top: calc(5rem + var(--announcement-h));
+}
+/*
+ * Session-dismissed before first paint (the inline script in <head> adds this
+ * class): collapse the height variable to 0 so the bar and every offset that
+ * derives from it disappear together — no render-then-unmount layout jump.
+ */
+html.ann-dismissed {
+  --announcement-h: 0px;
+}
+html.ann-dismissed #announcement-bar {
+  display: none;
+}
+
 /* ── Prose ─────────────────────────────────────────────── */
 .post-prose {
   max-width: 43rem;

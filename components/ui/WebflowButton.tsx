@@ -1,13 +1,19 @@
+"use client";
+
 /**
  * Reusable Webflow-style button with the arrow icon animation.
  * Maps to the .button + .button_icon-wrapper structure in the legacy HTML.
  */
+
+import { calTriggerProps } from "@/lib/cal";
 
 interface WebflowButtonProps {
   label: string;
   href: string;
   variant?: "primary" | "secondary" | "outline" | "hero-outline" | "white";
   external?: boolean;
+  /** When true, the button opens the Cal.com popup (href stays as the fallback). */
+  cal?: boolean;
 }
 
 function ArrowSvg() {
@@ -18,17 +24,19 @@ function ArrowSvg() {
   );
 }
 
-export function WebflowButton({ label, href, variant = "primary", external = true }: WebflowButtonProps) {
+export function WebflowButton({ label, href, variant = "primary", external = true, cal }: WebflowButtonProps) {
   const variantClass =
     variant === "secondary" ? " w-variant-9e301513-bb31-a799-9ca0-2d690dec60e2" :
     variant === "outline" ? " is-products-outline" :
     variant === "hero-outline" ? " is-hero-outline" :
     variant === "white" ? " is-hero-white" :
     " is-accent";
+  const calProps = cal ? calTriggerProps() : {};
   return (
     <a
       data-wf--component-button-primary--variant={variant}
       href={href}
+      {...calProps}
       target={external ? "_blank" : undefined}
       rel={external ? "noopener noreferrer" : undefined}
       className={`button${variantClass} w-inline-block`}
