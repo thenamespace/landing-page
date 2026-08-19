@@ -1285,6 +1285,143 @@ html.ann-dismissed #announcement-bar {
   }
 }
 
+/* About: team grid */
+.about-team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+.about-team-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding: 1.7rem 1.6rem 1.5rem;
+  border-radius: 1rem;
+  background: linear-gradient(165deg, #3a3a3a, #2e2e2e);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  text-decoration: none;
+  transition: box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease;
+}
+.about-team-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+}
+.about-team-avatar {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'SF Mono', 'Fira Mono', ui-monospace, monospace;
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.92);
+  background: linear-gradient(150deg, #52545c, #34353a);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    0 6px 16px rgba(0, 0, 0, 0.28);
+}
+/* subtle per-card avatar variation (monochrome + faint accent), not rainbow */
+.about-team-card[data-i="1"] .about-team-avatar {
+  background: linear-gradient(150deg, #464f6b, #2f333f);
+}
+.about-team-card[data-i="2"] .about-team-avatar {
+  background: linear-gradient(150deg, #5a555c, #34323a);
+}
+.about-team-card[data-i="3"] .about-team-avatar {
+  background: linear-gradient(150deg, #4c565a, #303538);
+}
+.about-team-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.about-team-name {
+  margin: 0;
+  color: #fff;
+  font-size: 1.08rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.about-team-nick {
+  margin-left: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0;
+}
+.about-team-role {
+  font-family: 'SF Mono', 'Fira Mono', ui-monospace, monospace;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+}
+.about-team-handle {
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: 'SF Mono', 'Fira Mono', ui-monospace, monospace;
+  font-size: 0.74rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+.about-team-avatar.is-photo {
+  object-fit: cover;
+  color: transparent;
+}
+.about-team-card.is-link .about-team-handle {
+  color: #8fb0ff;
+  transition: color 0.2s ease;
+}
+.about-team-card.is-link:hover .about-team-handle {
+  color: #b9ccff;
+}
+.about-team-handle .is-muted {
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 0.06em;
+}
+.about-team-card.is-join .about-team-handle {
+  color: #8fb0ff;
+}
+.about-team-handle i {
+  font-style: normal;
+}
+/* join card: dashed, invites interaction */
+.about-team-card.is-join {
+  background: rgba(255, 255, 255, 0.015);
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+.about-team-card.is-join:hover {
+  border-color: rgba(143, 176, 255, 0.5);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+}
+.about-team-join-plus {
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px dashed rgba(255, 255, 255, 0.22);
+}
+@media (max-width: 991px) {
+  .about-team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .about-team-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Agent lookup terminal (AI agents hero) */
 .solution-alookup {
   width: 100%;

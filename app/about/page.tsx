@@ -276,6 +276,100 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Team */}
+      <section className="section_about-team">
+        <div padding-global="">
+          <div container="large" className="padding-section-large is-top-medium">
+            <div className="margin-bottom margin-xlarge">
+              <div className="solution-eyebrow">
+                <span className="solution-eyebrow-num">03</span>
+                <span className="solution-eyebrow-rule" aria-hidden="true" />
+                <span className="solution-eyebrow-label">The team</span>
+              </div>
+              <h2 className="solution-section-heading">
+                The people behind the names
+              </h2>
+              <div className="max-width-medium is-37rem">
+                <p className="text-size-medium text-weight-medium solution-hero-sub">
+                  Lean and mean.
+                </p>
+              </div>
+            </div>
+            <div className="about-team-grid">
+              {[
+                { ens: "cap.eth", nick: "cap", x: "thecaphimself", img: "/assets/images/team/cap.jpg" },
+                { ens: "artii.eth", nick: "arti", x: "artii_eth", img: "/assets/images/team/artii.jpg" },
+                { ens: "happysingh.eth", nick: "happy", x: "HAPPYS1NGH", img: "/assets/images/team/happysingh.png" },
+                { ens: "khanye.eth", nick: "usman", x: "0xkhanye", img: "/assets/images/team/khanye.jpg" },
+                { ens: "envoy1084.eth", nick: "vedant", x: "envoy1084", img: "/assets/images/team/envoy1084.jpg" },
+                { ens: "maxi.eth", nick: "maxi", x: "maxidoteth", img: "/assets/images/team/maxi.jpg" },
+                { ens: "djora.eth", nick: "snowman", x: null, img: "/assets/images/team/djora.jpg" },
+              ].map((member, i) => {
+                const label = member.ens.replace(/\.eth$/, "");
+                const initials = label.slice(0, 2).toUpperCase();
+                const img = member.img;
+                const inner = (
+                  <>
+                    {img ? (
+                      <img className="about-team-avatar is-photo" src={img} alt="" loading="lazy" />
+                    ) : (
+                      <span className="about-team-avatar" aria-hidden="true">
+                        {initials}
+                      </span>
+                    )}
+                    <div className="about-team-meta">
+                      <h3 className="about-team-name">
+                        {member.ens}
+                        {member.nick && (
+                          <span className="about-team-nick">{member.nick}</span>
+                        )}
+                      </h3>
+                    </div>
+                    <span className="about-team-handle">
+                      {member.x ? (
+                        <>@{member.x} <i aria-hidden="true">&#8599;</i></>
+                      ) : (
+                        <span className="is-muted">ENS native</span>
+                      )}
+                    </span>
+                  </>
+                );
+                return member.x ? (
+                  <a
+                    key={member.ens}
+                    href={`https://x.com/${member.x}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="about-team-card is-link"
+                    data-i={i % 4}
+                  >
+                    {inner}
+                  </a>
+                ) : (
+                  <div key={member.ens} className="about-team-card" data-i={i % 4}>
+                    {inner}
+                  </div>
+                );
+              })}
+              <a
+                href="https://t.me/+BJMGddUg8hk4MDEy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="about-team-card is-join"
+              >
+                <span className="about-team-join-plus" aria-hidden="true">+</span>
+                <div className="about-team-meta">
+                  <h3 className="about-team-name">Join us</h3>
+                </div>
+                <span className="about-team-handle">
+                  Say hello <i aria-hidden="true">&#8599;</i>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Namespace vs ENS */}
       <section className="section_about-ens">
         <div padding-global="">
