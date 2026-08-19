@@ -189,7 +189,7 @@ export interface Solution {
       description: string;
       tag?: string;
       size?: "hero" | "medium";
-      group?: "product" | "service";
+      group?: "product" | "service" | "bonus";
       glyph?: string;
       hue?: string;
       logo?: string;
@@ -2553,15 +2553,6 @@ export const SOLUTIONS: Solution[] = [
       style: "split",
       items: [
         {
-          title: "Namera",
-          tag: "By Namespace",
-          group: "product",
-          logo: "/assets/images/namera-logo.png",
-          description:
-            "Programmable permission infrastructure for autonomous agents. Smart accounts, scoped session keys, and policies define exactly what your agents can do onchain.",
-          link: { label: "Visit namera.ai", href: "https://namera.ai" },
-        },
-        {
           title: "ENS MCP",
           group: "product",
           logo: "/assets/images/ens-mark-Blue.svg",
@@ -2570,7 +2561,7 @@ export const SOLUTIONS: Solution[] = [
           link: { label: "GitHub", href: "https://github.com/thenamespace/ens-mcp" },
         },
         {
-          title: "Namespace App",
+          title: "Namespace subnames",
           group: "product",
           logo: "/assets/images/favicon-128.png",
           description: "No-code namespace management - create namespaces and issue subnames with no engineering.",
@@ -2600,6 +2591,15 @@ export const SOLUTIONS: Solution[] = [
           title: "Direct support",
           group: "service",
           description: "A shared channel with the engineers.",
+        },
+        {
+          title: "Namera",
+          tag: "By Namespace",
+          group: "bonus",
+          logo: "/assets/images/namera-logo.png",
+          description:
+            "Programmable permission infrastructure for autonomous agents. Smart accounts, scoped session keys, and policies define exactly what your agents can do onchain.",
+          link: { label: "Visit namera.ai", href: "https://namera.ai" },
         },
       ],
     },

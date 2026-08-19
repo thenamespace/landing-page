@@ -2006,7 +2006,8 @@ export function SolutionPage({ solution }: { solution: Solution }) {
               </div>
               {s.deliver.style === "split" ? (
                 <div className="solution-pbento">
-                  {s.deliver.items
+                  <div className="solution-pbento-products">
+                    {s.deliver.items
                     .filter((o) => o.group === "product")
                     .map((o) => (
                       <div
@@ -2062,6 +2063,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                         </div>
                       </div>
                     ))}
+                  </div>
                   <div className="solution-pbento-svchead" aria-hidden="true">
                     <span>Tools and services</span>
                   </div>
@@ -2078,6 +2080,69 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                         </div>
                       ))}
                   </div>
+                  {s.deliver.items.some((o) => o.group === "bonus") && (
+                    <>
+                      <div className="solution-pbento-svchead" aria-hidden="true">
+                        <span>Bonus</span>
+                      </div>
+                      {s.deliver.items
+                        .filter((o) => o.group === "bonus")
+                        .map((o) => (
+                          <div
+                            key={o.title}
+                            className="solution-pbento-card is-bonus"
+                          >
+                            {o.logo ? (
+                              <div className="solution-namera-head">
+                                <span
+                                  className={`solution-product-tile${o.logoFramed ? " is-framed" : ""}`}
+                                >
+                                  <img src={o.logo} alt="" loading="lazy" />
+                                </span>
+                                <h3 className="heading-style-h6">{o.title}</h3>
+                                {o.tag && (
+                                  <span className="solution-namera-by">{o.tag}</span>
+                                )}
+                              </div>
+                            ) : (
+                              <h3 className="heading-style-h6">{o.title}</h3>
+                            )}
+                            <p className="text-weight-medium">{o.description}</p>
+                            {o.chips && (
+                              <div className="solution-namera-chips">
+                                {o.chips.map((c) => (
+                                  <span key={c} className="solution-fact-chip">
+                                    {c}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            <div className="solution-namera-links">
+                              {o.link && (
+                                <a
+                                  href={o.link.href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="solution-pbento-link"
+                                >
+                                  {o.link.label} <span aria-hidden="true">→</span>
+                                </a>
+                              )}
+                              {o.link2 && (
+                                <a
+                                  href={o.link2.href}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="solution-pbento-link"
+                                >
+                                  {o.link2.label} <span aria-hidden="true">→</span>
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                    </>
+                  )}
                 </div>
               ) : s.deliver.style === "tiered" ? (
                 <div className="solution-tiered">
