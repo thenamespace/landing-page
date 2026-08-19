@@ -295,43 +295,45 @@ export default function AboutPage() {
                 </p>
               </div>
             </div>
-            <div className="about-team-grid">
+            <div className="about-team-accordion">
               {[
-                { ens: "cap.eth", nick: "cap", x: "thecaphimself", img: "/assets/images/team/cap.jpg" },
-                { ens: "artii.eth", nick: "arti", x: "artii_eth", img: "/assets/images/team/artii.jpg" },
-                { ens: "happysingh.eth", nick: "happy", x: "HAPPYS1NGH", img: "/assets/images/team/happysingh.png" },
-                { ens: "khanye.eth", nick: "usman", x: "0xkhanye", img: "/assets/images/team/khanye.jpg" },
-                { ens: "envoy1084.eth", nick: "vedant", x: "envoy1084", img: "/assets/images/team/envoy1084.jpg" },
-                { ens: "maxi.eth", nick: "maxi", x: "maxidoteth", img: "/assets/images/team/maxi.jpg" },
-                { ens: "djora.eth", nick: "snowman", x: null, img: "/assets/images/team/djora.jpg" },
+                { ens: "cap.eth", nick: "cap", role: "CEO", x: "thecaphimself", img: "/assets/images/team/cap.jpg" },
+                { ens: "artii.eth", nick: "arti", role: "CTO", x: "artii_eth", img: "/assets/images/team/artii.jpg" },
+                { ens: "happysingh.eth", nick: "happy", role: "DevRel", x: "HAPPYS1NGH", img: "/assets/images/team/happysingh.png" },
+                { ens: "khanye.eth", nick: "usman", role: "BizDev", x: "0xkhanye", img: "/assets/images/team/khanye.jpg" },
+                { ens: "envoy1084.eth", nick: "vedant", role: "Engineer", x: "envoy1084", img: "/assets/images/team/envoy1084.jpg" },
+                { ens: "maxi.eth", nick: "maxi", role: "Growth", x: "maxidoteth", img: "/assets/images/team/maxi.jpg" },
+                { ens: "djora.eth", nick: "snowman", role: "DevOps", x: null, img: "/assets/images/team/djora.jpg" },
               ].map((member, i) => {
-                const label = member.ens.replace(/\.eth$/, "");
-                const initials = label.slice(0, 2).toUpperCase();
-                const img = member.img;
                 const inner = (
                   <>
-                    {img ? (
-                      <img className="about-team-avatar is-photo" src={img} alt="" loading="lazy" />
-                    ) : (
-                      <span className="about-team-avatar" aria-hidden="true">
-                        {initials}
-                      </span>
-                    )}
-                    <div className="about-team-meta">
+                    <img
+                      className="about-team-panelimg"
+                      src={member.img}
+                      alt=""
+                      loading="lazy"
+                      aria-hidden="true"
+                    />
+                    <span className="about-team-panelnum" aria-hidden="true">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="about-team-panelspine">{member.ens}</span>
+                    <div className="about-team-panelmeta">
+                      <span className="about-team-role">{member.role}</span>
                       <h3 className="about-team-name">
                         {member.ens}
                         {member.nick && (
                           <span className="about-team-nick">{member.nick}</span>
                         )}
                       </h3>
+                      <span className="about-team-handle">
+                        {member.x ? (
+                          <>@{member.x} <i aria-hidden="true">&#8599;</i></>
+                        ) : (
+                          <span className="is-muted">ENS native</span>
+                        )}
+                      </span>
                     </div>
-                    <span className="about-team-handle">
-                      {member.x ? (
-                        <>@{member.x} <i aria-hidden="true">&#8599;</i></>
-                      ) : (
-                        <span className="is-muted">ENS native</span>
-                      )}
-                    </span>
                   </>
                 );
                 return member.x ? (
@@ -340,31 +342,16 @@ export default function AboutPage() {
                     href={`https://x.com/${member.x}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="about-team-card is-link"
-                    data-i={i % 4}
+                    className="about-team-panel is-link"
                   >
                     {inner}
                   </a>
                 ) : (
-                  <div key={member.ens} className="about-team-card" data-i={i % 4}>
+                  <div key={member.ens} className="about-team-panel">
                     {inner}
                   </div>
                 );
               })}
-              <a
-                href="https://t.me/+BJMGddUg8hk4MDEy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="about-team-card is-join"
-              >
-                <span className="about-team-join-plus" aria-hidden="true">+</span>
-                <div className="about-team-meta">
-                  <h3 className="about-team-name">Join us</h3>
-                </div>
-                <span className="about-team-handle">
-                  Say hello <i aria-hidden="true">&#8599;</i>
-                </span>
-              </a>
             </div>
           </div>
         </div>
