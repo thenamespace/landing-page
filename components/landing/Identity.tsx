@@ -1,4 +1,4 @@
-/** Identity section — `section_identity` */
+/** Identity section - `section_identity` */
 
 function VerticalLine({ pulseClass }: { pulseClass: string }) {
   return (

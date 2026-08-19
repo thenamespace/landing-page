@@ -7,7 +7,7 @@ import { JsonLd, organizationSchema, websiteSchema } from "@/lib/jsonld";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: { default: SITE.title, template: "%s — Namespace" },
+  title: { default: SITE.title, template: "%s - Namespace" },
   description: SITE.description,
   applicationName: SITE.name,
   manifest: "/manifest.json",
@@ -55,7 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Webflow shared CSS — source of truth for all visual classes */}
+        {/* Webflow shared CSS - source of truth for all visual classes */}
         <link
           rel="stylesheet"
           href="/assets/css/namespace-dev.webflow.shared.3f58c4ac4.css"
@@ -81,7 +81,7 @@ export default function RootLayout({
       <body>
         {children}
 
-        {/* ── GSAP + ScrollTrigger + Observer — sticky benefits, scroll anims ── */}
+        {/* ── GSAP + ScrollTrigger + Observer - sticky benefits, scroll anims ── */}
         <Script
           src="/assets/js/gsap.min.js"
           strategy="afterInteractive"

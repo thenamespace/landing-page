@@ -1,4 +1,4 @@
-/** Benefits section — `section_benefits` */
+/** Benefits section - `section_benefits` */
 
 export function Benefits() {
   return (
@@ -13,7 +13,7 @@ export function Benefits() {
 
             <div className="benefits-bento">
 
-              {/* 1: Brand usernames — wide dark, absolute SVG */}
+              {/* 1: Brand usernames - wide dark, absolute SVG */}
               <div className="benefits_card b-wide" style={{ position: "relative", flexDirection: "column", minHeight: "22rem", overflow: "hidden" }}>
                 <div className="benefits_card-top" style={{ position: "relative", zIndex: 1 }}>
                   <h3 className="heading-style-h4">Brand usernames</h3>
@@ -22,7 +22,7 @@ export function Benefits() {
                 <img src="/assets/images/benefit-brand.svg" loading="lazy" alt="Brand visibility with ENS subnames" style={{ position: "absolute", bottom: 0, right: "-4%", width: "62%", height: "auto" }} />
               </div>
 
-              {/* 2: User experience — is-ux */}
+              {/* 2: User experience - is-ux */}
               <div className="benefits_card is-ux">
                 <div className="benefits_card-top">
                   <h3 className="heading-style-h4">User experience</h3>
@@ -33,7 +33,7 @@ export function Benefits() {
                 </div>
               </div>
 
-              {/* 3: Enhanced security — is-security */}
+              {/* 3: Enhanced security - is-security */}
               <div className="benefits_card is-security">
                 <div className="benefits_card-top">
                   <h3 className="heading-style-h4">Enhanced security</h3>
@@ -44,7 +44,7 @@ export function Benefits() {
                 </div>
               </div>
 
-              {/* 4: Revenue Opportunity — is-ecosystem */}
+              {/* 4: Revenue Opportunity - is-ecosystem */}
               <div className="benefits_card is-ecosystem">
                 <div className="benefits_card-top">
                   <h3 className="heading-style-h4">Revenue opportunity</h3>
@@ -55,7 +55,7 @@ export function Benefits() {
                 </div>
               </div>
 
-              {/* 5: Works Everywhere — is-black-600 */}
+              {/* 5: Works Everywhere - is-black-600 */}
               <div className="benefits_card is-black-600">
                 <div className="benefits_card-top">
                   <h3 className="heading-style-h4">Works everywhere</h3>
@@ -66,7 +66,7 @@ export function Benefits() {
                 </div>
               </div>
 
-              {/* 6: Brand Visibility — no extra class */}
+              {/* 6: Brand Visibility - no extra class */}
               <div className="benefits_card">
                 <div className="benefits_card-top">
                   <h3 className="heading-style-h4">Brand visibility</h3>
@@ -77,7 +77,7 @@ export function Benefits() {
                 </div>
               </div>
 
-              {/* 7: Network Effect — wide white, absolute SVG */}
+              {/* 7: Network Effect - wide white, absolute SVG */}
               <div className="benefits_card is-white b-wide" style={{ position: "relative", flexDirection: "column", minHeight: "22rem", overflow: "hidden" }}>
                 <div className="benefits_card-top" style={{ position: "relative", zIndex: 1 }}>
                   <h3 className="heading-style-h4">Network effect</h3>

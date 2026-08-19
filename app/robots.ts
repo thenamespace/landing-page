@@ -2,6 +2,11 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/site";
 
 export default function robots(): MetadataRoute.Robots {
+  // Preview/staging deploys (e.g. the vercel.app share project) set NOINDEX=1
+  // so search engines never index a non-canonical copy of the site.
+  if (process.env.NOINDEX) {
+    return { rules: [{ userAgent: "*", disallow: "/" }] };
+  }
   return {
     rules: [
       { userAgent: "*", allow: "/" },

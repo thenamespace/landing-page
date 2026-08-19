@@ -17,3 +17,7 @@ docs/superpowers/
 .agents/
 .claude/
 skills-lock.json
+.env*
+
+# Reference videos dropped at repo root (never commit these)
+/*.mp4

@@ -1,18 +1,17 @@
 /**
- * Footer — pixel-perfect port of the Webflow footer.
+ * Footer - pixel-perfect port of the Webflow footer.
  * Uses Webflow CSS classes for styling. Server component (no state).
  */
 
 
 /* ── Footer link columns data ── */
 const SOLUTIONS_LINKS = [
-  { label: "Wallets", href: "#wallet-names" },
-  { label: "L2s / Rollups", href: "#chain-identity-system" },
-  { label: "AI agents", href: "#ai-agent-names" },
-  { label: "Defi apps", href: "#payments-and-defi-apps" },
-  { label: "WaaS", href: "#waas" },
-  { label: "RaaS", href: "#raas" },
-  { label: "Decentralized Websites", href: "#decentralized-websites" },
+  { label: "Wallets", href: "/solutions/wallets" },
+  { label: "L2s / Rollups", href: "/solutions/l2s-rollups" },
+  { label: "AI agents", href: "/solutions/ai-agents" },
+  { label: "Fintechs & Neobanks", href: "/solutions/fintechs-neobanks" },
+  { label: "WaaS", href: "/solutions/waas" },
+  { label: "Decentralized Websites", href: "/solutions/decentralized-websites" },
 ];
 
 const PRODUCTS_LINKS = [
@@ -21,11 +20,13 @@ const PRODUCTS_LINKS = [
   { label: "ENS Widget", href: "https://app.namespace.ninja/widgets", external: true },
   { label: "Subpages", href: "https://github.com/thenamespace/subpages", external: true },
   { label: "Resolvio", href: "https://resolvio.xyz/", external: true },
+  { label: "ENS Diamonds", href: "https://ens.diamonds", external: true },
   { label: "Resolver for Google Sheets", href: "https://ens-sheets.namespace.ninja/", external: true },
   { label: "Custom Solutions", href: "#" },
 ];
 
 const RESOURCES_LINKS = [
+  { label: "About", href: "/about" },
   { label: "Case Studies", href: "#case-studies" },
   { label: "Blog", href: "/blog" },
   { label: "Dev Docs", href: "https://docs.namespace.ninja/", external: true },

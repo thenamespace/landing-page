@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "Insights, thoughts and lessons, ecosystem updates, deep dives and case studies.",
   alternates: { canonical: "/blog" },
   openGraph: {
-    title: `Blog — ${SITE.name}`,
+    title: `Blog - ${SITE.name}`,
     description:
       "Insights, thoughts and lessons, ecosystem updates, deep dives and case studies.",
     url: `${SITE.url}/blog`,
@@ -111,7 +111,7 @@ export default async function BlogIndex() {
           >
             <div className="blog-overview_component">
 
-              {/* Featured post — horizontal card */}
+              {/* Featured post - horizontal card */}
               {featured && (
                 <div className="blog-featured_list-wrapper w-dyn-list">
                   <div role="list" className="blog-featured_list w-dyn-items">

@@ -6,7 +6,7 @@
 interface WebflowButtonProps {
   label: string;
   href: string;
-  variant?: "primary" | "secondary" | "outline" | "white";
+  variant?: "primary" | "secondary" | "outline" | "hero-outline" | "white";
   external?: boolean;
 }
 
@@ -22,6 +22,7 @@ export function WebflowButton({ label, href, variant = "primary", external = tru
   const variantClass =
     variant === "secondary" ? " w-variant-9e301513-bb31-a799-9ca0-2d690dec60e2" :
     variant === "outline" ? " is-products-outline" :
+    variant === "hero-outline" ? " is-hero-outline" :
     variant === "white" ? " is-hero-white" :
     " is-accent";
   return (

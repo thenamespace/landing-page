@@ -15,7 +15,7 @@ const config: NextConfig = {
     ];
   },
   async headers() {
-    return [
+    const headers = [
       {
         source: "/assets/:path*",
         headers: [
@@ -23,6 +23,13 @@ const config: NextConfig = {
         ],
       },
     ];
+    if (process.env.NOINDEX) {
+      headers.push({
+        source: "/:path*",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      });
+    }
+    return headers;
   },
 };
 

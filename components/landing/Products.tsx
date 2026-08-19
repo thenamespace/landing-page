@@ -63,8 +63,17 @@ const PRODUCTS: Product[] = [
     tags: ["Free", "Bulk resolution", "Caching", "Self-host"],
     buttons: [{ label: "Learn More", href: "https://resolvio.xyz/" }],
     image: "/assets/images/product-ens-app.png",
-    imageAlt: "Resolvio — universal ENS domain resolution service",
+    imageAlt: "Resolvio - universal ENS domain resolution service",
     srcSet: "/assets/images/product-ens-app-500.png 500w, /assets/images/product-ens-app-800.png 800w, /assets/images/product-ens-app-1080.png 1080w, /assets/images/product-ens-app.png 1447w",
+  },
+  {
+    id: "ens-diamonds",
+    title: "ENS Diamonds",
+    description: "Pool ETH with friends to claim premium ENS names together. Open-source escrow, unilateral refunds, a multisig you all control.",
+    tags: ["New", "Onchain escrow", "Multisig ownership"],
+    buttons: [{ label: "Launch ens.diamonds", href: "https://ens.diamonds" }],
+    image: "/assets/images/product-ens-diamonds-800.png",
+    imageAlt: "ENS Diamonds - pool ETH to claim premium ENS names together",
   },
 ];
 
@@ -84,7 +93,7 @@ const SMALL_PRODUCTS_ROW1: SmallProduct[] = [
     description: "Ready-made ENS React components with name and subname registrations (onchain or offchain) and record editing.",
     button: { label: "See Components", href: "https://enscomponents.com/" },
     image: "/assets/images/product-subpages.avif",
-    imageAlt: "ENS Components — ready-made React components for ENS registrations",
+    imageAlt: "ENS Components - ready-made React components for ENS registrations",
   },
   {
     id: "ens-mcp",
@@ -92,7 +101,7 @@ const SMALL_PRODUCTS_ROW1: SmallProduct[] = [
     description: "Open-source tool that allows AI models to understand, query, and interact with ENS domain names in real-time.",
     button: { label: "View on GitHub", href: "https://github.com/thenamespace/ens-mcp" },
     image: "/assets/images/product-sdk.svg",
-    imageAlt: "ENS MCP — open-source AI model context protocol for ENS",
+    imageAlt: "ENS MCP - open-source AI model context protocol for ENS",
   },
 ];
 
@@ -115,8 +124,8 @@ const SMALL_PRODUCTS_ROW2: SmallProduct[] = [
   },
 ];
 
-const NAV_ITEMS = ["Offchain Subnames", "Onchain Subnames", "SDK / API", "Resolvio", "Other"];
-const NAV_HREFS = ["#offchain-subnames", "#onchain-subnames", "#sdk-api", "#resolvio", "#products-five"];
+const NAV_ITEMS = ["Offchain Subnames", "Onchain Subnames", "SDK / API", "Resolvio", "ENS Diamonds", "Other"];
+const NAV_HREFS = ["#offchain-subnames", "#onchain-subnames", "#sdk-api", "#resolvio", "#ens-diamonds", "#products-five"];
 
 function OffchainIcon() {
   return (
@@ -172,7 +181,17 @@ function OtherIcon() {
   );
 }
 
-const NAV_ICONS = [OffchainIcon, OnchainIcon, SdkApiIcon, ResolvioIcon, OtherIcon];
+function DiamondIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M5.41667 2.5H14.5833L17.9167 7.08333L10 17.5L2.08333 7.08333L5.41667 2.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M2.08333 7.08333H17.9167" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M7.5 7.08333L10 17.5L12.5 7.08333L10 2.5L7.5 7.08333Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+const NAV_ICONS = [OffchainIcon, OnchainIcon, SdkApiIcon, ResolvioIcon, DiamondIcon, OtherIcon];
 
 /* ---------- component ---------- */
 
@@ -227,7 +246,7 @@ function SmallProductCard({ p }: { p: SmallProduct }) {
   );
 }
 
-const ALL_SECTION_IDS = ["offchain-subnames", "onchain-subnames", "sdk-api", "resolvio", "products-five"];
+const ALL_SECTION_IDS = ["offchain-subnames", "onchain-subnames", "sdk-api", "resolvio", "ens-diamonds", "products-five"];
 
 export function Products() {
   const [activeId, setActiveId] = useState(ALL_SECTION_IDS[0]);

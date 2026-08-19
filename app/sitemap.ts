@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllPosts } from "@/lib/posts";
+import { getAllSolutionSlugs } from "@/lib/solutions";
 import { SITE } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -9,10 +10,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE.url}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
     { url: `${SITE.url}/blog`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${SITE.url}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE.url}/legal/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE.url}/legal/terms-of-service`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE.url}/legal/disclaimer`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
+
+  const solutionRoutes: MetadataRoute.Sitemap = getAllSolutionSlugs().map((slug) => ({
+    url: `${SITE.url}/solutions/${slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.9,
+  }));
 
   const postRoutes: MetadataRoute.Sitemap = posts.map((p) => ({
     url: `${SITE.url}/blog/${p.slug}`,
@@ -21,5 +30,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...postRoutes];
+  return [...staticRoutes, ...solutionRoutes, ...postRoutes];
 }

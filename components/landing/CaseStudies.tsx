@@ -1,5 +1,5 @@
 /**
- * CaseStudies — `section_case-studies`
+ * CaseStudies - `section_case-studies`
  * Trusted by Ecosystem Leaders cards + partner logos CSS marquee
  */
 "use client";
@@ -183,7 +183,7 @@ export function CaseStudies() {
 
             <div className="case-studies_wrapper">
               <div className="case-studies_list">
-                {/* Custom cursor div — positioned via JS in useEffect */}
+                {/* Custom cursor div - positioned via JS in useEffect */}
                 <div className="case-studies-card_hover">
                   <div className="custom-cursor w-embed">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" viewBox="0 0 22 26" fill="none">
@@ -222,7 +222,7 @@ export function CaseStudies() {
               </div>
             </div>
 
-            {/* Partner logos marquee — right to left */}
+            {/* Partner logos marquee - right to left */}
             <div className="case-studies_marquee-wrapper mt-10">
               <LogoMarquee />
             </div>
