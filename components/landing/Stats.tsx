@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 
 const STATS = [
-  { value: ">850k", label: "Subnames", description: "Actively managed ENS subnames across all client deployments." },
-  { value: "21M", label: "Resolutions", description: "ENS names looked up and resolved without a hitch, proving the infra holds at real scale." },
+  { value: ">860k", label: "Subnames", description: "Actively managed ENS subnames across all client deployments." },
+  { value: "22M", label: "Resolutions", description: "ENS names looked up and resolved without a hitch, proving the infra holds at real scale." },
   { value: "30+", label: "Clients", description: "Projects and teams actively building with Namespace." },
   { value: "220", label: "Namespaces", description: "Brands, chains, and communities that chose Namespace as their naming layer." },
   { value: "130", label: "ENS Widgets", description: "Websites already selling and issuing ENS subnames through Namespace's embedded widget." },

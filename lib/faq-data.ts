@@ -14,7 +14,7 @@ export const FAQ_DATA: FaqItem[] = [
   {
     question: "What is Namespace's mission?",
     answer:
-      "To name every crypto user by building and operating universal naming infrastructure for wallets, applications, and blockchains. Namespace manages over 800,000 ENS subnames for 30+ partners including Celo (Celonames) and Filecoin (Filpay usernames).",
+      "To name every crypto user by building and operating universal naming infrastructure for wallets, applications, and blockchains. Namespace manages over 860,000 ENS subnames for 30+ partners including Celo (Celonames) and Filecoin (Filpay usernames).",
     category: "General",
   },
   {
@@ -38,7 +38,7 @@ export const FAQ_DATA: FaqItem[] = [
   {
     question: "How big is Namespace today?",
     answer:
-      "As of 2026, Namespace manages 800,000+ ENS subnames, has served millions of resolution requests with 100% uptime, and works with 30+ partners across wallets, L2 chains, DAOs, and apps - including Celo, Filecoin, POAP, and PinMe.",
+      "As of 2026, Namespace manages 860,000+ ENS subnames, has served millions of resolution requests with 100% uptime, and works with 30+ partners across wallets, L2 chains, DAOs, and apps - including Celo, Filecoin, POAP, and PinMe.",
     category: "General",
   },
   {

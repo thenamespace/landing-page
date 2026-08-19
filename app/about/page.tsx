@@ -9,7 +9,7 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: { absolute: "About Namespace" },
   description:
-    "Namespace is the ENS DAO-backed service provider building and operating naming infrastructure for wallets, chains, apps, and AI agents. 850k+ subnames, 21M+ resolutions, 30+ partners.",
+    "Namespace is the ENS DAO-backed service provider building and operating naming infrastructure for wallets, chains, apps, and AI agents. 860k+ subnames, 22M+ resolutions, 30+ partners.",
   alternates: { canonical: `${SITE.url}/about` },
   openGraph: {
     type: "website",
@@ -69,10 +69,10 @@ export default function AboutPage() {
               </div>
               <div className="solution-anim solution-anim-5">
                 <p className="solution-proof-strip">
-                  <span className="solution-proof-num">&gt;850k</span>
+                  <span className="solution-proof-num">&gt;860k</span>
                   <span className="solution-proof-label"> subnames</span>
                   <span className="solution-proof-dot"> · </span>
-                  <span className="solution-proof-num">21M</span>
+                  <span className="solution-proof-num">22M</span>
                   <span className="solution-proof-label"> resolutions</span>
                   <span className="solution-proof-dot"> · </span>
                   <span className="solution-proof-num">30+</span>
@@ -145,7 +145,7 @@ export default function AboutPage() {
                 <h3 className="heading-style-h5 solution-pain-question">We run the infrastructure</h3>
                 <p className="text-weight-medium solution-pain-detail">
                   Resolvers, CCIP-Read gateways, indexing and monitoring,
-                  operated with SLAs. 21M+ resolutions served at 100% uptime,
+                  operated with SLAs. 22M+ resolutions served at 100% uptime,
                   so naming is never our partners' on-call problem.
                 </p>
               </div>

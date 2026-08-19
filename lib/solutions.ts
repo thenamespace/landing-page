@@ -721,8 +721,8 @@ export const SOLUTIONS: Solution[] = [
       },
       highlightColumn: 2,
       stats: [
-        { value: "850k+", label: "Subnames issued" },
-        { value: "21M", label: "Resolutions served" },
+        { value: "860k+", label: "Subnames issued" },
+        { value: "22M", label: "Resolutions served" },
         { value: "30+", label: "Partnerships and integrations" },
         { value: "221", label: "Namespaces issuing subnames with us" },
       ],
@@ -785,7 +785,7 @@ export const SOLUTIONS: Solution[] = [
       {
         question: "Can this handle our user volume?",
         answer:
-          "Namespace manages 850,000+ subnames and has served 21M+ resolutions in production with 99.9% uptime. Offchain issuance is instant and gasless, designed specifically for high-volume onboarding flows.",
+          "Namespace manages 860,000+ subnames and has served 22M+ resolutions in production with 99.9% uptime. Offchain issuance is instant and gasless, designed specifically for high-volume onboarding flows.",
       },
       {
         question: "Are offchain subnames secure?",
@@ -1203,8 +1203,8 @@ export const SOLUTIONS: Solution[] = [
       },
       highlightColumn: 2,
       stats: [
-        { value: "850k+", label: "Subnames issued" },
-        { value: "21M", label: "Resolutions served" },
+        { value: "860k+", label: "Subnames issued" },
+        { value: "22M", label: "Resolutions served" },
         { value: "30+", label: "Partnerships and integrations" },
         { value: "221", label: "Namespaces issuing subnames with us" },
       ],
@@ -1233,7 +1233,7 @@ export const SOLUTIONS: Solution[] = [
     stats: [
       { value: "2", label: "chains operated today: Celo and Filecoin" },
       { value: "Weeks", label: "from scoping call to live namespace" },
-      { value: "21M", label: "resolutions served at scale" },
+      { value: "22M", label: "resolutions served at scale" },
       { value: "100%", label: "uptime, backed by SLAs" },
     ],
     testimonials: [T.jesse, T.thomas],
@@ -1465,7 +1465,7 @@ export const SOLUTIONS: Solution[] = [
         },
         {
           label: "Result.",
-          body: "Usernames that resolve across the ENS ecosystem, on the same stack that serves 21M+ resolutions in production.",
+          body: "Usernames that resolve across the ENS ecosystem, on the same stack that serves 22M+ resolutions in production.",
         },
       ],
       ctaLabel: "Read our case studies",
@@ -1551,8 +1551,8 @@ export const SOLUTIONS: Solution[] = [
       },
       highlightColumn: 2,
       stats: [
-        { value: "850k+", label: "Subnames issued" },
-        { value: "21M", label: "Resolutions served" },
+        { value: "860k+", label: "Subnames issued" },
+        { value: "22M", label: "Resolutions served" },
         { value: "30+", label: "Partnerships and integrations" },
         { value: "221", label: "Namespaces issuing subnames with us" },
       ],
@@ -1597,7 +1597,7 @@ export const SOLUTIONS: Solution[] = [
       {
         question: "Is resolution reliable enough for a regulated product?",
         answer:
-          "Resolution is trustless and verifiable: offchain records are signed and verified onchain via CCIP-Read (EIP-3668), the same standard the broader ENS ecosystem relies on. Namespace has served 21M+ resolutions at 99.9% uptime and operates with SLAs.",
+          "Resolution is trustless and verifiable: offchain records are signed and verified onchain via CCIP-Read (EIP-3668), the same standard the broader ENS ecosystem relies on. Namespace has served 22M+ resolutions at 99.9% uptime and operates with SLAs.",
       },
       {
         question: "Do our customers need to know what ENS is?",
@@ -1877,8 +1877,8 @@ export const SOLUTIONS: Solution[] = [
       },
       highlightColumn: 2,
       stats: [
-        { value: "850k+", label: "Subnames issued" },
-        { value: "21M", label: "Resolutions served" },
+        { value: "860k+", label: "Subnames issued" },
+        { value: "22M", label: "Resolutions served" },
         { value: "30+", label: "Partnerships and integrations" },
         { value: "221", label: "Namespaces issuing subnames with us" },
       ],
@@ -1961,7 +1961,7 @@ export const SOLUTIONS: Solution[] = [
       {
         question: "Does it scale?",
         answer:
-          "We manage more than 850,000 subnames today and have served over 21 million resolution requests. Offchain issuance has no per-name cost and no practical volume ceiling.",
+          "We manage more than 860,000 subnames today and have served over 22 million resolution requests. Offchain issuance has no per-name cost and no practical volume ceiling.",
       },
       {
         question: "Can existing wallets be named retroactively?",
@@ -2235,8 +2235,8 @@ export const SOLUTIONS: Solution[] = [
       },
       highlightColumn: 2,
       stats: [
-        { value: "850k+", label: "Subnames issued" },
-        { value: "21M", label: "Resolutions served" },
+        { value: "860k+", label: "Subnames issued" },
+        { value: "22M", label: "Resolutions served" },
         { value: "30+", label: "Partnerships and integrations" },
         { value: "221", label: "Namespaces issuing subnames with us" },
       ],
@@ -2488,7 +2488,7 @@ export const SOLUTIONS: Solution[] = [
         "Issue a name with the same call that creates the agent's keys. Offchain issuance is gasless and free at any volume, and when you rotate keys or redeploy, you update the records - the name stays the same.",
       cta: { label: "Read the Docs", href: DOCS, external: true },
       stats: [
-        { value: "850k+", label: "names on the same infrastructure" },
+        { value: "860k+", label: "names on the same infrastructure" },
         { value: "$0", label: "per agent named, at any volume" },
         { value: "100+", label: "chains where identity resolves" },
         { value: "ERC-8004", label: "aligned with the agent standard" },
@@ -2622,8 +2622,8 @@ export const SOLUTIONS: Solution[] = [
       },
       highlightColumn: 2,
       stats: [
-        { value: "850k+", label: "Subnames issued" },
-        { value: "21M", label: "Resolutions served" },
+        { value: "860k+", label: "Subnames issued" },
+        { value: "22M", label: "Resolutions served" },
         { value: "30+", label: "Partnerships and integrations" },
         { value: "221", label: "Namespaces issuing subnames with us" },
       ],
