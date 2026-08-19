@@ -7,6 +7,7 @@ type CtaCard = {
   title: string;
   description: string;
   button: { label: string; href: string; cal?: boolean };
+  links?: { label: string; href: string }[];
   image: string;
   imageAlt: string;
 };
@@ -34,15 +35,6 @@ const CTA_CARDS: CtaCard[] = [
     imageAlt: "Partner with Namespace for custom ENS naming solutions",
   },
 ];
-
-interface CtaCard {
-  title: string;
-  description: string;
-  button: { label: string; href: string };
-  links?: { label: string; href: string }[];
-  image: string;
-  imageAlt: string;
-}
 
 export function Cta({
   heading = "Three ways to get started",
