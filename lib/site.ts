@@ -18,7 +18,7 @@ export const SITE = {
    * modal — the booking link itself lives in `lib/cal.ts`.
    */
   announcement: {
-    enabled: true,
+    enabled: false,
     id: "eth-belgrade-2026",
     conf: "ETH Belgrade 2026",
     city: "Belgrade",
