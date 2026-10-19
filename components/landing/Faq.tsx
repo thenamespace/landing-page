@@ -69,7 +69,7 @@ export function Faq() {
                   <div role="list" className="faq_filters-list w-dyn-items">
                     {CATEGORIES.map((cat) => (
                       <div key={cat} role="listitem" className="faq_filters-item w-dyn-item">
-                        <label className="fs-checkbox_field w-radio" style={{ cursor: "pointer" }} onClick={() => setFilter(filter === cat ? null : cat)}>
+                        <label className={`fs-checkbox_field w-radio${filter === cat ? " is-list-active" : ""}`} style={{ cursor: "pointer" }} onClick={() => setFilter(filter === cat ? null : cat)}>
                           <div className={`w-form-formradioinput w-form-formradioinput--inputType-custom fs-checkbox_button-1 w-radio-input${filter === cat ? " w--redirected-checked" : ""}`} />
                           <span className="fs-checkbox_label-1 w-form-label">{cat}</span>
                         </label>

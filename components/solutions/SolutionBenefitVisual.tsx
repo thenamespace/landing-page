@@ -489,7 +489,7 @@ export function SolutionBenefitVisual({
                 {c}
               </span>
             ))}
-            <span className="solution-bviz-chip is-more">+860k</span>
+            <span className="solution-bviz-chip is-more">+10M</span>
           </div>
         </>
       )}
@@ -588,7 +588,7 @@ export function SolutionBenefitVisual({
             </span>
           ))}
           <span className="sol-pill is-xs pc5">
-            <b>+860k</b>
+            <b>+10M</b>
           </span>
         </div>
       )}

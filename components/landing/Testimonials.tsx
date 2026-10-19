@@ -175,7 +175,7 @@ export function Testimonials() {
                       </div>
                     ))}
                   </div>
-                  <div>Join<span className="text-weight-bold"> 30+</span> Partners</div>
+                  <div>Join<span className="text-weight-bold"> 35+</span> Partners</div>
                 </div>
                 <h2>Wall of Love</h2>
               </div>

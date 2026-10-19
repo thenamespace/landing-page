@@ -17,8 +17,8 @@ Namespace issues ENS subnames, also referred to as ENS usernames, web3 usernames
 - [Resolvio](https://resolvio.xyz/): Universal ENS domain resolution service. Resolves names across chains and protocols. Free to use, plug-and-play.
 - [ENS MCP](https://github.com/thenamespace/ens-mcp): Open-source Model Context Protocol tool that allows AI models to understand, query, and interact with ENS domain names in real-time.
 - [ENS Components](https://enscomponents.com/): Ready-made React components for ENS name and subname registrations (onchain and offchain), record editing, and more.
+- [ENS Forge](https://ensforge.com): Type-safe TypeScript SDK for ENS names, records, registration, renewals, ENSv1 to ENSv2 migration, batching, React hooks, and ENS contracts.
 - [Subpages](https://github.com/thenamespace/subpages): Decentralized websites and profiles built on ENS subnames.
-- [Resolver for Google Sheets](https://ens-sheets.namespace.ninja/): Resolve ENS names directly inside Google Sheets.
 - [Namera](https://namera.ai): Programmable permission infrastructure for autonomous agents by Namespace. Smart accounts, scoped session keys, and policies define exactly what an agent can do onchain.
 
 ## Solutions

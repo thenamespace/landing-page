@@ -17,14 +17,14 @@ Namespace is an ENS (Ethereum Name Service) Service Provider backed by ENS DAO. 
 
 ## Scale
 
-- 800,000+ subnames managed
-- Millions of resolution requests served
-- 30+ partners across wallets, chains, DAOs, and apps
+- 10M+ subnames managed
+- 25M+ resolution requests served
+- 35+ partners across wallets, chains, DAOs, and apps
 - Partners include Celo (Celonames), Filecoin (Filpay usernames), POAP, Unicorn wallet, and PinMe
 
 ## Key Facts (citation-ready)
 
-- Namespace manages over 800,000 ENS subnames across 30+ partners as of 2026.
+- Namespace manages over 10 million ENS subnames across 35+ partners as of 2026.
 - Namespace is an official ENS Service Provider and active ENS DAO Delegate, founded in August 2023.
 - Namespace's infrastructure has served millions of ENS resolution requests with 100% uptime.
 - Namespace charges a 5% fee only on paid onchain subname registrations; offchain subnames and free onchain subnames have no fee.
@@ -94,15 +94,17 @@ ENS is a protocol. Namespace is the execution and distribution engine built on t
 **What it is:** Ready-made React UI components for ENS name and subname registrations (both onchain and offchain), record editing, avatar display, and more.
 **Key benefits:** Open-source, plug-and-play, production-ready, saves weeks of development time.
 
-### 8. Subpages
+### 8. ENS Forge
+**URL:** https://ensforge.com
+**GitHub:** https://github.com/thenamespace/ensforge
+**What it is:** A type-safe TypeScript SDK for ENS names, records, registration, renewals, migration, batching, React, and ENS contracts.
+**Key benefits:** Core APIs for backends and React hooks for frontends, batched operations, and ENSv1 to ENSv2 migration support.
+**Use cases:** Reading and writing ENS records, registering and renewing names, managing ownership, and building any app on top of ENS contracts.
+
+### 9. Subpages
 **URL:** https://github.com/thenamespace/subpages
 **What it is:** Decentralized websites and profiles built on ENS subnames, hosted on IPFS/Filecoin.
 **Key benefits:** Censorship-resistant, permissionless, no central hosting required.
-
-### 9. Resolver for Google Sheets
-**URL:** https://ens-sheets.namespace.ninja/
-**What it is:** A Google Sheets add-on that resolves ENS names and addresses directly inside spreadsheets.
-**Key benefits:** No coding required, useful for accounting, payroll, and DAO treasury management.
 
 ### 10. Custom Solutions
 Namespace builds and maintains custom ENS naming integrations for wallets, L2 chains, apps, and communities at any scale. Pricing is handled case-by-case and is partially subsidized through ENS DAO funding.
@@ -218,7 +220,7 @@ A: Addresses don’t scale socially or economically. Naming is required for: Saf
 A: Yes. ENS is built around the universal resolution, but supports identities that resolve across multiple chains, wallets, and applications.
 
 **Q: How big is Namespace today?**
-A: Namespace manages 800k+ subnames, serves millions of resolution requests, and works with 30+ partners across wallets, chains, DAOs, and apps.
+A: Namespace manages 10M+ subnames, has served 25M+ resolution requests, and works with 35+ partners across wallets, chains, DAOs, and apps.
 
 **Q: Does Namespace issue its own domains?**
 A: Today, Namespace primarily operates ENS-based naming systems. In parallel, we are preparing to operate ICANN-accredited TLDs that bridge Web2 DNS and Web3 identity.

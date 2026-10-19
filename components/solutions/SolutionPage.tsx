@@ -38,19 +38,19 @@ function Eyebrow({
 function ProofStrip() {
   return (
     <p className="solution-proof-strip">
-      <span className="solution-proof-num">860k+</span>
+      <span className="solution-proof-num">10M+</span>
       <span className="solution-proof-label"> subnames</span>
       <span className="solution-proof-dot" aria-hidden="true">
         {" "}
         ·{" "}
       </span>
-      <span className="solution-proof-num">22M</span>
+      <span className="solution-proof-num">25M+</span>
       <span className="solution-proof-label"> resolutions</span>
       <span className="solution-proof-dot" aria-hidden="true">
         {" "}
         ·{" "}
       </span>
-      <span className="solution-proof-num">30+</span>
+      <span className="solution-proof-num">35+</span>
       <span className="solution-proof-label"> partners</span>
       <span className="solution-proof-dot" aria-hidden="true">
         {" "}
@@ -2598,9 +2598,9 @@ export function SolutionPage({ solution }: { solution: Solution }) {
             <div className="solution-statband">
               {(
                 s.stats ?? [
-                  { value: ">860k", label: "subnames managed in production" },
-                  { value: "22M", label: "resolutions served" },
-                  { value: "30+", label: "teams building with Namespace" },
+                  { value: ">10M", label: "subnames managed in production" },
+                  { value: ">25M", label: "resolutions served" },
+                  { value: "35+", label: "teams building with Namespace" },
                   { value: "100%", label: "uptime in production" },
                 ]
               ).map((stat) => (

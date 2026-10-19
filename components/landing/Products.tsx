@@ -1,351 +1,360 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
 import { WebflowButton } from "@/components/ui/WebflowButton";
+import { TrySketch } from "@/components/landing/NameTry";
 
-/* ---------- data ---------- */
+/*
+ * Products and Services, structured as the two decisions every customer makes:
+ *   01. Which kind of names to issue (offchain vs onchain) - side by side, same spec rows
+ *   02. How to ship them - lanes ordered by how much code you write, ending with "we build it"
+ * Every product is visible at once. Anchor ids are kept because the navbar and llms.txt link to them.
+ */
 
-interface Product {
-  id: string;
+export const BOOK_CALL = "https://cal.com/thecap.eth/discovery";
+
+/* ---------- 01: the names ---------- */
+
+/* ---------- 02: how you ship ---------- */
+
+interface Tool {
+  id?: string;
   title: string;
   description: string;
-  tags: string[];
-  buttons: { label: string; href: string }[];
-  image: string;
-  imageAlt: string;
-  srcSet?: string;
+  href: string;
+  /** Brand logo for products with their own identity, otherwise a line icon of what it does */
+  icon: React.ReactNode;
+  badge?: "new" | "soon";
+  /** Spans the full width of its lane */
+  wide?: boolean;
 }
 
-const PRODUCTS: Product[] = [
+export interface Lane {
+  num: string;
+  name: string;
+  who: string;
+  tools: Tool[];
+}
+
+export const LANES: Lane[] = [
   {
-    id: "offchain-subnames",
-    title: "Offchain Subnames",
-    description: "Issue ENS subnames at any scale. No gas, no infra, no contracts to deploy.",
-    tags: ["Gasless", "Scalable", "Easy to use"],
-    buttons: [
-      { label: "Create Subnames", href: "https://app.namespace.ninja/offchain" },
-      { label: "Integrate in app", href: "https://docs.namespace.ninja/developer-guide/guide/create-offchain-subnames" },
+    num: "A",
+    name: "No code",
+    who: "Ship in minutes",
+    tools: [
+      {
+        id: "offchain-subnames",
+        title: "Offchain Subnames",
+        description: "Free at any volume. No gas, no contracts.",
+        href: "https://app.namespace.ninja/offchain",
+        icon: <CloudIcon />,
+      },
+      {
+        id: "onchain-subnames",
+        title: "Onchain Subnames",
+        description: "Minted on Ethereum, Base or Optimism, held as an NFT.",
+        href: "https://app.namespace.ninja/onchain",
+        icon: <LinkIcon />,
+      },
+      {
+        id: "ens-widget",
+        title: "ENS Widget",
+        description: "Add ENS name and subname registration to any website or app in minutes.",
+        href: "https://app.namespace.ninja/widgets",
+        icon: <WidgetIcon />,
+      },
+      {
+        id: "ens-diamonds",
+        title: "ENS Diamonds",
+        description: "Pool funds with friends to collectively purchase and own premium ENS names.",
+        href: "https://ens.diamonds",
+        icon: <LogoImg src="/assets/images/logos/ens-diamonds.png" />,
+      },
     ],
-    image: "/assets/images/product-offchain.avif",
-    imageAlt: "Offchain CCIP-read ENS subnames / subdomains view in Namespace app.",
-    srcSet: "/assets/images/product-offchain-500.avif 500w, /assets/images/product-offchain-800.avif 800w, /assets/images/product-offchain.avif 1438w",
   },
   {
-    id: "onchain-subnames",
-    title: "Onchain Subnames",
-    description: "Mint L1 or L2 subnames on Ethereum, Base or Optimism with no coding skills required.",
-    tags: ["Permissionless", "Secure", "Verifiable"],
-    buttons: [
-      { label: "No-code App", href: "https://app.namespace.ninja/onchain" },
-      { label: "Integrate in app", href: "https://docs.namespace.ninja/developer-guide/guide/mint-l1-l2-subnames" },
+    num: "B",
+    name: "Low code",
+    who: "Ship in hours",
+    tools: [
+      {
+        id: "ens-components",
+        title: "ENS Components",
+        description: "Ready-to-use React components for integrating ENS registrations, profiles, and record management.",
+        href: "https://enscomponents.com/",
+        icon: <ComponentsIcon />,
+      },
+      {
+        id: "subpages",
+        title: "Subpages",
+        description: "Launch your own branded ENS subname registration website in minutes, with no coding required.",
+        href: "https://github.com/thenamespace/subpages",
+        icon: <SubpagesIcon />,
+      },
+      {
+        id: "ens-mcp",
+        title: "ENS MCP",
+        description: "Give AI agents the ability to look up, understand, and interact with ENS names.",
+        href: "https://github.com/thenamespace/ens-mcp",
+        icon: <McpIcon />,
+      },
     ],
-    image: "/assets/images/product-onchain.webp",
-    imageAlt: "Onchain ENS subnames / subdomains view in Namespace app. L1 or L2 subnames on Ethereum, Base, Celo, Optimism, etc.",
-    srcSet: "/assets/images/product-onchain-500.webp 500w, /assets/images/product-onchain-800.webp 800w, /assets/images/product-onchain-1080.webp 1080w, /assets/images/product-onchain.webp 1438w",
   },
   {
-    id: "sdk-api",
-    title: "SDK / API",
-    description: "Implement ENS subname registrations and management in your apps.",
-    tags: ["Quick start & setup", "LLM-friendly", "REST API"],
-    buttons: [
-      { label: "View SDK", href: "https://docs.namespace.ninja/developer-guide/sdks/introduction" },
-      { label: "View API", href: "https://docs.namespace.ninja/api-reference/introduction" },
+    num: "C",
+    name: "Full code",
+    who: "Ship at your own pace",
+    tools: [
+      {
+        id: "subname-dev",
+        title: "subname.dev",
+        description: "Deploy complete ENS subname infrastructure on any supported L2 chain.",
+        href: "https://subname.dev",
+        badge: "soon",
+        icon: <LayersIcon />,
+      },
+      {
+        id: "ens-forge",
+        title: "ENS Forge",
+        description: "An open-source developer toolkit for building with ENSv1 and ENSv2 through a unified SDK.",
+        href: "https://ensforge.com",
+        badge: "new",
+        icon: <LogoImg src="/assets/images/logos/ens-forge.svg" />,
+      },
+      {
+        id: "resolvio",
+        title: "Resolvio",
+        description: "A fast, reliable API for resolving ENS names, addresses, and records at scale.",
+        href: "https://resolvio.xyz/",
+        icon: <LogoImg src="/assets/images/logos/resolvio.svg" solid />,
+      },
+      {
+        id: "sdk-api",
+        title: "SDK / API",
+        description: "Everything developers need to create, manage, and integrate ENS subnames at scale.",
+        href: "https://docs.namespace.ninja/developer-guide/sdks/introduction",
+        icon: <SdkIcon />,
+      },
+      {
+        id: "namera",
+        title: "Namera",
+        description: "Secure agent wallets with programmable onchain policies.",
+        href: "https://namera.ai",
+        icon: <NameraLogo />,
+      },
     ],
-    image: "/assets/images/product-widget.avif",
-    imageAlt: "Namespace ENS SDK API for subname / subdomain registration.",
-    srcSet: "/assets/images/product-widget-500.avif 500w, /assets/images/product-widget-800.avif 800w, /assets/images/product-widget.avif 1438w",
-  },
-  {
-    id: "resolvio",
-    title: "Resolvio",
-    description: "Universal API-first ENS domain resolution service.",
-    tags: ["Free", "Bulk resolution", "Caching", "Self-host"],
-    buttons: [{ label: "Learn More", href: "https://resolvio.xyz/" }],
-    image: "/assets/images/product-ens-app.png",
-    imageAlt: "Resolvio - universal ENS domain resolution service",
-    srcSet: "/assets/images/product-ens-app-500.png 500w, /assets/images/product-ens-app-800.png 800w, /assets/images/product-ens-app-1080.png 1080w, /assets/images/product-ens-app.png 1447w",
-  },
-  {
-    id: "ens-diamonds",
-    title: "ENS Diamonds",
-    description: "Pool ETH with friends to claim premium ENS names together. Open-source escrow, unilateral refunds, a multisig you all control.",
-    tags: ["New", "Onchain escrow", "Multisig ownership"],
-    buttons: [{ label: "Launch ens.diamonds", href: "https://ens.diamonds" }],
-    image: "/assets/images/product-ens-diamonds-800.png",
-    imageAlt: "ENS Diamonds - pool ETH to claim premium ENS names together",
   },
 ];
 
-interface SmallProduct {
-  id: string;
-  title: string;
-  description: string;
-  button: { label: string; href: string };
-  image: string;
-  imageAlt: string;
-}
+/* ---------- icons ---------- */
 
-const SMALL_PRODUCTS_ROW1: SmallProduct[] = [
-  {
-    id: "ens-components",
-    title: "ENS Components",
-    description: "Ready-made ENS React components with name and subname registrations (onchain or offchain) and record editing.",
-    button: { label: "See Components", href: "https://enscomponents.com/" },
-    image: "/assets/images/product-subpages.avif",
-    imageAlt: "ENS Components - ready-made React components for ENS registrations",
-  },
-  {
-    id: "ens-mcp",
-    title: "ENS MCP",
-    description: "Open-source tool that allows AI models to understand, query, and interact with ENS domain names in real-time.",
-    button: { label: "View on GitHub", href: "https://github.com/thenamespace/ens-mcp" },
-    image: "/assets/images/product-sdk.svg",
-    imageAlt: "ENS MCP - open-source AI model context protocol for ENS",
-  },
-];
-
-const SMALL_PRODUCTS_ROW2: SmallProduct[] = [
-  {
-    id: "subpages",
-    title: "Subpages",
-    description: "Launch a white-label subname minting site in minutes, fully customizable and ready to sell names on day one.",
-    button: { label: "GitHub Repo", href: "https://github.com/thenamespace/subpages" },
-    image: "/assets/images/product-resolvio.avif",
-    imageAlt: "Launch ENS subname minting web page in minutes.",
-  },
-  {
-    id: "ens-widget",
-    title: "ENS Widget",
-    description: "Embed subname registrations directly inside your website and sell ENS names or subnames at different prices.",
-    button: { label: "View Widget", href: "https://app.namespace.ninja/widgets" },
-    image: "/assets/images/product-custom.avif",
-    imageAlt: "Sell ENS domains and subdomains from your own website.",
-  },
-];
-
-const NAV_ITEMS = ["Offchain Subnames", "Onchain Subnames", "SDK / API", "Resolvio", "ENS Diamonds", "Other"];
-const NAV_HREFS = ["#offchain-subnames", "#onchain-subnames", "#sdk-api", "#resolvio", "#ens-diamonds", "#products-five"];
-
-function OffchainIcon() {
+function CloudIcon() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M14.5834 15.8332H7.50005C6.41827 15.8329 5.35788 15.5318 4.43737 14.9636C3.51685 14.3953 2.77249 13.5823 2.28744 12.6153C1.8024 11.6484 1.5958 10.5656 1.69071 9.48802C1.78563 8.41041 2.17833 7.38043 2.82492 6.51316C3.47152 5.64589 4.34655 4.9755 5.35222 4.57691C6.35789 4.17832 7.45459 4.06723 8.51976 4.25606C9.58493 4.44488 10.5766 4.92618 11.384 5.64618C12.1914 6.36617 12.7826 7.29649 13.0917 8.33317H14.5834C15.5779 8.33317 16.5318 8.72826 17.235 9.43152C17.9383 10.1348 18.3334 11.0886 18.3334 12.0832C18.3334 13.0777 17.9383 14.0316 17.235 14.7348C16.5318 15.4381 15.5779 15.8332 14.5834 15.8332Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <svg {...iconProps}>
+      <path d="M6 15.5a3.5 3.5 0 0 1-.3-7 4.5 4.5 0 0 1 8.7-.6 3.5 3.5 0 0 1-.4 7.6Z" />
     </svg>
   );
 }
 
-function OnchainIcon() {
+function LinkIcon() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M7.5 2.5H3.33333C2.8731 2.5 2.5 2.8731 2.5 3.33333V7.5C2.5 7.96024 2.8731 8.33333 3.33333 8.33333H7.5C7.96024 8.33333 8.33333 7.96024 8.33333 7.5V3.33333C8.33333 2.8731 7.96024 2.5 7.5 2.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M16.6667 2.5H12.5001C12.0398 2.5 11.6667 2.8731 11.6667 3.33333V7.5C11.6667 7.96024 12.0398 8.33333 12.5001 8.33333H16.6667C17.127 8.33333 17.5001 7.96024 17.5001 7.5V3.33333C17.5001 2.8731 17.127 2.5 16.6667 2.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M16.6667 11.6665H12.5001C12.0398 11.6665 11.6667 12.0396 11.6667 12.4998V16.6665C11.6667 17.1267 12.0398 17.4998 12.5001 17.4998H16.6667C17.127 17.4998 17.5001 17.1267 17.5001 16.6665V12.4998C17.5001 12.0396 17.127 11.6665 16.6667 11.6665Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M7.5 11.6665H3.33333C2.8731 11.6665 2.5 12.0396 2.5 12.4998V16.6665C2.5 17.1267 2.8731 17.4998 3.33333 17.4998H7.5C7.96024 17.4998 8.33333 17.1267 8.33333 16.6665V12.4998C8.33333 12.0396 7.96024 11.6665 7.5 11.6665Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M9 5.5C10.6 5.5 11.3333 5.5 11.5 5.5" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M9 15C10.6 15 11.3333 15 11.5 15" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M5 11.5C5 9.9 5 9.16667 5 9" stroke="currentColor" strokeWidth="1.5"/>
-      <path d="M15 11.5C15 9.9 15 9.16667 15 9" stroke="currentColor" strokeWidth="1.5"/>
+    <svg {...iconProps}>
+      <path d="M8.5 11.5l3-3" />
+      <path d="M9.5 6l1.2-1.2a3 3 0 0 1 4.3 4.3L13.8 10.3" />
+      <path d="M10.5 14l-1.2 1.2A3 3 0 0 1 5 10.9L6.2 9.7" />
     </svg>
   );
 }
 
-function SdkApiIcon() {
+const iconProps = {
+  xmlns: "http://www.w3.org/2000/svg",
+  width: 20,
+  height: 20,
+  viewBox: "0 0 20 20",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.5,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+};
+
+/* Brand logos are shown in black and white to match the section. solid flattens a one-colour logo to black. */
+function LogoImg({ src, solid }: { src: string; solid?: boolean }) {
+  return <img src={src} alt="" width={20} height={20} className={`prow-logo${solid ? " is-solid" : ""}`} />;
+}
+
+/* Namera's official mark, from the namera.ai header */
+function NameraLogo() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M6.66667 2.5H5.83333C5.39131 2.5 4.96738 2.67559 4.65482 2.98816C4.34226 3.30072 4.16667 3.72464 4.16667 4.16667V8.33333C4.16667 8.77536 3.99107 9.19928 3.67851 9.51184C3.36595 9.8244 2.94203 10 2.5 10C2.94203 10 3.36595 10.1756 3.67851 10.4882C3.99107 10.8007 4.16667 11.2246 4.16667 11.6667V15.8333C4.16667 16.75 4.91667 17.5 5.83333 17.5H6.66667" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M13.3333 17.5H14.1666C14.6086 17.5 15.0325 17.3244 15.3451 17.0118C15.6577 16.6993 15.8333 16.2754 15.8333 15.8333V11.6667C15.8333 10.75 16.5833 10 17.4999 10C17.0579 10 16.634 9.8244 16.3214 9.51184C16.0088 9.19928 15.8333 8.77536 15.8333 8.33333V4.16667C15.8333 3.72464 15.6577 3.30072 15.3451 2.98816C15.0325 2.67559 14.6086 2.5 14.1666 2.5H13.3333" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 149" fill="currentColor" aria-hidden="true">
+      <path d="M52.9445 21.4688H0V42.6488H52.9445V21.4688Z" />
+      <path d="M137.233 63.5289H158.413V0H52.5352V21.18H105.468V42.3489H52.5352V63.5289H105.468V84.709H52.5352V105.878H105.468V127.058H52.5352V148.238H158.413V84.709H137.233V63.5289Z" />
+      <path d="M52.9445 63.8218H0V85.0018H52.9445V63.8218Z" />
+      <path d="M52.9445 106.164H0V127.344H52.9445V106.164Z" />
+      <path d="M180 63.8218H158.82V85.0018H180V63.8218Z" />
     </svg>
   );
 }
 
-function ResolvioIcon() {
+function ComponentsIcon() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M18.3334 10.0002C18.3334 9.53993 17.9603 9.16683 17.5001 9.16683C17.0398 9.16683 16.6667 9.53993 16.6667 10.0002C16.6667 10.4604 17.0398 10.8335 17.5001 10.8335C17.9603 10.8335 18.3334 10.4604 18.3334 10.0002Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M13 10C8.89071 10 9.78643 3 2.61286 3H2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M13 10C8.89071 10 9.78643 12.33 2.61286 12.33H2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M2 7.66992H2.61286C9.79429 7.66992 8.89071 9.99992 13 9.99992" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M2 17H2.61286C9.79429 17 8.89071 10 13 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <svg {...iconProps}>
+      <path d="M10 1.9L12.6 4.5L10 7.1L7.4 4.5L10 1.9Z" />
+      <path d="M15.5 7.4L18.1 10L15.5 12.6L12.9 10L15.5 7.4Z" />
+      <path d="M4.5 7.4L7.1 10L4.5 12.6L1.9 10L4.5 7.4Z" />
+      <path d="M10 12.9L12.6 15.5L10 18.1L7.4 15.5L10 12.9Z" />
     </svg>
   );
 }
 
-function OtherIcon() {
+function WidgetIcon() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M17.5 6.66675C17.4997 6.37448 17.4225 6.08742 17.2763 5.83438C17.13 5.58134 16.9198 5.37122 16.6667 5.22508L10.8333 1.89175C10.58 1.74547 10.2926 1.66846 10 1.66846C9.70744 1.66846 9.42003 1.74547 9.16667 1.89175L3.33333 5.22508C3.08022 5.37122 2.86998 5.58134 2.72372 5.83438C2.57745 6.08742 2.5003 6.37448 2.5 6.66675V13.3334C2.5003 13.6257 2.57745 13.9127 2.72372 14.1658C2.86998 14.4188 3.08022 14.6289 3.33333 14.7751L9.16667 18.1084C9.42003 18.2547 9.70744 18.3317 10 18.3317C10.2926 18.3317 10.58 18.2547 10.8333 18.1084L16.6667 14.7751C16.9198 14.6289 17.13 14.4188 17.2763 14.1658C17.4225 13.9127 17.4997 13.6257 17.5 13.3334V6.66675Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M2.75 5.8335L10 10.0002L17.25 5.8335" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M10 18.3333V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <svg {...iconProps}>
+      <path d="M10 2.5V16.67C10 17.13 9.63 17.5 9.17 17.5H4.17C3.25 17.5 2.5 16.75 2.5 15.83V4.17C2.5 3.25 3.25 2.5 4.17 2.5H15.83C16.75 2.5 17.5 3.25 17.5 4.17V9.17C17.5 9.63 17.13 10 16.67 10H2.5" />
+      <path d="M15.41 12.47V18.13M12.59 15.3H18.24" />
     </svg>
   );
 }
 
-function DiamondIcon() {
+function SubpagesIcon() {
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-      <path d="M5.41667 2.5H14.5833L17.9167 7.08333L10 17.5L2.08333 7.08333L5.41667 2.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M2.08333 7.08333H17.9167" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M7.5 7.08333L10 17.5L12.5 7.08333L10 2.5L7.5 7.08333Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <svg {...iconProps}>
+      <rect x="2.5" y="3.33" width="15" height="13.33" rx="1.67" />
+      <path d="M2.5 7.08H17.5" />
+      <path d="M5 5.21H5.01M7.08 5.21H7.09" />
     </svg>
   );
 }
 
-const NAV_ICONS = [OffchainIcon, OnchainIcon, SdkApiIcon, ResolvioIcon, DiamondIcon, OtherIcon];
+function LayersIcon() {
+  return (
+    <svg {...iconProps}>
+      <path d="M10.83 11.45C10.32 11.75 9.68 11.75 9.17 11.45L2.08 7.39C1.53 7.08 1.53 6.25 2.08 5.94L9.17 1.88C9.68 1.59 10.32 1.59 10.83 1.88L17.92 5.94C18.47 6.25 18.47 7.08 17.92 7.39L10.83 11.45Z" />
+      <path d="M16.67 11.9L17.92 12.61C18.47 12.92 18.47 13.75 17.92 14.06L10.83 18.12C10.32 18.41 9.68 18.41 9.17 18.12L2.08 14.06C1.53 13.75 1.53 12.92 2.08 12.61L3.33 11.9" />
+    </svg>
+  );
+}
+
+function McpIcon() {
+  return (
+    <svg {...iconProps}>
+      <rect x="2.5" y="4.17" width="15" height="11.67" rx="1.67" />
+      <path d="M6.67 8.33L9.17 10.83L6.67 13.33" />
+      <path d="M10.83 13.33H13.33" />
+    </svg>
+  );
+}
+
+function SdkIcon() {
+  return (
+    <svg {...iconProps}>
+      <path d="M6.67 2.5H5.83C4.91 2.5 4.17 3.25 4.17 4.17V8.33C4.17 9.25 3.42 10 2.5 10C3.42 10 4.17 10.75 4.17 11.67V15.83C4.17 16.75 4.92 17.5 5.83 17.5H6.67" />
+      <path d="M13.33 17.5H14.17C15.09 17.5 15.83 16.75 15.83 15.83V11.67C15.83 10.75 16.58 10 17.5 10C16.58 10 15.83 9.25 15.83 8.33V4.17C15.83 3.25 15.09 2.5 14.17 2.5H13.33" />
+    </svg>
+  );
+}
 
 /* ---------- component ---------- */
 
-function ProductCard({ p }: { p: Product }) {
+export function ToolBadge({ kind }: { kind: "new" | "soon" }) {
+  return kind === "soon" ? <span className="pstack-new is-soon">Coming soon</span> : <span className="pstack-new">New</span>;
+}
+
+export function ArrowUpRight() {
   return (
-    <div id={p.id} className="products_card">
-      <div className="products_card-top">
-        <div className="products_title-wrapper">
-          <h3>{p.title}</h3>
-          <p className="text-color-black-600 text-size-medium text-weight-medium">{p.description}</p>
-          <div className="products_categories-list">
-            {p.tags.map((t) => (
-              <div key={t} className="products_categories-item"><div>{t}</div></div>
-            ))}
-          </div>
-        </div>
-        <div className="button-group">
-          {p.buttons.map((b, i) => (
-            <WebflowButton key={b.label} label={b.label} href={b.href} variant={i === 0 ? "secondary" : "outline"} />
-          ))}
-        </div>
-      </div>
-      <div className="products_card-img-wrapper">
-        <img
-          src={p.image}
-          loading="lazy"
-          width={719}
-          sizes="(max-width: 767px) 100vw, 719px"
-          alt={p.imageAlt}
-          srcSet={p.srcSet}
-          className="products_card-img"
-        />
-      </div>
-    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M5 11L11 5M11 5H6M11 5V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 
-function SmallProductCard({ p }: { p: SmallProduct }) {
+/** Section heading. */
+export function ProductsTop() {
   return (
-    <div id={p.id} className="products_small-card">
-      <div className="products_small-card-img-wrapper">
-        <img src={p.image} loading="lazy" width={325.5} alt={p.imageAlt} className="products_small-card-img" />
+    <>
+      {/* Heading */}
+      <div className="component_heading">
+        <div data-wf--component-tag--variant="dark" className="tag w-variant-b6bce3ac-5c2a-b1ee-66d6-218f87a88dd1">
+          <div>Products and Services</div>
+        </div>
+        <h2>Build with ENS</h2>
+        <div className="max-width-medium">
+          <p className="text-weight-medium is-linespace-smaller text-color-black-900">
+            ENS usernames for wallets, apps, chains, and agents. Onchain or offchain.
+          </p>
+        </div>
       </div>
-      <div className="products_small-card-content">
-        <h3 className="heading-style-h5">{p.title}</h3>
-        <p className="text-weight-medium text-color-black-600">{p.description}</p>
-      </div>
-      <div className="button-group">
-        <WebflowButton label={p.button.label} href={p.button.href} variant="secondary" />
-      </div>
-    </div>
+
+    </>
   );
 }
-
-const ALL_SECTION_IDS = ["offchain-subnames", "onchain-subnames", "sdk-api", "resolvio", "ens-diamonds", "products-five"];
 
 export function Products() {
-  const [activeId, setActiveId] = useState(ALL_SECTION_IDS[0]);
-
-  // IntersectionObserver: whichever section is most visible wins
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  useEffect(() => {
-    const ratios = new Map<string, number>();
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => ratios.set(e.target.id, e.intersectionRatio));
-        let best = ALL_SECTION_IDS[0];
-        let bestRatio = -1;
-        ratios.forEach((ratio, id) => { if (ratio > bestRatio) { bestRatio = ratio; best = id; } });
-        if (bestRatio > 0) setActiveId(best);
-      },
-      { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
-    );
-    ALL_SECTION_IDS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observerRef.current!.observe(el);
-    });
-    return () => observerRef.current?.disconnect();
-  }, []);
-
-  function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
-    e.preventDefault();
-    const id = href.replace("#", "");
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
   return (
     <section className="section_products">
       <div padding-global="" className="section-inner-background is-bottom-only background-color-secondary">
         <div container="large" className="padding-section-large is-small-mobile">
-          <div className="products_component">
-            {/* Heading */}
-            <div className="component_heading">
-              <div data-wf--component-tag--variant="dark" className="tag w-variant-b6bce3ac-5c2a-b1ee-66d6-218f87a88dd1">
-                <div>Products and Services</div>
-              </div>
-              <h2>ENS made easy</h2>
-              <div className="max-width-medium">
-                <p className="text-weight-medium is-linespace-smaller text-color-black-900">
-                  Plug-and-play ENS naming for chains, wallets, apps, and agents.
-                </p>
-              </div>
-            </div>
+          <div className="pstack">
+            <ProductsTop />
 
-            {/* Content */}
-            <div className="products_content">
-              {/* Left nav */}
-              <div className="products_content-left">
-                {NAV_ITEMS.map((label, i) => {
-                  const Icon = NAV_ICONS[i];
-                  const isActive = activeId === ALL_SECTION_IDS[i];
-                  return (
-                    <a
-                      key={label}
-                      href={NAV_HREFS[i]}
-                      onClick={(e) => handleNavClick(e, NAV_HREFS[i])}
-                      className={`products_content-left-item w-inline-block${isActive ? " w--current" : ""}`}
-                    >
-                      <div className="products_content-active-cricle" />
-                      <div className="products_content-item-right">
-                        <div className="products_content-icon-wrapper">
-                          <div className="icon-embed-custom1 w-embed">
-                            <Icon />
-                          </div>
-                        </div>
-                        <div className="text-size-large text-weight-medium">{label}</div>
-                      </div>
-                    </a>
-                  );
-                })}
+            {/* How you ship: lanes from no code to done for you */}
+            <div className="pstack-block">
+
+              <div className="pstack-axis" aria-hidden="true">
+                <span>Less code, faster launch</span>
+                <span className="pstack-axis-line" />
+                <span>More code, more control</span>
               </div>
 
-              {/* Right cards */}
-              <div className="products_content-right">
-                {PRODUCTS.map((p) => (
-                  <ProductCard key={p.id} p={p} />
+              {/* One panel per lane, tools as rows */}
+              <div className="prows">
+                {LANES.map((lane) => (
+                  <div key={lane.name} className="prows-lane">
+                    <div className="prows-head">
+                      <h3>{lane.name}</h3>
+                      <p>{lane.who}</p>
+                    </div>
+                    <div className="prows-panel">
+                      {lane.tools.map((t) => (
+                        <a key={t.title} id={t.id} href={t.href} target="_blank" rel="noopener noreferrer" className="prow">
+                          <span className="prow-icon">{t.icon}</span>
+                          <span className="prow-text">
+                            <span className="prow-title">
+                              {t.title}
+                              {t.badge && <ToolBadge kind={t.badge} />}
+                            </span>
+                            {/* Rolls out on hover or keyboard focus; always shown on touch screens */}
+                            <span className="prow-desc">
+                              <span>{t.description}</span>
+                            </span>
+                          </span>
+                          <span className="prow-arrow">
+                            <ArrowUpRight />
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
                 ))}
 
-                {/* Small card grid */}
-                <div id="products-five" className="products_card-column">
-                  <div className="products_content-right-row">
-                    {SMALL_PRODUCTS_ROW1.map((p) => (
-                      <SmallProductCard key={p.id} p={p} />
-                    ))}
+                {/* The service: the end of the axis, where we write the code */}
+                <div className="prows-lane">
+                  <div className="prows-head">
+                    <h3>Done for you</h3>
+                    <p>We build and run it</p>
                   </div>
-                  <div className="products_content-right-row">
-                    {SMALL_PRODUCTS_ROW2.map((p) => (
-                      <SmallProductCard key={p.id} p={p} />
-                    ))}
+                  <div className="prows-service">
+                    <h4>Custom Solutions</h4>
+                    <p>
+                      End-to-end ENS solutions tailored to your needs. Custom infrastructure for wallets,
+                      chains, and apps. From development to deployment and ongoing maintenance.
+                    </p>
+                    <WebflowButton label="Book a call" href={BOOK_CALL} variant="white" cal />
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Closes the section: what a name is made of; click the ending to try other domains */}
+            <TrySketch />
           </div>
         </div>
       </div>

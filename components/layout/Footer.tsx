@@ -21,7 +21,6 @@ const PRODUCTS_LINKS = [
   { label: "Subpages", href: "https://github.com/thenamespace/subpages", external: true },
   { label: "Resolvio", href: "https://resolvio.xyz/", external: true },
   { label: "ENS Diamonds", href: "https://ens.diamonds", external: true },
-  { label: "Resolver for Google Sheets", href: "https://ens-sheets.namespace.ninja/", external: true },
   { label: "Custom Solutions", href: "#" },
 ];
 
@@ -31,6 +30,7 @@ const RESOURCES_LINKS = [
   { label: "Blog", href: "/blog" },
   { label: "Dev Docs", href: "https://docs.namespace.ninja/", external: true },
   { label: "SDK / API", href: "https://docs.namespace.ninja/developer-guide/quickstart", external: true },
+  { label: "ENS Forge", href: "https://ensforge.com", external: true },
   { label: "Namespace Builders TG", href: "https://t.me/+BJMGddUg8hk4MDEy", external: true },
   { label: "ENS MCP", href: "https://github.com/thenamespace/ens-mcp", external: true },
 ];

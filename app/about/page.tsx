@@ -9,7 +9,7 @@ import { SITE } from "@/lib/site";
 export const metadata: Metadata = {
   title: { absolute: "About Namespace" },
   description:
-    "Namespace is the ENS DAO-backed service provider building and operating naming infrastructure for wallets, chains, apps, and AI agents. 860k+ subnames, 22M+ resolutions, 30+ partners.",
+    "Namespace is the ENS DAO-backed service provider building and operating naming infrastructure for wallets, chains, apps, and AI agents. 10M+ subnames, 25M+ resolutions, 35+ partners.",
   alternates: { canonical: `${SITE.url}/about` },
   openGraph: {
     type: "website",
@@ -69,13 +69,13 @@ export default function AboutPage() {
               </div>
               <div className="solution-anim solution-anim-5">
                 <p className="solution-proof-strip">
-                  <span className="solution-proof-num">&gt;860k</span>
+                  <span className="solution-proof-num">&gt;10M</span>
                   <span className="solution-proof-label"> subnames</span>
                   <span className="solution-proof-dot"> · </span>
-                  <span className="solution-proof-num">22M</span>
+                  <span className="solution-proof-num">&gt;25M</span>
                   <span className="solution-proof-label"> resolutions</span>
                   <span className="solution-proof-dot"> · </span>
-                  <span className="solution-proof-num">30+</span>
+                  <span className="solution-proof-num">35+</span>
                   <span className="solution-proof-label"> partners</span>
                   <span className="solution-proof-dot"> · </span>
                   <span className="solution-proof-label">Backed by ENS DAO</span>
@@ -145,7 +145,7 @@ export default function AboutPage() {
                 <h3 className="heading-style-h5 solution-pain-question">We run the infrastructure</h3>
                 <p className="text-weight-medium solution-pain-detail">
                   Resolvers, CCIP-Read gateways, indexing and monitoring,
-                  operated with SLAs. 22M+ resolutions served at 100% uptime,
+                  operated with SLAs. 25M+ resolutions served at 100% uptime,
                   so naming is never our partners' on-call problem.
                 </p>
               </div>
@@ -163,7 +163,7 @@ export default function AboutPage() {
       </section>
 
       {/* Products showcase */}
-      <section className="section_about-products">
+      <section id="products" className="section_about-products">
         <div padding-global="">
           <div container="large" className="padding-section-large is-top-medium">
             <div className="margin-bottom margin-xlarge">
@@ -205,6 +205,13 @@ export default function AboutPage() {
                   href: "https://enscomponents.com/",
                   host: "enscomponents.com",
                   desc: "Ready-made React components for registrations and records.",
+                },
+                {
+                  tag: "Dev tools",
+                  title: "ENS Forge",
+                  href: "https://ensforge.com",
+                  host: "ensforge.com",
+                  desc: "Type-safe TypeScript SDK for ENS names, records and contracts.",
                 },
                 {
                   tag: "AI",

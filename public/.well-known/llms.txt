@@ -13,8 +13,8 @@ Namespace helps wallets, L2 chains, DeFi apps, WaaS providers, and AI agents bui
 - [Resolvio](https://resolvio.xyz/): Universal ENS domain resolution service. Resolves names across chains and protocols. Free to use, plug-and-play.
 - [ENS MCP](https://github.com/thenamespace/ens-mcp): Open-source Model Context Protocol tool that allows AI models to understand, query, and interact with ENS domain names in real-time.
 - [ENS Components](https://enscomponents.com/): Ready-made React components for ENS name and subname registrations (onchain and offchain), record editing, and more.
+- [ENS Forge](https://ensforge.com): Type-safe TypeScript SDK for ENS names, records, registration, renewals, ENSv1 to ENSv2 migration, batching, React hooks, and ENS contracts.
 - [Subpages](https://github.com/thenamespace/subpages): Decentralized websites and profiles built on ENS subnames.
-- [Resolver for Google Sheets](https://ens-sheets.namespace.ninja/): Resolve ENS names directly inside Google Sheets.
 
 ## Solutions
 

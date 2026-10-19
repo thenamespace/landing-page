@@ -3,7 +3,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { HomeHeader } from "@/components/landing/HomeHeader";
 import { CaseStudies } from "@/components/landing/CaseStudies";
 import { Products } from "@/components/landing/Products";
-import { Solutions } from "@/components/landing/Solutions";
+// import { Solutions } from "@/components/landing/Solutions";
 import { Identity } from "@/components/landing/Identity";
 import { UseCases } from "@/components/landing/UseCases";
 import { Benefits } from "@/components/landing/Benefits";
@@ -36,8 +36,9 @@ export default function HomePage() {
       <HomeHeader />
       <CaseStudies />
       <Products />
-      <Solutions />
-      <div className="section-divider" />
+      {/* Hidden for now: the "Done for you" card in Products already covers Custom Solutions. Kept to bring back. */}
+      {/* <Solutions /> */}
+      {/* <div className="section-divider" /> (separated Solutions from Identity) */}
       <Identity />
       <div className="section-divider" />
       <UseCases />

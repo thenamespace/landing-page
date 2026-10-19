@@ -284,10 +284,11 @@ const PRODUCTS2_ITEMS = [
   { label: "Onchain Subnames", href: "#onchain-subnames", icon: <OnchainIcon /> },
   { label: "SDK / API", href: "#sdk-api", icon: <SDKIcon /> },
   { label: "ENS Widget", href: "#ens-widget", icon: <WidgetIcon /> },
-  { label: "Subpages", href: "#subpages", icon: <SubpagesIcon /> },
+  { label: "Subpages", href: "https://github.com/thenamespace/subpages", external: true, icon: <SubpagesIcon /> },
   { label: "Resolvio", href: "#resolvio", icon: <ResolvioIcon /> },
   { label: "ENS Diamonds", href: "https://ens.diamonds", external: true, icon: <ENSDiamondsIcon /> },
   { label: "ENS MCP", href: "https://github.com/thenamespace/ens-mcp", external: true, icon: <ENSMCPIcon /> },
+  { label: "ENS Forge", href: "https://ensforge.com", external: true, icon: <SDKIcon /> },
   { label: "Custom Solutions", href: "#", icon: <CustomSolutionsIcon /> },
 ];
 

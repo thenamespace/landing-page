@@ -196,17 +196,17 @@ export function HomeHeader() {
             <div className="home-header_bottom">
               <div className="max-width-medium is-37rem">
                 <p className="text-size-medium text-weight-medium">
-                  Namespace is an ENS DAO-backed service provider that helps wallets, chains, apps, agents, and communities build ENS naming and identity systems. Fast to integrate. Built for scale.
+                  Namespace is the official ENS service provider that helps wallets, chains, apps, agents, and communities build with ENS names and subnames.
                 </p>
               </div>
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1.25rem" }}>
                 {/* Proof strip */}
                 <p style={{ fontSize: "0.9375rem", lineHeight: 1.5, margin: 0 }}>
-                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>&gt;860k</span>
+                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>&gt;10M</span>
                   <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> subnames. </span>
-                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>22M</span>
+                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>&gt;25M</span>
                   <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> resolutions. </span>
-                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>30+</span>
+                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>35+</span>
                   <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> clients.</span>
                 </p>
                 <div className="button-group is-right">
