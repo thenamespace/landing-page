@@ -126,16 +126,38 @@ async function resendRequest(method: string, endpoint: string, body?: unknown) {
   return res.json();
 }
 
+type BroadcastSummary = { id: string; name: string; status: string };
+
+/**
+ * Names (= post slugs) of broadcasts already sent. This runs on every
+ * production deploy, so it must fail closed: if the history can't be read in
+ * full, throw instead of returning an empty set, which would re-send every
+ * post to the whole audience.
+ */
 async function getSentSlugs(): Promise<Set<string>> {
-  const data = await resendRequest("GET", "/broadcasts");
-  if (!data?.data) return new Set();
-  return new Set(
-    data.data
-      .filter((b: { name: string; status: string }) =>
-        b.status === "sent" || b.status === "sending",
-      )
-      .map((b: { name: string }) => b.name),
-  );
+  const all: BroadcastSummary[] = [];
+  let after: string | undefined;
+  for (let page = 0; page < 50; page++) {
+    const query = `?limit=100${after ? `&after=${after}` : ""}`;
+    const data = await resendRequest("GET", `/broadcasts${query}`);
+    if (!data || !Array.isArray(data.data)) {
+      throw new Error("Resend /broadcasts returned an unexpected payload; refusing to send.");
+    }
+    all.push(...data.data);
+    if (!data.has_more) {
+      return new Set(
+        all
+          .filter((b) => b.status === "sent" || b.status === "sending")
+          .map((b) => b.name),
+      );
+    }
+    const last: BroadcastSummary | undefined = data.data.at(-1);
+    if (!last || last.id === after) {
+      throw new Error("Resend /broadcasts pagination stalled; refusing to send.");
+    }
+    after = last.id;
+  }
+  throw new Error("Resend /broadcasts history too long to read; refusing to send.");
 }
 
 async function run() {

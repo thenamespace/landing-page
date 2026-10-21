@@ -1,24 +1,34 @@
 name: Notify Newsletter
 
+# Send newsletters only once the post is actually live. Vercel reports every
+# deployment back to GitHub; we act on a *successful Production* deployment, so
+# an email can never link to a page that hasn't deployed yet (pushes and Vercel
+# deploys are separate systems and the deploy can lag the push).
+# send-newsletter.tsx skips posts that were already sent, so running on every
+# production deploy is safe.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - "content/blog/*.md"
+  deployment_status:
 
 concurrency:
-  group: newsletter-${{ github.ref }}
-  cancel-in-progress: true
+  group: newsletter
+  cancel-in-progress: false
 
 jobs:
   send:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment.environment == 'Production')
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Checkout
+      - name: Checkout deployed commit
         uses: actions/checkout@v4
+        with:
+          # The exact commit Vercel just deployed (falls back to the default
+          # branch for manual runs).
+          ref: ${{ github.event.deployment.sha || github.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
