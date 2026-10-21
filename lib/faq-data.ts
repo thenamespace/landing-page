@@ -1,3 +1,5 @@
+import { STATS } from "./stats";
+
 export interface FaqItem {
   question: string;
   answer: string;
@@ -38,7 +40,7 @@ export const FAQ_DATA: FaqItem[] = [
   {
     question: "How big is Namespace today?",
     answer:
-      "As of 2026, Namespace manages 10M+ ENS subnames, has served millions of resolution requests with 100% uptime, and works with 35+ partners across wallets, L2 chains, DAOs, and apps - including Celo, Filecoin, POAP, and PinMe.",
+      `As of ${STATS.asOf}, Namespace manages ${STATS.subnames} ENS subnames, has served ${STATS.resolutions} resolution requests with ${STATS.uptime} uptime, and works with ${STATS.partners} partners across wallets, L2 chains, DAOs, and apps - including Celo, Filecoin, POAP, and PinMe.`,
     category: "General",
   },
   {
@@ -74,7 +76,7 @@ export const FAQ_DATA: FaqItem[] = [
   {
     question: "Is Namespace production-ready?",
     answer:
-      "Yes. Namespace infrastructure is live, battle-tested, and operating at large scale. It has served millions of ENS resolution requests with 100% uptime and powers production identity systems for Celo, Filecoin, POAP, and 30+ other partners.",
+      `Yes. Namespace infrastructure is live, battle-tested, and operating at large scale. It has served ${STATS.resolutions} ENS resolution requests with ${STATS.uptime} uptime and powers production identity systems for Celo, Filecoin, POAP, and 30+ other partners.`,
     category: "Technology",
   },
   {

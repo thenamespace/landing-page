@@ -128,6 +128,14 @@
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.10);
 }
 
+/* ── Featured blog card: show the whole cover, no crop ── */
+.blog-featured_list .blog_card-img {
+  aspect-ratio: auto;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+}
+
 /* ── Section divider (from benefits section inline style) ── */
 .section-divider {
   width: 100%;

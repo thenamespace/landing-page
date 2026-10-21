@@ -139,6 +139,9 @@ export function Footer() {
                 <img
                     src="/assets/images/ens-mark-Blue.svg"
                     alt="ENS Logo"
+                    loading="lazy"
+                    width={20}
+                    height={20}
                     style={{ display: "block", flexShrink: 0, width: "20px", height: "20px" }}
                   />     
                   <div>ENS Service Provider</div>

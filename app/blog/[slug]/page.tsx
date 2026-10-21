@@ -10,7 +10,7 @@ import {
   getPostBySlug,
   formatLongDate,
 } from "@/lib/posts";
-import { JsonLd, articleSchema, breadcrumbSchema } from "@/lib/jsonld";
+import { JsonLd, articleSchema, breadcrumbSchema, faqPageSchema } from "@/lib/jsonld";
 import { SITE } from "@/lib/site";
 import { getAuthor } from "@/lib/authors";
 import { TocNav } from "@/components/blog/TocNav";
@@ -31,13 +31,15 @@ export async function generateMetadata({
   if (!post) return { title: "Not found" };
   const url = `${SITE.url}/blog/${post.slug}`;
   const image = post.image ? `${SITE.url}${post.image}` : SITE.ogImage;
+  // "[Case Study]" is a card label, not part of the title search engines show.
+  const title = cleanTitle(post.title);
   return {
-    title: post.title,
+    title,
     description: post.description,
     alternates: { canonical: url },
     openGraph: {
       type: "article",
-      title: post.title,
+      title,
       description: post.description,
       url,
       publishedTime: post.date,
@@ -47,7 +49,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
+      title,
       description: post.description,
       images: [image],
     },
@@ -82,19 +84,14 @@ function AuthorByline({ authorName }: { authorName?: string }) {
 
   const inner = (
     <>
-      <div className="blog_author-img-wrapper">
-        <Image
-          src={avatarSrc}
-          alt={displayName}
-          width={40}
-          height={40}
-          className="blog_author-img"
-          style={{ objectFit: "cover" }}
-        />
-      </div>
-      <div>
-        <div style={{ fontWeight: 600, fontSize: "0.9rem" }}>{displayName}</div>
-      </div>
+      <Image
+        src={avatarSrc}
+        alt=""
+        width={56}
+        height={56}
+        className="article-author-avatar"
+      />
+      <span className="article-author-name">{displayName}</span>
     </>
   );
 
@@ -104,15 +101,48 @@ function AuthorByline({ authorName }: { authorName?: string }) {
         href={author.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="blog_author-wrapper"
-        style={{ textDecoration: "none", color: "inherit" }}
+        className="article-author"
       >
         {inner}
       </a>
     );
   }
 
-  return <div className="blog_author-wrapper">{inner}</div>;
+  return <span className="article-author">{inner}</span>;
+}
+
+function AuthorBox({ authorName }: { authorName?: string }) {
+  const author = getAuthor(authorName);
+  if (!author?.bio) return null;
+  const member = author.member;
+  return (
+    <aside className="article-authorbox" aria-label="About the author">
+      <Image
+        src={author.avatar}
+        alt=""
+        width={112}
+        height={112}
+        className="article-authorbox-avatar"
+      />
+      <div>
+        <p className="article-authorbox-name">
+          {author.name}
+          {member && <span className="article-authorbox-ens">{member.ens}</span>}
+        </p>
+        <p className="article-authorbox-bio">{author.bio}</p>
+        {author.link && member?.x && (
+          <a
+            href={author.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="article-authorbox-link"
+          >
+            Follow @{member.x} on X
+          </a>
+        )}
+      </div>
+    </aside>
+  );
 }
 
 function RelatedCard({ post }: { post: Post }) {
@@ -144,15 +174,6 @@ function RelatedCard({ post }: { post: Post }) {
           <div className="blog_card-content-wrapper">
             <div className="blog_card-content">
               <div className="blog_card-content-top">
-                {post.tag && (
-                  <div
-                    data-wf--component-tag--variant="black"
-                    className="tag w-variant-e059100f-ffd8-c18b-006b-8271a2c949c4"
-                  >
-                    <div>{post.tag}</div>
-                  </div>
-                )}
-                <div className="separator-dot" />
                 <p className="text-color-black-600 text-size-small text-weight-medium is-read-time">
                   {post.readingLabel}
                 </p>
@@ -194,100 +215,67 @@ export default async function BlogPostPage({
     <PageShell>
       <JsonLd data={articleSchema(post)} />
       <JsonLd data={breadcrumbSchema(post)} />
+      {post.faqs.length >= 2 && <JsonLd data={faqPageSchema(post.faqs)} />}
 
-      {/* Hero header */}
-      <header
-        {...{ "padding-global": "" }}
-        className="section_blog-header"
-      >
-        <div {...{ container: "large" }}>
-          <div className="blog-header_component is-details-page">
-            {post.tag && (
-              <div data-wf--component-tag--variant="light" className="tag">
-                <div>{post.tag}</div>
-              </div>
-            )}
-            <h1>{cleanTitle(post.title)}</h1>
-            {post.description && (
-              <div className="max-width-large is-40rem">
-                <p className="text-size-medium text-weight-medium is-linespace-smaller">
-                  {post.description}
-                </p>
-              </div>
-            )}
-            <div className="blog-post-meta">
-              <AuthorByline authorName={post.author} />
-              <span className="blog-post-meta-sep">·</span>
-              <span className="blog-post-meta-text">{formatLongDate(post.date)}</span>
-              <span className="blog-post-meta-sep">·</span>
-              <span className="blog-post-meta-text">{post.readingLabel}</span>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      {/* Article body */}
-      <section className="section_blog-detail">
+      <section className="article-page">
         <div
           {...{ "padding-global": "" }}
-          className="section-inner-background is-top-only is-full background-color-secondary"
+          className="section-inner-background is-top-only is-full article-panel"
         >
-          <div
-            {...{ container: "large" }}
-            className="padding-section-large is-top-medium"
-          >
-            <div className="blog-detail_component">
+          <div {...{ container: "large" }}>
+            <div className="article-layout">
 
-              {/* Full-width cover image */}
-              {post.image && (
-                <div className="blog-detail_component_img-wrapper">
+              {/* Left sticky sidebar */}
+              <aside className="article-aside">
+                <a
+                  href={shareX}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="blog-share-btn"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                  Share on X
+                </a>
+                {headings.length > 0 && <TocNav headings={headings} />}
+              </aside>
+
+              <article className="article-main">
+                <header className="article-header">
+                  <h1 className="article-title">{cleanTitle(post.title)}</h1>
+                  {post.description && (
+                    <p className="article-dek">{post.description}</p>
+                  )}
+                  <div className="article-meta">
+                    <AuthorByline authorName={post.author} />
+                    <span className="article-meta-sep" aria-hidden="true">·</span>
+                    <time dateTime={post.date}>{formatLongDate(post.date)}</time>
+                    <span className="article-meta-sep" aria-hidden="true">·</span>
+                    <span>{post.readingLabel}</span>
+                  </div>
+                </header>
+
+                {post.image && (
                   <Image
                     src={post.image}
                     alt={post.imageAlt ?? post.title}
-                    width={1200}
-                    height={675}
+                    width={1280}
+                    height={720}
                     priority
-                    className="blog-detail_component_img-wrapper_img"
+                    sizes="(max-width: 767px) 100vw, 40rem"
+                    className="article-cover"
                   />
-                </div>
-              )}
+                )}
 
-              {/* 3-col layout */}
-              <div className="blog-detail_component_detail-wrapper">
+                <div
+                  className="post-prose"
+                  dangerouslySetInnerHTML={{ __html: bodyHtml }}
+                />
 
-                {/* Left sticky sidebar */}
-                <div className="blog-detail_component_detail-wrapper_left">
-                  <a
-                    href={shareX}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="blog-share-btn"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
-                    Share on X
-                  </a>
+                <AuthorBox authorName={post.author} />
+              </article>
 
-                  {headings.length > 0 && (
-                    <div className="blog-detail_component_detail-wrapper_left_toc-wrapper">
-                      <TocNav headings={headings} />
-                    </div>
-                  )}
-                </div>
-
-                {/* Main content */}
-                <div className="blog-detail_component_detail-wrapper_content-wrapper">
-                  <div
-                    className="blog-detail_component_detail-wrapper_left_embed post-prose"
-                    dangerouslySetInnerHTML={{ __html: bodyHtml }}
-                  />
-                </div>
-
-                {/* Right column - spacing */}
-                <div className="blog-detail_component_detail-wrapper_right" />
-
-              </div>
             </div>
           </div>
         </div>

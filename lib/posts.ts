@@ -19,8 +19,12 @@ export type PostFrontmatter = {
   draft?: boolean;
 };
 
+export type PostFaq = { question: string; answer: string };
+
 export type Post = PostFrontmatter & {
   html: string;
+  /** Q&As parsed from a "Frequently Asked Questions" section (FAQPage JSON-LD). */
+  faqs: PostFaq[];
   readingMinutes: number;
   readingLabel: string;
 };
@@ -58,6 +62,66 @@ function sanitizeFrontmatter(raw: string): string {
   return raw.replace(full, `---\n${sanitized}\n---\n`);
 }
 
+function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/<[^>]+>/g, "")
+    .replace(/&[a-z#0-9]+;/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
+/**
+ * Older HTML-format posts (Webflow imports) use <h1> for section headings and
+ * have no heading ids. Demote in-body h1 to h2 (the page title is the only h1)
+ * and add ids so the sidebar contents list and deep links work. The source
+ * files stay untouched.
+ */
+function normalizeHtmlHeadings(html: string): string {
+  const used = new Set<string>();
+  return html.replace(
+    /<h([1-3])(\s[^>]*)?>([\s\S]*?)<\/h\1>/gi,
+    (_m, level: string, attrs = "", inner: string) => {
+      const tag = level === "1" ? "h2" : `h${level}`;
+      if (/\sid=/.test(attrs)) return `<${tag}${attrs}>${inner}</${tag}>`;
+      let id = slugify(inner) || "section";
+      while (used.has(id)) id += "-1";
+      used.add(id);
+      return `<${tag}${attrs} id="${id}">${inner}</${tag}>`;
+    },
+  );
+}
+
+function stripInlineMarkdown(text: string): string {
+  return text
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_`]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/**
+ * Parse `## Frequently Asked Questions` sections written as a bold question on
+ * its own line followed by the answer paragraph. Whole-line bold only, so an
+ * inline bold lead-in ("**Records are mutable.** Because…") never matches.
+ */
+function extractFaqs(markdown: string): PostFaq[] {
+  const section = markdown.match(
+    /^##\s+(?:Frequently Asked Questions|FAQs?)\s*(?:\{#[^}]+\})?\s*$([\s\S]*?)(?=^##\s|(?![\s\S]))/im,
+  );
+  if (!section) return [];
+  const faqs: PostFaq[] = [];
+  const re = /^\*\*(.+?\?)\*\*[ \t]*\n+([\s\S]+?)(?=\n\s*\n|(?![\s\S]))/gm;
+  let m;
+  while ((m = re.exec(section[1])) !== null) {
+    const question = stripInlineMarkdown(m[1]);
+    const answer = stripInlineMarkdown(m[2]);
+    if (question && answer) faqs.push({ question, answer });
+  }
+  return faqs;
+}
+
 async function readPostFile(filename: string): Promise<Post | null> {
   if (EXCLUDED_FILENAMES.has(filename)) return null;
   if (!filename.endsWith(".md") && !filename.endsWith(".mdx")) return null;
@@ -86,7 +150,9 @@ async function readPostFile(filename: string): Promise<Post | null> {
 
   const format = fm.format ?? "markdown";
   const html =
-    format === "html" ? content.trim() : await renderMarkdown(content);
+    format === "html"
+      ? normalizeHtmlHeadings(content.trim())
+      : await renderMarkdown(content);
 
   const stats = readingTime(content);
   return {
@@ -95,6 +161,7 @@ async function readPostFile(filename: string): Promise<Post | null> {
     updated: fm.updated ?? fm.date,
     format,
     html,
+    faqs: format === "html" ? [] : extractFaqs(content),
     readingMinutes: Math.max(1, Math.round(stats.minutes)),
     readingLabel: `${Math.max(1, Math.round(stats.minutes))} min read`,
   };

@@ -13,7 +13,7 @@ import {
   getAllSolutionV2Slugs,
   type SolutionV2,
 } from "@/lib/solutions-v2";
-import { JsonLd } from "@/lib/jsonld";
+import { JsonLd, ORG_ID } from "@/lib/jsonld";
 import { SITE } from "@/lib/site";
 
 export function generateStaticParams() {
@@ -113,7 +113,7 @@ function v2ServiceSchema(v2: SolutionV2) {
     serviceType: "ENS Naming Infrastructure",
     description: v2.description,
     url: `${SITE.url}/solutions/${v2.slug}`,
-    provider: { "@type": "Organization", name: SITE.name, url: SITE.url },
+    provider: { "@id": ORG_ID },
     areaServed: "Worldwide",
   };
 }
@@ -161,7 +161,7 @@ function solutionServiceSchema(solution: Solution) {
     serviceType: "ENS Naming Infrastructure",
     description: solution.metaDescription,
     url: `${SITE.url}/solutions/${solution.slug}`,
-    provider: { "@type": "Organization", name: SITE.name, url: SITE.url },
+    provider: { "@id": ORG_ID },
     areaServed: "Worldwide",
   };
 }

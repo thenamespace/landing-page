@@ -83,6 +83,15 @@ export default function RootLayout({
           href="/assets/css/namespace-dev.webflow.shared.3f58c4ac4.css"
         />
 
+        {/* RSS discovery. Pages set their own `alternates` (canonical), which
+            replaces the layout's, so the feed link lives here instead. */}
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Namespace Blog"
+          href={`${SITE.url}/rss.xml`}
+        />
+
         {/* JSON-LD structured data */}
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />

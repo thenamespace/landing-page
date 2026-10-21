@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { STATS as SITE_STATS } from "@/lib/stats";
 
 const STATS = [
-  { value: ">10M", label: "Subnames", description: "Actively managed ENS subnames across all client deployments." },
-  { value: ">25M", label: "Resolutions", description: "ENS names looked up and resolved without a hitch, proving the infra holds at real scale." },
+  { value: SITE_STATS.subnames, label: "Subnames", description: `${SITE_STATS.subnames} ENS subnames actively managed by Namespace across all client deployments.` },
+  { value: SITE_STATS.resolutions, label: "Resolutions", description: `${SITE_STATS.resolutions} ENS lookups resolved by Namespace infrastructure at ${SITE_STATS.uptime} uptime.` },
   { value: "35+", label: "Clients", description: "Projects and teams actively building with Namespace." },
   { value: "250", label: "Namespaces", description: "Brands, wallets, apps, chains, and communities that chose Namespace as their naming layer." },
   { value: "130", label: "ENS Widgets", description: "Websites already selling and issuing ENS subnames through Namespace's embedded widget." },

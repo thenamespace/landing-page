@@ -73,15 +73,6 @@ export async function BlogPreview() {
                         <div className="blog_card-content-wrapper">
                           <div className="blog_card-content">
                             <div className="blog_card-content-top">
-                              {post.tag && (
-                                <div
-                                  data-wf--component-tag--variant="black"
-                                  className="tag w-variant-e059100f-ffd8-c18b-006b-8271a2c949c4"
-                                >
-                                  <div>{post.tag}</div>
-                                </div>
-                              )}
-                              <div className="separator-dot" />
                               <p className="text-color-black-600 text-size-small text-weight-medium is-read-time">
                                 {post.readingLabel}
                               </p>

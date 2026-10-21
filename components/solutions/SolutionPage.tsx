@@ -16,6 +16,7 @@ import { SolutionProductLook } from "./SolutionProductLook";
 import { SolutionBenefitVisual } from "./SolutionBenefitVisual";
 import { SolutionBenefitsBento } from "./SolutionBenefitsBento";
 import type { Solution, SolutionTestimonial } from "@/lib/solutions";
+import { STATS } from "@/lib/stats";
 
 function Eyebrow({
   num,
@@ -38,13 +39,13 @@ function Eyebrow({
 function ProofStrip() {
   return (
     <p className="solution-proof-strip">
-      <span className="solution-proof-num">10M+</span>
+      <span className="solution-proof-num">{STATS.subnames}</span>
       <span className="solution-proof-label"> subnames</span>
       <span className="solution-proof-dot" aria-hidden="true">
         {" "}
         ·{" "}
       </span>
-      <span className="solution-proof-num">25M+</span>
+      <span className="solution-proof-num">{STATS.resolutions}</span>
       <span className="solution-proof-label"> resolutions</span>
       <span className="solution-proof-dot" aria-hidden="true">
         {" "}
@@ -2598,10 +2599,10 @@ export function SolutionPage({ solution }: { solution: Solution }) {
             <div className="solution-statband">
               {(
                 s.stats ?? [
-                  { value: ">10M", label: "subnames managed in production" },
-                  { value: ">25M", label: "resolutions served" },
+                  { value: STATS.subnames, label: "subnames managed in production" },
+                  { value: STATS.resolutions, label: "resolutions served" },
                   { value: "35+", label: "teams building with Namespace" },
-                  { value: "100%", label: "uptime in production" },
+                  { value: STATS.uptime, label: "uptime in production" },
                 ]
               ).map((stat) => (
                 <div key={stat.label} className="solution-statband-cell">

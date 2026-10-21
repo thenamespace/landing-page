@@ -72,7 +72,7 @@ function LogoMarquee() {
       <div className="partner-marquee-track">
         {allLogos.map((logo, i) => (
           <div key={`${logo.alt}-${i}`} className="partner-marquee-item">
-            <img loading="eager" src={logo.src} alt={logo.alt} className="marquee-image" />
+            <img loading="lazy" decoding="async" src={logo.src} alt={logo.alt} className="marquee-image" />
           </div>
         ))}
       </div>

@@ -24,9 +24,12 @@ Namespace is an ENS (Ethereum Name Service) Service Provider backed by ENS DAO. 
 
 ## Key Facts (citation-ready)
 
-- Namespace manages over 10 million ENS subnames across 35+ partners as of 2026.
+- As of October 2026, Namespace manages 10M+ ENS subnames, has served 25M+ resolution requests at 99.9% uptime, and works with 35+ partners.
 - Namespace is an official ENS Service Provider and active ENS DAO Delegate, founded in August 2023.
-- Namespace's infrastructure has served millions of ENS resolution requests with 100% uptime.
+- POAP migrated its naming infrastructure to Namespace offchain subnames (from June 2025) with no downtime and has issued 5,000+ subnames under onpoap.eth, poap.xyz and withpoap.eth.
+- Unicorn used Namespace to issue branded ENS subnames to 25,000+ ETHDenver attendees.
+- Celo runs its chain-wide naming system, Celonames, on Namespace.
+- Namespace (namespace.ninja) is not affiliated with Namespace Labs. The old namespace.tech domain is no longer operated by Namespace.
 - Namespace charges a 5% fee only on paid onchain subname registrations; offchain subnames and free onchain subnames have no fee.
 - Namespace supports offchain (gasless, instant) and onchain (NFT, unruggable) subname issuance.
 - Partners include Celo (Celonames), Filecoin (Filpay usernames), ETHDenver, POAP, Unicorn wallet, and PinMe.
@@ -342,7 +345,11 @@ A: Yes. Namespace designs systems to avoid long-term lock-in and supports future
 
 ## Blog Posts
 
-- [Case Study] PinMe: Forever Frontends — https://namespace.ninja/blog/case-study-pinme-forever-frontends
+- ENS Gasless Subnames: Cutting Gas Costs for High-Volume Apps — https://namespace.ninja/blog/ens-gasless-subnames
+- How to Issue ENS Subnames Without Deploying Contracts — https://namespace.ninja/blog/how-to-issue-subnames-without-deploying-contracts
+- Case Study: POAP In-App ENS Usernames with Namespace — https://namespace.ninja/blog/case-study-poap-in-app-ens-usernames-with-namespace
+- Case Study: Namespace x Unicorn, Branded Identity for ETHDenver — https://namespace.ninja/blog/case-study-namespace-x-unicorn
+- Case Study: PinMe, Forever Frontends — https://namespace.ninja/blog/case-study-pinme-forever-frontends
 - Namespace Dev Portal (v1) — https://namespace.ninja/blog/namespace-dev-portal-v1
 - Tokenize Your Domain Using the ENS App — https://namespace.ninja/blog/tokenize-your-domain-using-ens-app
 - Unified Identity for Your Community with ENS Subnames — https://namespace.ninja/blog/unified-identity-for-your-community-with-ens-subnames

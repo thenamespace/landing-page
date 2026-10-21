@@ -37,6 +37,17 @@ Namespace issues ENS subnames, also referred to as ENS usernames, web3 usernames
 - [Quickstart Guide](https://docs.namespace.ninja/developer-guide/quickstart)
 - [SDK Guide](https://docs.namespace.ninja/developer-guide/sdks/introduction)
 
+## Blog
+
+- [ENS Gasless Subnames: Cutting Gas Costs for High-Volume Apps](https://namespace.ninja/blog/ens-gasless-subnames): How offchain ENS subnames (CCIP-Read, EIP-3668) let apps give every user an identity with no per-user gas.
+- [How to Issue ENS Subnames Without Deploying Contracts](https://namespace.ninja/blog/how-to-issue-subnames-without-deploying-contracts): Developer guide to issuing subnames via the Namespace REST API and SDK.
+- [Case Study: POAP In-App ENS Usernames](https://namespace.ninja/blog/case-study-poap-in-app-ens-usernames-with-namespace): POAP migrated to Namespace offchain subnames with no downtime and issued 5,000+ subnames.
+- [Case Study: Namespace x Unicorn at ETHDenver](https://namespace.ninja/blog/case-study-namespace-x-unicorn): Branded ENS identities for 25,000+ ETHDenver attendees.
+- [Case Study: PinMe Forever Frontends](https://namespace.ninja/blog/case-study-pinme-forever-frontends): Decentralized websites on ENS subnames, IPFS and Filecoin.
+- [Unified Identity for Your Community with ENS Subnames](https://namespace.ninja/blog/unified-identity-for-your-community-with-ens-subnames): Why communities issue branded ENS subnames.
+- [Namespace Dev Portal (v1)](https://namespace.ninja/blog/namespace-dev-portal-v1): Developer portal for subname creation and integration.
+- [Tokenize Your Domain Using the ENS App](https://namespace.ninja/blog/tokenize-your-domain-using-ens-app): Import a DNS domain into ENS.
+
 ## Community
 
 - [X / Twitter](https://x.com/namespace_eth)
@@ -49,7 +60,9 @@ Namespace issues ENS subnames, also referred to as ENS usernames, web3 usernames
 
 ## About
 
-Namespace is an ENS DAO-backed service provider. It provides the infrastructure and tooling for the next billion Web3 users to have human-readable identities on Ethereum and beyond.
+Namespace is an ENS DAO service provider. It provides the infrastructure and tooling for the next billion Web3 users to have human-readable identities on Ethereum and beyond. As of October 2026: 10M+ subnames managed, 25M+ resolutions served, 99.9% uptime, 35+ partners. Namespace (namespace.ninja) is not affiliated with Namespace Labs.
+
+- [About Namespace and the team](https://namespace.ninja/about)
 
 ## Pricing
 
@@ -57,3 +70,10 @@ Namespace is an ENS DAO-backed service provider. It provides the infrastructure 
 - Onchain subnames: Free if the minting price is set to zero. If a partner charges for subname minting, Namespace takes a 5% fee on that revenue.
 - SDK/API: Free to use with no restrictions.
 - Custom solutions: Case-by-case. Partially subsidized by ENS DAO for qualifying projects.
+
+## Optional
+
+- [Full knowledge base for AI systems](https://namespace.ninja/llms-full.txt)
+- [Terms of Service](https://namespace.ninja/legal/terms-of-service)
+- [Privacy Policy](https://namespace.ninja/legal/privacy-policy)
+- [Disclaimer](https://namespace.ninja/legal/disclaimer)

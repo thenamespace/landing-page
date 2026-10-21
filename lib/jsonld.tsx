@@ -1,21 +1,54 @@
 import { SITE } from "./site";
 import type { Post } from "./posts";
 import { FAQ_DATA } from "./faq-data";
+import { getAuthor } from "./authors";
+import { TEAM, getTeamMember, personId, type TeamMember } from "./team";
+
+/** Stable entity ids so every page's JSON-LD describes one connected graph. */
+export const ORG_ID = `${SITE.url}/#organization`;
+export const WEBSITE_ID = `${SITE.url}/#website`;
+const orgRef = { "@id": ORG_ID };
+
+export function personSchema(member: TeamMember) {
+  return {
+    "@type": "Person",
+    "@id": personId(SITE.url, member),
+    name: member.nick,
+    alternateName: member.ens,
+    jobTitle: member.role,
+    image: `${SITE.url}${member.img}`,
+    url: `${SITE.url}/about#${member.ens.replace(/\.eth$/, "")}`,
+    sameAs: [
+      ...(member.x ? [`https://x.com/${member.x}`] : []),
+      `https://app.ens.domains/${member.ens}`,
+    ],
+    worksFor: orgRef,
+  };
+}
 
 export function organizationSchema() {
+  const founder = getTeamMember("cap.eth");
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": ORG_ID,
     name: SITE.name,
+    alternateName: ["Namespace ENS", "Namespace Ninja"],
     description: SITE.description,
+    disambiguatingDescription:
+      "Namespace (namespace.ninja) is an ENS subname service provider in the ENS DAO Service Provider Program. Not affiliated with Namespace Labs.",
     url: SITE.url,
     logo: {
       "@type": "ImageObject",
-      url: `${SITE.url}/assets/images/og-image.png`,
+      url: `${SITE.url}/assets/images/favicon-128.png`,
+      width: 256,
+      height: 256,
     },
+    image: SITE.ogImage,
     slogan: "Name the next billion Web3 users",
     inLanguage: "en",
     foundingDate: "2023-08",
+    ...(founder ? { founder: { "@id": personId(SITE.url, founder) } } : {}),
     areaServed: "Worldwide",
     knowsAbout: [
       "Ethereum Name Service",
@@ -32,6 +65,7 @@ export function organizationSchema() {
       "https://farcaster.xyz/namespace",
       "https://github.com/thenamespace",
       "https://discord.gg/FR7fngrA4s",
+      "https://docs.namespace.ninja",
     ],
   };
 }
@@ -40,16 +74,19 @@ export function websiteSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": WEBSITE_ID,
     name: SITE.name,
     url: SITE.url,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${SITE.url}/blog?search={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
+    inLanguage: "en",
+    publisher: orgRef,
+  };
+}
+
+/** Team members as linked Person entities (About page). */
+export function teamSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": TEAM.map(personSchema),
   };
 }
 
@@ -62,11 +99,7 @@ export function serviceSchema() {
     description:
       "ENS subname issuance, management, and resolution infrastructure for wallets, L2 chains, DeFi apps, and AI agents. Issue human-readable ENS identities at scale with offchain (gasless) or onchain (NFT) subnames.",
     url: SITE.url,
-    provider: {
-      "@type": "Organization",
-      name: SITE.name,
-      url: SITE.url,
-    },
+    provider: orgRef,
     areaServed: "Worldwide",
     offers: [
       {
@@ -101,11 +134,13 @@ export function serviceSchema() {
   };
 }
 
-export function faqPageSchema() {
+export function faqPageSchema(
+  items: { question: string; answer: string }[] = FAQ_DATA,
+) {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: FAQ_DATA.map((item) => ({
+    mainEntity: items.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
@@ -116,32 +151,42 @@ export function faqPageSchema() {
   };
 }
 
+function isCaseStudy(post: Post) {
+  return post.slug.startsWith("case-study-") || /^\[Case Study\]/i.test(post.title);
+}
+
+function articleAuthor(post: Post) {
+  const author = getAuthor(post.author);
+  if (author?.member) {
+    return {
+      ...personSchema(author.member),
+      name: author.name,
+      description: author.bio,
+    };
+  }
+  return author
+    ? { "@type": "Person", name: author.name, worksFor: orgRef }
+    : orgRef;
+}
+
 export function articleSchema(post: Post) {
+  const url = `${SITE.url}/blog/${post.slug}`;
   return {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.title,
+    "@type": isCaseStudy(post) ? "Article" : "BlogPosting",
+    "@id": `${url}#article`,
+    headline: post.title.replace(/^\[Case Study\]\s*/i, ""),
     description: post.description,
+    url,
     image: post.image ? `${SITE.url}${post.image}` : SITE.ogImage,
     datePublished: post.date,
     dateModified: post.updated ?? post.date,
-    author: {
-      "@type": "Organization",
-      name: post.author ?? SITE.name,
-      url: SITE.url,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: SITE.name,
-      logo: {
-        "@type": "ImageObject",
-        url: `${SITE.url}/assets/images/og-image.png`,
-      },
-    },
-    mainEntityOfPage: {
-      "@type": "WebPage",
-      "@id": `${SITE.url}/blog/${post.slug}`,
-    },
+    inLanguage: "en",
+    ...(post.tag ? { articleSection: post.tag } : {}),
+    author: articleAuthor(post),
+    publisher: orgRef,
+    isPartOf: { "@id": WEBSITE_ID },
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
   };
 }
 

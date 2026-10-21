@@ -6,6 +6,7 @@
 
 import { useEffect } from "react";
 import { CAL_HREF, calTriggerProps } from "@/lib/cal";
+import { STATS } from "@/lib/stats";
 
 /* ─── Particle system ─── */
 interface Particle {
@@ -202,9 +203,9 @@ export function HomeHeader() {
               <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "1.25rem" }}>
                 {/* Proof strip */}
                 <p style={{ fontSize: "0.9375rem", lineHeight: 1.5, margin: 0 }}>
-                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>&gt;10M</span>
+                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>{STATS.subnames}</span>
                   <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> subnames. </span>
-                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>&gt;25M</span>
+                  <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>{STATS.resolutions}</span>
                   <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> resolutions. </span>
                   <span style={{ color: "rgba(255,255,255,0.92)", fontWeight: 600 }}>35+</span>
                   <span style={{ color: "rgba(255,255,255,0.4)", fontWeight: 500 }}> clients.</span>

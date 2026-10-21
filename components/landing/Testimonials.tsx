@@ -49,9 +49,12 @@ function QuoteIcon() {
   );
 }
 
-function TestimonialCard({ t }: { t: Testimonial }) {
+function TestimonialCard({ t, isClone = false }: { t: Testimonial; isClone?: boolean }) {
+  // Loop clones exist only for the visual marquee: hide them from assistive
+  // tech and keep search engines from quoting the same testimonial 3 times.
+  const cloneProps = isClone ? { "aria-hidden": true, "data-nosnippet": "" } : {};
   return (
-    <div role="listitem" className="testimonials_item w-dyn-item">
+    <div role="listitem" className="testimonials_item w-dyn-item" {...cloneProps}>
       <div className="testimonials_card">
         <div className="testimonials_card-top">
           <div className="testimonials_quote-wrapper">
@@ -153,7 +156,7 @@ function MarqueeRow({
   return (
     <div ref={listRef} style={{ display: "flex", gap: "1.25rem", willChange: "transform" }}>
       {tripled.map((t, i) => (
-        <TestimonialCard key={`${t.name}-${i}`} t={t} />
+        <TestimonialCard key={`${t.name}-${i}`} t={t} isClone={i >= testimonials.length} />
       ))}
     </div>
   );

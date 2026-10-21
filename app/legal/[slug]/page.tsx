@@ -6,21 +6,22 @@ import { PageShell } from "@/components/layout/PageShell";
 import { Container, Section } from "@/components/ui/Section";
 import { Tag } from "@/components/ui/Tag";
 import { SITE } from "@/lib/site";
+import { JsonLd } from "@/lib/jsonld";
 
 const ALLOWED = new Set(["disclaimer", "privacy-policy", "terms-of-service"]);
 
 const META: Record<string, { title: string; description: string }> = {
   disclaimer: {
     title: "Disclaimer",
-    description: "Platform disclaimer for using Namespace services.",
+    description: "Disclaimer for the Namespace platform: how ENS name and subname management works, third-party responsibility, NFT ownership, and the limits of our liability.",
   },
   "privacy-policy": {
     title: "Privacy Policy",
-    description: "How Namespace collects, uses, and protects your data.",
+    description: "How Namespace collects, uses, shares and protects personal information, wallet addresses and transaction data when you use the platform, and your rights.",
   },
   "terms-of-service": {
     title: "Terms of Service",
-    description: "The terms that govern the use of Namespace services.",
+    description: "The terms that govern your use of Namespace's platform and services for ENS names and subnames, including ownership, assumption of risk and termination.",
   },
 };
 
@@ -58,6 +59,21 @@ export default async function LegalPage({
 
   return (
     <PageShell>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: SITE.url },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: meta.title,
+              item: `${SITE.url}/legal/${slug}`,
+            },
+          ],
+        }}
+      />
       <Section className="pt-16 md:pt-24 pb-0">
         <Container size="narrow">
           <Tag>Legal</Tag>
@@ -76,7 +92,7 @@ export default async function LegalPage({
       <Section className="pt-12">
         <Container size="narrow">
           <div
-            className="post-prose"
+            className="post-prose is-on-dark"
             dangerouslySetInnerHTML={{ __html: html }}
           />
         </Container>

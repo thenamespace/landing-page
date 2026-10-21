@@ -1,7 +1,7 @@
 ---
 title: Namespace Dev Portal (v1)
 slug: namespace-dev-portal-v1
-description: Simplifying Subname creation, integration, and registrations for apps and builders.
+description: Namespace Dev Portal is a web app that streamlines ENS subname integration, helping developers build, launch and scale subname projects in their apps.
 excerpt: Simplifying Subname creation, integration, and registrations for apps and builders.
 date: 2025-03-17
 author: Cap

@@ -3,6 +3,7 @@ title: How to Issue ENS Subnames Without Deploying Contracts
 slug: how-to-issue-subnames-without-deploying-contracts
 description: Issue ENS subnames at scale with a single API call or SDK — no contracts to deploy, no infrastructure to manage, no gas fees for offchain names.
 date: 2026-05-06
+updated: 2026-10-21
 author: Cap
 tag: ENS
 format: markdown
@@ -58,7 +59,7 @@ Before you integrate ENS, decide which model fits your use case best.
 
 ### Offchain Subnames
 
-Offchain subnames are stored offchain and resolved using CCIP-read. They cost nothing to issue — no gas, no transaction, no waiting. Resolution still works across ENS-compatible ecosystems because the protocol handles the lookup transparently.
+Offchain subnames are stored offchain and resolved using CCIP-read ([EIP-3668](https://eips.ethereum.org/EIPS/eip-3668)) together with wildcard resolution ([ENSIP-10](https://docs.ens.domains/ensip/10)). They cost nothing to issue — no gas, no transaction, no waiting. Resolution still works across ENS-compatible ecosystems because the protocol handles the lookup transparently.
 
 **Best for:** Apps issuing names at scale, free tiers, onboarding flows where friction kills conversion.
 
@@ -223,7 +224,7 @@ Response:
 
 Resolvio also supports reverse resolution — look up a name from an address — which is useful for displaying names in transaction histories and activity feeds.
 
-The 16M+ resolutions Namespace has already processed run through this infrastructure. It's built to handle scale without you managing any of it.
+The 25M+ resolutions Namespace has already processed run through this infrastructure. It's built to handle scale without you managing any of it.
 
 ---
 

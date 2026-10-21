@@ -12,12 +12,12 @@ import { SubscribeForm } from "@/components/landing/SubscribeForm";
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Insights, thoughts and lessons, ecosystem updates, deep dives and case studies.",
+    "Case studies, guides and deep dives on ENS subnames, CCIP-Read and Web3 identity from the Namespace team, an ENS DAO service provider.",
   alternates: { canonical: "/blog" },
   openGraph: {
     title: `Blog - ${SITE.name}`,
     description:
-      "Insights, thoughts and lessons, ecosystem updates, deep dives and case studies.",
+      "Case studies, guides and deep dives on ENS subnames, CCIP-Read and Web3 identity from the Namespace team, an ENS DAO service provider.",
     url: `${SITE.url}/blog`,
     type: "website",
   },
@@ -52,18 +52,9 @@ function BlogCardImage({ post }: { post: Post }) {
   );
 }
 
-function BlogCardMeta({ tag, readingLabel }: { tag?: string; readingLabel: string }) {
+function BlogCardMeta({ readingLabel }: { readingLabel: string }) {
   return (
     <div className="blog_card-content-top">
-      {tag && (
-        <div
-          data-wf--component-tag--variant="black"
-          className="tag w-variant-e059100f-ffd8-c18b-006b-8271a2c949c4"
-        >
-          <div>{tag}</div>
-        </div>
-      )}
-      <div className="separator-dot" />
       <p className="text-color-black-600 text-size-small text-weight-medium is-read-time">
         {readingLabel}
       </p>
@@ -91,8 +82,8 @@ export default async function BlogIndex() {
             <h1>Namespace Journal</h1>
             <div className="max-width-large is-40rem">
               <p className="text-size-medium text-weight-medium is-linespace-smaller">
-                Insights, thoughts and lessons, ecosystem updates, deep dives
-                and case studies.
+                Case studies, guides and deep dives on ENS subnames, CCIP-Read
+                and Web3 identity from the Namespace team.
               </p>
             </div>
           </div>
@@ -129,7 +120,7 @@ export default async function BlogIndex() {
                           </div>
                           <div className="blog_card-content-wrapper w-variant-6ef4b717-2cf9-3e1b-d357-89175d5ef17e">
                             <div className="blog_card-content">
-                              <BlogCardMeta tag={featured.tag} readingLabel={featured.readingLabel} />
+                              <BlogCardMeta readingLabel={featured.readingLabel} />
                               <h3 className="heading-style-h5">
                                 {cleanTitle(featured.title)}
                               </h3>
@@ -173,7 +164,7 @@ export default async function BlogIndex() {
                             </div>
                             <div className="blog_card-content-wrapper">
                               <div className="blog_card-content">
-                                <BlogCardMeta tag={post.tag} readingLabel={post.readingLabel} />
+                                <BlogCardMeta readingLabel={post.readingLabel} />
                                 <h3 className="heading-style-h5">
                                   {cleanTitle(post.title)}
                                 </h3>

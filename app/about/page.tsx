@@ -3,13 +3,15 @@ import { PageShell } from "@/components/layout/PageShell";
 import { Stats } from "@/components/landing/Stats";
 import { Cta } from "@/components/landing/Cta";
 import { WebflowButton } from "@/components/ui/WebflowButton";
-import { JsonLd, organizationSchema } from "@/lib/jsonld";
+import { JsonLd, teamSchema } from "@/lib/jsonld";
+import { TEAM } from "@/lib/team";
 import { SITE } from "@/lib/site";
+import { STATS } from "@/lib/stats";
 
 export const metadata: Metadata = {
   title: { absolute: "About Namespace" },
   description:
-    "Namespace is the ENS DAO-backed service provider building and operating naming infrastructure for wallets, chains, apps, and AI agents. 10M+ subnames, 25M+ resolutions, 35+ partners.",
+    `Namespace is an ENS DAO service provider running subname infrastructure for wallets, L2s, apps and AI agents: ${STATS.subnames} subnames, ${STATS.resolutions} resolutions.`,
   alternates: { canonical: `${SITE.url}/about` },
   openGraph: {
     type: "website",
@@ -37,7 +39,7 @@ function aboutBreadcrumbSchema() {
 export default function AboutPage() {
   return (
     <PageShell>
-      <JsonLd data={organizationSchema()} />
+      <JsonLd data={teamSchema()} />
       <JsonLd data={aboutBreadcrumbSchema()} />
 
       {/* Hero */}
@@ -69,10 +71,10 @@ export default function AboutPage() {
               </div>
               <div className="solution-anim solution-anim-5">
                 <p className="solution-proof-strip">
-                  <span className="solution-proof-num">&gt;10M</span>
+                  <span className="solution-proof-num">{STATS.subnames}</span>
                   <span className="solution-proof-label"> subnames</span>
                   <span className="solution-proof-dot"> · </span>
-                  <span className="solution-proof-num">&gt;25M</span>
+                  <span className="solution-proof-num">{STATS.resolutions}</span>
                   <span className="solution-proof-label"> resolutions</span>
                   <span className="solution-proof-dot"> · </span>
                   <span className="solution-proof-num">35+</span>
@@ -145,7 +147,7 @@ export default function AboutPage() {
                 <h3 className="heading-style-h5 solution-pain-question">We run the infrastructure</h3>
                 <p className="text-weight-medium solution-pain-detail">
                   Resolvers, CCIP-Read gateways, indexing and monitoring,
-                  operated with SLAs. 25M+ resolutions served at 100% uptime,
+                  operated with SLAs. {STATS.resolutions} resolutions served at {STATS.uptime} uptime,
                   so naming is never our partners' on-call problem.
                 </p>
               </div>
@@ -303,15 +305,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="about-team-accordion">
-              {[
-                { ens: "cap.eth", nick: "cap", role: "CEO", x: "thecaphimself", img: "/assets/images/team/cap.jpg" },
-                { ens: "artii.eth", nick: "arti", role: "CTO", x: "artii_eth", img: "/assets/images/team/artii.jpg" },
-                { ens: "happysingh.eth", nick: "happy", role: "DevRel", x: "HAPPYS1NGH", img: "/assets/images/team/happysingh.png" },
-                { ens: "khanye.eth", nick: "usman", role: "BizDev", x: "0xkhanye", img: "/assets/images/team/khanye.jpg" },
-                { ens: "envoy1084.eth", nick: "vedant", role: "Engineer", x: "envoy1084", img: "/assets/images/team/envoy1084.jpg" },
-                { ens: "maxi.eth", nick: "maxi", role: "Growth", x: "maxidoteth", img: "/assets/images/team/maxi.jpg" },
-                { ens: "djora.eth", nick: "snowman", role: "DevOps", x: null, img: "/assets/images/team/djora.jpg" },
-              ].map((member, i) => {
+              {TEAM.map((member, i) => {
                 const inner = (
                   <>
                     <img
@@ -346,6 +340,7 @@ export default function AboutPage() {
                 return member.x ? (
                   <a
                     key={member.ens}
+                    id={member.ens.replace(/\.eth$/, "")}
                     href={`https://x.com/${member.x}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -354,7 +349,11 @@ export default function AboutPage() {
                     {inner}
                   </a>
                 ) : (
-                  <div key={member.ens} className="about-team-panel">
+                  <div
+                    key={member.ens}
+                    id={member.ens.replace(/\.eth$/, "")}
+                    className="about-team-panel"
+                  >
                     {inner}
                   </div>
                 );

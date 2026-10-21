@@ -178,7 +178,7 @@ const iconProps = {
 
 /* Brand logos are shown in black and white to match the section. solid flattens a one-colour logo to black. */
 function LogoImg({ src, solid }: { src: string; solid?: boolean }) {
-  return <img src={src} alt="" width={20} height={20} className={`prow-logo${solid ? " is-solid" : ""}`} />;
+  return <img src={src} alt="" width={20} height={20} loading="lazy" decoding="async" className={`prow-logo${solid ? " is-solid" : ""}`} />;
 }
 
 /* Namera's official mark, from the namera.ai header */
