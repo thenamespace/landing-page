@@ -169,6 +169,10 @@ Integrate ENS naming into WaaS platforms so every wallet spun up through the ser
 ### Decentralized Websites
 Combine ENS subnames with IPFS/Filecoin hosting for fully decentralized, censorship-resistant websites and user profiles.
 
+### Apps with Existing Usernames (Universal Usernames)
+Make every username an app already issued work as an ENS name. The app exposes one read-only HTTPS endpoint, `GET {base}/{username}`, that returns the user's addresses and text records (404 if unknown). It saves the endpoint in the Namespace App and switches the resolver on its parent name once. Names resolve offchain through CCIP-Read (EIP-3668) and wildcard resolution (ENSIP-10), via a gateway hosted by Namespace. No NFT, no minting, no gas per user, no migration, no record syncing; the app's database stays the source of truth. Free, with one setup transaction. Works with .eth names and DNS domains imported into ENS. Enabling it on a name replaces existing offchain or L2 subnames on that name.
+**Example:** A user called `happy` in an app resolves as `happy.brand.eth` (or `happy.brand.id`) in any wallet that supports CCIP-Read. Docs: https://docs.namespace.ninja/overview/universal-usernames
+
 ---
 
 ## Technical Architecture

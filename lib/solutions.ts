@@ -409,6 +409,33 @@ export interface Solution {
 const BOOK_CALL = "https://cal.com/thecap.eth/discovery";
 const DOCS = "https://docs.namespace.ninja/";
 const APP = "https://app.namespace.ninja/";
+const UNIVERSAL_USERNAMES_APP = "https://app.namespace.ninja/universal-usernames";
+const UNIVERSAL_USERNAMES_DOCS = "https://docs.namespace.ninja/overview/universal-usernames";
+const UNIVERSAL_USERNAMES_GUIDE =
+  "https://docs.namespace.ninja/developer-guide/guide/universal-usernames";
+
+/* Response envelope the Namespace gateway expects; addresses are keyed by ENS coin type (60 ETH, 2147492101 Base, 0 BTC, 501 SOL). */
+const UNIVERSAL_USERNAMES_RESPONSE = `GET https://api.brand.com/ens/happy
+Authorization: Bearer <optional token>
+
+200 OK
+{
+  "version": 1,
+  "username": "happy",
+  "addresses": {
+    "60": "0x4A7D...31da",
+    "2147492101": "0x4A7D...31da",
+    "0": "bc1q...7v2k",
+    "501": "7xKX...gAsU"
+  },
+  "texts": {
+    "avatar": "https://brand.com/avatars/happy.png",
+    "description": "happy on Brand",
+    "url": "https://brand.com/u/happy"
+  }
+}
+
+404 Not Found  (unknown username)`;
 
 /* Shared, real testimonials (from the homepage Wall of Love). */
 const T = {
@@ -2736,6 +2763,312 @@ export const SOLUTIONS: Solution[] = [
         external: true,
       },
       secondary: { label: "Read the Docs", href: DOCS, external: true },
+    },
+  },
+
+  /* ─────────────────────── 7. UNIVERSAL USERNAMES ─────────────────────── */
+  {
+    slug: "universal-usernames",
+    navLabel: "Universal Usernames",
+    heroName: "happy.brand.eth",
+    heroVisual: "namecard",
+    metaTitle: "Universal Usernames - Your App's Usernames as ENS Names",
+    metaDescription:
+      "Make every username your app already issued work as an ENS name, like happy.brand.eth. No minting, no migration, no gas per user. Your database stays the source of truth.",
+    keywords: [
+      "universal usernames",
+      "in-app usernames as ENS names",
+      "ENS usernames from your database",
+      "CCIP-Read usernames",
+      "ENS wildcard resolution",
+      "offchain ENS resolver",
+      "send to username from any wallet",
+    ],
+    voice: {
+      needs:
+        "The usernames we already issued resolving as ENS names, without moving users or data.",
+      wants:
+        "Someone types @happy into another wallet and it works. Nothing about our user database changes.",
+      fears:
+        "A migration project: a name minted per user, a second copy of every user onchain, and a sync job that drifts.",
+      desires:
+        "Every username we ever issued works everywhere, and our database stays the only source of truth.",
+      triedAndHated:
+        "Handles that stop at the edge of our app; users copying hex addresses into other wallets; registering every name onchain and keeping it in sync.",
+    },
+    hero: {
+      tag: "Universal Usernames",
+      headline: "Let your usernames leave the app",
+      subheadline:
+        "Your users already have the names. Let them work everywhere. Every username in your app resolves as an ENS name like **happy.brand.eth**. No minting, no migration, no gas per user.",
+      primaryCta: {
+        label: "Set Up in the App",
+        href: UNIVERSAL_USERNAMES_APP,
+        external: true,
+      },
+      secondaryCta: {
+        label: "Read the Docs",
+        href: UNIVERSAL_USERNAMES_DOCS,
+        external: true,
+      },
+    },
+    howItWorks: {
+      label: "How Universal Usernames work",
+      lead: "Universal Usernames turns the usernames your app already issued into ENS names. **happy** in your app becomes **happy.brand.eth** in any wallet or app that supports CCIP-Read. You bring one read-only endpoint, save it in the Namespace App, and switch the resolver on your name once. Namespace hosts the gateway, so there is nothing to run and no signing key to hold. Every existing and future username resolves immediately.",
+      chips: [
+        "Free",
+        "No minting",
+        "No migration",
+        "No gas per user",
+        ".eth or DNS names",
+        "EVM, BTC and SOL addresses",
+      ],
+    },
+    compare: {
+      before: {
+        label: "Deposit card today",
+        value: "0x4A7D…31da",
+        note: "An address and a QR code. Nobody can read it, check it or remember it.",
+      },
+      after: {
+        label: "With Universal Usernames",
+        value: "happy.brand.eth",
+        note: "The card leads with the name and a Copy name button. Same user, same address.",
+      },
+    },
+    definition: {
+      question: "How does an in-app username become an ENS name?",
+      answer:
+        "Universal Usernames is a Namespace feature that makes every username a company already issued in its app work as an ENS name. A user called happy resolves as happy.brand.eth, or under a DNS domain imported into ENS like happy.brand.id. Lookups resolve offchain through CCIP-Read (EIP-3668) and ENS wildcard resolution (ENSIP-10). Nothing is minted and nothing is copied: your database stays the source of truth, and the name works like any other ENS name in wallets and apps that support CCIP-Read.",
+    },
+    definitionPoints: [
+      {
+        title: "CCIP-Read (EIP-3668)",
+        description:
+          "The ENS resolver sends the lookup to a gateway, and the answer comes back signed for the wallet to verify.",
+      },
+      {
+        title: "Wildcard resolution (ENSIP-10)",
+        description:
+          "One resolver answers for every username under your name, including the ones your users sign up with tomorrow.",
+      },
+      {
+        title: "Your API",
+        description:
+          "One read-only HTTPS endpoint returns each user's addresses and text records. Your database is never copied.",
+      },
+    ],
+    pains: {
+      heading: "I have a name in every app.\nI can't use any of them anywhere else.",
+      lead: "Say your wallet address from memory. Nobody? But you all remember your usernames.",
+      style: "spotlight",
+      items: [
+        {
+          question: "The username is real. It's locked in one database.",
+          detail:
+            "Every app gave you a username. Inside the app, @happy is how people pay you, follow you and find you on the leaderboard. Outside it, the name means nothing.",
+        },
+        {
+          question: "Send to @happy from MetaMask.",
+          detail:
+            "It fails. Another wallet has no way to look up your app's users, so the sender is back to copying a hex address and checking the first and last four characters.",
+        },
+        {
+          question: "Your users are addresses everywhere else.",
+          detail:
+            "Explorers, wallets and other apps show your users as hex. The name they picked in your app, and your brand with it, stops at the edge of your app.",
+        },
+      ],
+    },
+    benefits: {
+      label: "Why teams do this",
+      heading: "Same user, same address. No migration, no new wallet.",
+      items: [
+        {
+          title: "Nothing to migrate",
+          description:
+            "Every username you already issued works on day one. Users keep their wallet, their address and their name.",
+        },
+        {
+          title: "Free",
+          description:
+            "No per-user cost and no gas per user. One setup transaction on your parent name, then nothing.",
+        },
+        {
+          title: "One copy of your users",
+          description:
+            "No NFT, no minting, no record syncing. Change a user's address in your app and ENS reads the new one from your API.",
+        },
+        {
+          title: "Works like any ENS name",
+          description:
+            "happy.brand.eth resolves in wallets and apps that support CCIP-Read, with addresses for EVM chains, BTC and SOL.",
+        },
+      ],
+    },
+    outcomes: {
+      label: "How a lookup works",
+      heading: "Wallets don't read your database.\nThey read ENS.",
+      columns: 3,
+      flow: {
+        steps: [
+          { label: "happy.brand.eth", sub: "wallet asks" },
+          { label: "ENS resolver", sub: "ask the gateway" },
+          { label: "Namespace gateway", sub: "calls your endpoint" },
+          { label: "Your API", sub: "address + profile" },
+          { label: "Signed answer", sub: "wallet verifies" },
+        ],
+        caption:
+          "Universal Usernames connects the two. ENS asks, the Namespace gateway asks your API, and the wallet checks the signed answer before it uses the address.",
+      },
+      items: [
+        {
+          title: "Your API answers",
+          description:
+            "The gateway calls GET {base}/{username} on your endpoint. Unknown usernames return 404 and don't resolve.",
+        },
+        {
+          title: "Signed, then verified",
+          description:
+            "The Namespace gateway signs every answer. The wallet verifies it through the ENS resolver, the same way it checks any CCIP-Read name.",
+        },
+        {
+          title: "Hosted by Namespace",
+          description:
+            "No gateway to run and no signing key to hold. Your side is one read-only endpoint.",
+        },
+      ],
+    },
+    versus: {
+      label: "Onchain vs. Universal Usernames",
+      heading: "Why not register every name onchain?",
+      cards: [
+        {
+          tag: "Register every name onchain",
+          value: "1 tx per sign-up",
+          description:
+            "A transaction for every new user, a second copy of every user onchain, and a job to keep the two in sync.",
+          verdict: "Two copies to keep in sync.",
+        },
+        {
+          tag: "Universal Usernames",
+          value: "0 tx per sign-up",
+          description:
+            "Zero transactions per sign-up. ENS reads each username from your API when someone looks it up.",
+          verdict: "One copy: your database.",
+        },
+      ],
+    },
+    deliver: {
+      label: "Who it's for",
+      heading: "If your users already have a username and a wallet in your app, this is for you.",
+      style: "list",
+      items: [
+        {
+          title: "Neobanks and payment apps",
+          description:
+            "Customers already have a handle for in-app transfers. Let them get paid by name from any wallet.",
+        },
+        {
+          title: "Trading and prediction apps",
+          description:
+            "The usernames on profiles and leaderboards become names people can send to from outside the app.",
+        },
+        {
+          title: "Wallets with in-app handles",
+          description:
+            "The handle a user picked in your wallet resolves in other wallets and apps that support CCIP-Read.",
+        },
+        {
+          title: "Games and social apps",
+          description:
+            "Profiles, leaderboards and @handles, each with an address and a profile behind it.",
+        },
+        {
+          title: "Chains and name services with a registry",
+          description:
+            "Bring an existing registry to ENS. Rootstock RNS names like happy.rsk resolve as happy.rsk.eth, through a gateway built by Namespace.",
+        },
+      ],
+    },
+    steps: {
+      heading: "Set it up in three steps",
+      items: [
+        {
+          title: "Bring one read-only endpoint",
+          description:
+            "An HTTPS endpoint, GET {base}/{username}, that returns the user's addresses and text records. Return 404 for unknown usernames. A bearer token is optional.",
+        },
+        {
+          title: "Save it in the Namespace App",
+          description:
+            "Add your endpoint in the Namespace App. Namespace hosts the gateway, so there is nothing to deploy.",
+        },
+        {
+          title: "Switch the resolver once",
+          description:
+            "One transaction on your parent name. Its own records are copied before the switch. Every existing and future username resolves immediately.",
+        },
+      ],
+      codeLabel: "Your endpoint",
+      code: UNIVERSAL_USERNAMES_RESPONSE,
+    },
+    faqs: [
+      {
+        question: "What are Universal Usernames?",
+        answer:
+          "Universal Usernames makes every username your app already issued work as an ENS name. A user called happy in your app resolves as happy.brand.eth. ENS asks a gateway hosted by Namespace, the gateway calls your API, and the wallet verifies the signed answer. Nothing is minted and nothing leaves your database.",
+      },
+      {
+        question: "Is it free?",
+        answer:
+          "Yes. There is no per-user cost and no gas per user. The only transaction is the one-time resolver switch on your parent name.",
+      },
+      {
+        question: "Is it onchain? Do users get an NFT?",
+        answer:
+          "Your parent name and its resolver are onchain. The usernames are not. They resolve offchain through CCIP-Read (EIP-3668) and wildcard resolution (ENSIP-10), so there is no NFT per user, no minting and no record syncing. To a wallet, happy.brand.eth works like any other ENS name.",
+      },
+      {
+        question: "Can we use a DNS domain instead of a .eth name?",
+        answer:
+          "Yes. Use a .eth name or a DNS domain imported into ENS, so happy can resolve as happy.brand.id.",
+      },
+      {
+        question: "Who owns the names?",
+        answer:
+          "Your app does. The usernames live in your database and resolve under your name, so users can't take them elsewhere. For the same reason, never recycle usernames: if a new user gets an old username, every wallet that looks it up gets the new user's address.",
+      },
+      {
+        question: "Which wallets resolve Universal Usernames?",
+        answer:
+          "Any wallet or app that supports CCIP-Read, which the major Ethereum libraries do. A wallet without CCIP-Read support won't resolve the name.",
+      },
+      {
+        question: "What data becomes public?",
+        answer:
+          "Everything your endpoint returns. Anyone who looks up a username can read the addresses and text records you serve for it, so only return what you want public.",
+      },
+      {
+        question: "How is this different from offchain subnames?",
+        answer:
+          "Offchain subnames are created and stored in Namespace. Universal Usernames reads the usernames you already have from your own API, so there is nothing to create or import. A name uses one or the other: turning on Universal Usernames replaces any offchain or L2 subnames on that same name.",
+      },
+    ],
+    finalCta: {
+      heading: "Your users already have the names",
+      paragraph:
+        "Let them work everywhere. Bring one read-only endpoint, save it in the Namespace App, and switch the resolver on your name once.",
+      primary: {
+        label: "Set Up in the App",
+        href: UNIVERSAL_USERNAMES_APP,
+        external: true,
+      },
+      secondary: {
+        label: "Read the Developer Guide",
+        href: UNIVERSAL_USERNAMES_GUIDE,
+        external: true,
+      },
     },
   },
 ];

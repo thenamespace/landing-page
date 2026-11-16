@@ -12,6 +12,7 @@ const SOLUTIONS_LINKS = [
   { label: "Fintechs & Neobanks", href: "/solutions/fintechs-neobanks" },
   { label: "WaaS", href: "/solutions/waas" },
   { label: "Decentralized Websites", href: "/solutions/decentralized-websites" },
+  { label: "Universal Usernames", href: "/solutions/universal-usernames" },
 ];
 
 const PRODUCTS_LINKS = [
