@@ -6,8 +6,28 @@ interface PainItem {
   detail: string;
 }
 
-function renderBoldParts(text: string, keyBase: number) {
-  return text.split(/(\*\*[^*]+\*\*|__[^_]+__)/g).map((part, i) => {
+/** ==text== : plain text filled with the identity gradient, flowing slowly. __name__ inside is bolded. */
+function Aurora({ text }: { text: string }) {
+  return (
+    <span className="solution-aurora">
+      {text.split(/(__[^_]+__)/g).map((seg, i) =>
+        seg.startsWith("__") && seg.endsWith("__") ? (
+          <b key={i} className="solution-aurora-name">
+            {seg.slice(2, -2)}
+          </b>
+        ) : (
+          seg
+        )
+      )}
+    </span>
+  );
+}
+
+function renderBoldParts(text: string, keyBase: number): React.ReactNode[] {
+  return text.split(/(==[^=]+==|\*\*[^*]+\*\*|__[^_]+__)/g).map((part, i) => {
+    if (part.startsWith("==") && part.endsWith("==")) {
+      return <Aurora key={`${keyBase}-${i}`} text={part.slice(2, -2)} />;
+    }
     if (part.startsWith("**") && part.endsWith("**")) {
       return <b key={`${keyBase}-${i}`}>{part.slice(2, -2)}</b>;
     }

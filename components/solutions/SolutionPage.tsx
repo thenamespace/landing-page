@@ -7,9 +7,14 @@ import React from "react";
  * tried-and-hated) → desire → solution + steps (need) → proof → FAQ
  * (objections) → final CTA.
  */
+import { Geist_Mono } from "next/font/google";
 import { WebflowButton } from "@/components/ui/WebflowButton";
 import { SolutionFaqList } from "./SolutionFaq";
+
+/* Real monospace for hex in headings; the site's 'SF Mono' stack falls back to Courier outside Safari. */
+const headingMono = Geist_Mono({ subsets: ["latin"], weight: ["400"], display: "swap" });
 import { SolutionPainsSpotlight } from "./SolutionPainsSpotlight";
+import { LookupLifecycle } from "./LookupLifecycle";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { Cta } from "@/components/landing/Cta";
 import { SolutionProductLook } from "./SolutionProductLook";
@@ -427,6 +432,27 @@ function renderBold(text: string) {
     .map((part, i) => (i % 2 === 1 ? <b key={i}>{part}</b> : part));
 }
 
+/** Heading tokens: __name__ renders as a human name (accent), `hex` as a machine address (mono, dim). */
+function renderHeadingTokens(text: string) {
+  return text.split(/(__[^_]+__|`[^`]+`)/g).map((part, i) => {
+    if (part.startsWith("__") && part.endsWith("__")) {
+      return (
+        <span key={i} className="solution-heading-name">
+          {part.slice(2, -2)}
+        </span>
+      );
+    }
+    if (part.startsWith("`") && part.endsWith("`")) {
+      return (
+        <span key={i} className={`solution-heading-hex ${headingMono.className}`}>
+          {part.slice(1, -1)}
+        </span>
+      );
+    }
+    return part;
+  });
+}
+
 export function HeroSendFlow({ name }: { name: string }) {
   return (
     <div className="solution-sendflow" aria-hidden="true">
@@ -807,7 +833,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
               <h2 className="solution-section-heading">
                 {s.pains.heading.split("\n").map((line, li) => (
                   <span key={li} className="cta_heading-line">
-                    {line}
+                    {renderHeadingTokens(line)}
                   </span>
                 ))}
               </h2>
@@ -1033,7 +1059,13 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                     </span>
                   ))}
                 </h2>
+                {s.outcomes.lead && (
+                  <p className="text-size-medium text-weight-medium solution-terminal-paragraph">
+                    {s.outcomes.lead}
+                  </p>
+                )}
               </div>
+              {s.outcomes.lifecycle && <LookupLifecycle />}
               {s.outcomes.flow && (
                 <div className="solution-flow-wrap">
                   <div className="solution-flow" aria-hidden="true">
@@ -1056,7 +1088,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   )}
                 </div>
               )}
-              {s.outcomes.style === "list" ? (
+              {s.outcomes.items.length === 0 ? null : s.outcomes.style === "list" ? (
                 <div className="solution-manifest">
                   {s.outcomes.items.map((o, i) => (
                     <div key={o.title} className="solution-manifest-row">
@@ -2397,9 +2429,11 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   )}
                 </div>
                 <div className="solution-whyus-right">
-                  <p className="solution-whyus-caption">
-                    {s.whyUs.tableCaption}
-                  </p>
+                  {s.whyUs.tableCaption && (
+                    <p className="solution-whyus-caption">
+                      {s.whyUs.tableCaption}
+                    </p>
+                  )}
                   <div className="solution-table solution-whyus-table">
                     <div
                       className="solution-table-row is-head"

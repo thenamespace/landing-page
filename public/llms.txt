@@ -29,7 +29,7 @@ Namespace issues ENS subnames, also referred to as ENS usernames, web3 usernames
 - [Fintechs & Neobanks](https://namespace.ninja/solutions/fintechs-neobanks): Replace raw wallet addresses with readable names in stablecoin and crypto payment flows. Better UX, fewer send errors.
 - [WaaS (Wallet-as-a-Service)](https://namespace.ninja/solutions/waas): Integrate ENS naming into WaaS platforms for white-label wallet naming.
 - [Decentralized Websites](https://namespace.ninja/solutions/decentralized-websites): Host websites and profiles on ENS subnames via IPFS and WebHash.
-- [Universal Usernames](https://namespace.ninja/solutions/universal-usernames): Make the usernames an app already issued resolve as ENS names, like `happy.brand.eth`, through CCIP-Read and wildcard resolution. No minting, no migration, no gas per user. The app's database stays the source of truth.
+- [Universal Usernames](https://namespace.ninja/solutions/universal-usernames): Make the usernames an app already issued resolve as ENS names, like `alice.brand.eth`, through CCIP-Read and wildcard resolution. No minting, no migration, no gas per user. The app's database stays the source of truth.
 
 ## Documentation
 
