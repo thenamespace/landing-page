@@ -2780,9 +2780,9 @@ export const SOLUTIONS: Solution[] = [
     },
     hero: {
       tag: "Universal Usernames",
-      headline: "Your usernames, now in every wallet",
+      headline: "Your usernames, in every wallet that reads ENS",
       subheadline:
-        "Connect your existing username database, and every username in your app will work in MetaMask, Rainbow, Coinbase Wallet, and 1,000 other apps that support ENS, while your database remains the source of truth.",
+        "Your users already have names. Make each one work in other wallets and apps as an ENS name like **alice.brand.eth**. No minting, no migration, no cost per user.",
       primaryCta: {
         label: "Set Up in the App",
         href: UNIVERSAL_USERNAMES_APP,
@@ -2796,7 +2796,7 @@ export const SOLUTIONS: Solution[] = [
     },
     howItWorks: {
       label: "How Universal Usernames work",
-      lead: "Universal Usernames makes every username in your app work as an ENS name. Your users keep their wallet, their address and their existing username. The only change is that **@alice** in your app now also resolves as **alice.{yourbrand}.eth** everywhere ENS is supported. You add one read-only endpoint, and Namespace handles the gateway, the signing and the CCIP-Read plumbing. Nothing is minted, migrated or copied out of your database.",
+      lead: "Universal Usernames makes every username in your app work as an ENS name. Users keep their wallet, address and username. **@alice** in your app also resolves as **alice.brand.eth** anywhere ENS works. You add one read-only endpoint, and Namespace runs the gateway and signs the answers. Nothing is minted or copied out of your database.",
       chips: [
         "Free",
         "No migration",
@@ -2807,43 +2807,53 @@ export const SOLUTIONS: Solution[] = [
     },
     pains: {
       heading: "__@alice__ in your app is\n`0x4A7D…31da` everywhere else.",
-      lead: "The name your users chose doesn't work outside your app, and you pay for that in four ways.",
+      lead: "Say your wallet address from memory. Nobody can. Your users remember @alice, but no other wallet can look it up.",
       style: "spotlight",
       items: [
         {
           question: "The username is real. It's locked in your database.",
           detail:
-            "Inside your app, @alice is how people find, pay, and follow each other. It's on profiles, history and leaderboards. But outside your app, no wallet or app can look it up and your users can't use them.",
+            "Inside your app, @alice is how people find, pay, and follow each other. It's on profiles, history and leaderboards. But outside your app, no wallet or app can look it up, so your users can't use it.",
         },
         {
           question: "Nobody can send to @alice from another wallet.",
           detail:
-            "Type @alice into MetaMask and nothing comes back. Other wallets have no way to look up your app's users, so the sender is back to copying a hex address and checking the first and last four characters.",
+            "Type @alice into MetaMask and nothing comes back, so the sender copies a 42-character address and checks the first and last four characters. One wrong paste, or one poisoned address in their history, and the funds are gone for good.",
         },
         {
-          question: "Sending from inside or outside your app means copy-pasting hex.",
+          question: "Every username you issued is reach you're not getting.",
           detail:
-            "No other wallet can resolve @alice, so senders copy a 42-character address and check the first and last four characters. One wrong paste, or one poisoned address in their history, and the funds are gone for good.",
-        },
-        {
-          question: "Every username you issued is distribution you're not getting.",
-          detail:
-            "Your users transfer, mint and trade all over the chain, and every bit of it shows up as 0x4A7D…31da. ==With __alice.{yourbrand}.eth__, that activity would put your brand in front of everyone they deal with.==",
+            "Your users transfer, mint and trade all over the chain, and every bit of it shows up as 0x4A7D…31da. ==With __alice.brand.eth__, that activity would put your brand in front of everyone they deal with.==",
         },
       ],
     },
     outcomes: {
       label: "How a lookup works",
-      heading: "Watch a lookup resolve",
-      lead: "Wallets can't read your database, but they can read ENS.",
+      heading: "Wallets don't read your database.\nThey read ENS.",
       columns: 3,
       lifecycle: true,
-      items: [],
+      items: [
+        {
+          title: "One resolver for every name",
+          description:
+            "Wildcard resolution (ENSIP-10) means one resolver answers for every username under your name, including users who sign up tomorrow.",
+        },
+        {
+          title: "Signed, then verified",
+          description:
+            "The gateway signs each answer and the wallet checks it through the ENS resolver (EIP-3668), the same way it checks any CCIP-Read name.",
+        },
+        {
+          title: "Nothing for you to run",
+          description:
+            "Namespace hosts the gateway and holds the signing key. Unknown usernames get a 404 from your API and don't resolve.",
+        },
+      ],
     },
     howTo: {
       label: "How it works",
       heading: "How to turn your usernames into ENS names",
-      intro: "Three steps, then what changes.",
+      intro: "One endpoint and one transaction. Nothing to deploy.",
       afterOutcomes: true,
       steps: [
         {
@@ -2868,14 +2878,13 @@ export const SOLUTIONS: Solution[] = [
           ["What other apps show", "0x4A7D…31da", "alice.brand.eth, with avatar and profile"],
           ["Your brand outside the app", "Nowhere", "In every name and transaction"],
           ["Where the usernames live", "Your database", "Still your database, nothing copied"],
-          ["What changes for your users", "Nothing", "Nothing: same wallet, same address, same username"],
           ["Cost", "Nothing", "Free, no gas per user, sponsored by ENS DAO"],
         ],
       },
     },
     deliver: {
       label: "Who it's for",
-      heading: "If you give usernames and wallets in your app, this is for you.",
+      heading: "If your users already have a username and a wallet in your app, this is for you.",
       style: "list",
       items: [
         {
@@ -2901,7 +2910,7 @@ export const SOLUTIONS: Solution[] = [
         {
           title: "Chains and name services with a registry",
           description:
-            "Bring your registry to ENS: alice.rsk resolves as alice.rsk.eth, like Rootstock did.",
+            "Bring your registry to ENS, like Rootstock: alice.rsk resolves as alice.rsk.eth, through a gateway built by Namespace.",
         },
       ],
     },
@@ -2945,7 +2954,7 @@ export const SOLUTIONS: Solution[] = [
       facts: [
         { value: "Free", label: "Per username, existing and new" },
         { value: "0", label: "Transactions per sign-up" },
-        { value: "1", label: "One-time setup transaction on your parent name" },
+        { value: "1", label: "Setup transaction on your parent name" },
       ],
     },
     proofStyle: "wall",
@@ -3021,7 +3030,7 @@ export const SOLUTIONS: Solution[] = [
     finalCta: {
       heading: "Your users already have the names",
       paragraph:
-        "Let them work everywhere. Bring one read-only endpoint, save it in the Namespace App, and switch the resolver on your name once.",
+        "Let them work everywhere: one endpoint, one transaction, and every username resolves today.",
       primary: {
         label: "Set Up in the App",
         href: UNIVERSAL_USERNAMES_APP,
