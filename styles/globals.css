@@ -7252,7 +7252,7 @@ a.article-author:hover .article-author-name {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.03);
   color: rgba(255, 255, 255, 0.45);
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 .ll-mark.is-active { border-color: rgba(107, 139, 255, 0.45); background: rgba(107, 139, 255, 0.12); color: #8fb0ff; }
 .ll-mark.is-done { color: #fff; }
@@ -7293,6 +7293,7 @@ a.article-author:hover .article-author-name {
 .ll-row-label { color: rgba(255, 255, 255, 0.45); font-size: 11px; flex-shrink: 0; }
 .ll-row-value { color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ll-row-value.is-good { color: var(--ll-good); }
+.ll-row-value.is-bad { color: var(--ll-stop); }
 .ll-line {
   flex: 1;
   display: flex;
@@ -7391,7 +7392,7 @@ a.article-author:hover .article-author-name {
   from { stroke-dashoffset: 18; }
   to { stroke-dashoffset: -100; }
 }
-.ll-head {
+.ll-bead {
   offset-rotate: 0deg;
   animation: ll-travel 0.76s linear 1 both;
 }
@@ -7419,19 +7420,23 @@ a.article-author:hover .article-author-name {
 .ll-wire-label.is-lit { border-color: rgba(107, 139, 255, 0.5); color: #8fb0ff; }
 .ll-wire-label.is-danger { border-color: rgba(240, 114, 122, 0.5); color: var(--ll-stop); }
 
-/* stacked rails */
-.ll-rail { display: flex; flex-direction: column; align-items: center; padding: 6px 0; }
-.ll-rail-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); transition: background 0.3s ease; }
-.ll-rail-line {
-  width: 1px;
-  height: 20px;
-  margin: 4px 0;
-  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.22) 0 2px, transparent 2px 6px);
+/* stacked: the same messages as a list */
+.ll-msgs { list-style: none; margin: 1rem 0 0; padding: 0; display: flex; flex-direction: column; }
+.ll-msg {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 0 10px 14px;
+  border-left: 2px solid var(--ll-line);
+  opacity: 0.4;
+  transition: opacity 0.24s ease-out, border-color 0.24s ease-out;
 }
-.ll-rail-dot.is-lit { background: var(--ll-live); }
-.ll-rail-line.is-lit { background: rgba(107, 139, 255, 0.7); }
-.ll-rail-dot.is-danger { background: var(--ll-stop); }
-.ll-rail-line.is-danger { background: rgba(240, 114, 122, 0.7); }
+.ll-msg.is-current, .ll-msg.is-past { opacity: 1; }
+.ll-msg.is-current { border-color: var(--ll-live); }
+.ll-msg.is-danger:not(.is-idle) { border-color: var(--ll-stop); }
+.ll-msg-route { font-size: 11.5px; color: rgba(255, 255, 255, 0.45); }
+.ll-msg-label { font-size: 13px; color: #fff; }
+.ll-msg.is-danger:not(.is-idle) .ll-msg-label { color: var(--ll-stop); }
 .ll-stack .ll-card { height: auto; }
 .ll-stack .ll-row, .ll-stack .ll-check, .ll-stack .ll-step, .ll-stack .ll-line { min-height: 40px; }
 .ll-stack .ll-control-row { flex-direction: column; align-items: flex-start; gap: 6px; }
@@ -7474,6 +7479,7 @@ a.article-author:hover .article-author-name {
 
 @media (prefers-reduced-motion: reduce) {
   .ll-trail { transition: none; }
-  .ll-pulse, .ll-head { display: none; }
+  .ll-pulse, .ll-bead { display: none; }
+  .ll-msg { transition: none; }
   .ll-pip.is-spin, .ll-run-icon.is-spin { animation: none; }
 }

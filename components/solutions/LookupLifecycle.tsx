@@ -3,15 +3,16 @@ import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useSta
 
 /* -------------------------------------------------------------------------
  * The life of a Universal Usernames lookup, as a canvas that plays itself.
- * Same shape as the namera.ai execution path: a control card on the left,
- * cards joined by dotted wires that light up in order, a failure branch, and a
- * Run / Run again footer that reports what happened.
  *
- * What it draws is the real CCIP-Read path:
- *   wallet → ENS (wildcard resolver answers with OffchainLookup)
- *   → Namespace gateway (finds your endpoint, calls it)
- *   → your API (GET {base}/{username}; 404 for unknown usernames)
- *   → gateway signs → wallet verifies through the resolver → address.
+ * It draws the real CCIP-Read (EIP-3668) path, with the wallet as the hub:
+ *   1. wallet → ENS: resolve the name. The wildcard resolver (ENSIP-10) has
+ *      no record, so it reverts with OffchainLookup, pointing at the gateway.
+ *   2. wallet → Namespace gateway: the wallet calls the gateway itself.
+ *      ENS never talks to the gateway.
+ *   3. gateway → your API: GET {base}/{username}; 404 for unknown usernames.
+ *   4. gateway signs the answer and returns it to the wallet.
+ *   5. wallet → ENS again: the resolver's callback checks the signature and
+ *      returns the address.
  * ---------------------------------------------------------------------- */
 
 type CardState = "idle" | "active" | "done" | "failed" | "skipped";
@@ -20,13 +21,8 @@ type Cell = "idle" | "active" | "pass" | "fail" | "skipped";
 const WALLETS = ["MetaMask", "Rainbow", "Coinbase"] as const;
 type Wallet = (typeof WALLETS)[number];
 
-const COINS = [
-  { id: "ETH", type: "60" },
-  { id: "Base", type: "2147492101" },
-  { id: "BTC", type: "0" },
-  { id: "SOL", type: "501" },
-] as const;
-type Coin = (typeof COINS)[number]["id"];
+const COINS = ["ETH", "Base", "BTC", "SOL"] as const;
+type Coin = (typeof COINS)[number];
 
 const USERNAMES = ["alice", "bob", "zoe"] as const;
 type Username = (typeof USERNAMES)[number];
@@ -39,24 +35,68 @@ const USERS: Partial<Record<Username, Record<Coin, string>>> = {
 
 const PARENT = "brand.eth";
 
+const WALLET_STEPS = [
+  { label: "Ask ENS", note: "resolve the name" },
+  { label: "Call the gateway", note: "where ENS pointed it" },
+  { label: "Verify through ENS", note: "checks the gateway’s signature" },
+] as const;
 const GATEWAY_STEPS = [
-  { label: "Receive", note: "the lookup ENS pointed here" },
+  { label: "Receive", note: "the wallet’s CCIP-Read call" },
   { label: "Find your endpoint", note: "saved in the Namespace App" },
   { label: "Call your API", note: "read-only, over HTTPS" },
+  { label: "Sign the answer", note: "no key for you to hold" },
 ] as const;
-
 const API_CHECKS = ["Request", "Username", "Address", "Profile", "Response"] as const;
 
-/* One beat per thing that happens. */
-const ASK_AT = 0;
-const ENS_AT = 1;
-const GATEWAY_AT = 2;
-const API_AT = 5;
-const SIGN_AT = 10;
-const VERIFY_AT = 11;
-const RESOLVED_AT = 12;
-const LAST_BEAT = 12;
-const BEAT_MS = [620, 680, 560, 560, 600, 460, 460, 460, 460, 520, 700, 720, 820] as const;
+/* ---- the script --------------------------------------------------------- */
+
+type Actor = "wallet" | "ens" | "gateway" | "api";
+type WireId = "askEns" | "ensReply" | "callGateway" | "gatewayReply" | "callApi" | "apiReply";
+type CellRef = `${"wallet" | "gateway" | "api"}:${number}`;
+type Beat = {
+  actor: Actor;
+  wire?: WireId;
+  label?: string;
+  danger?: boolean;
+  cells?: CellRef[];
+  fail?: boolean;
+  status: string;
+};
+
+function script(wallet: Wallet, username: Username, address: string | undefined): Beat[] {
+  const name = `${username}.${PARENT}`;
+  const head: Beat[] = [
+    { actor: "wallet", wire: "askEns", label: "resolve", cells: ["wallet:0"], status: `${wallet} asks ENS for ${name}…` },
+    { actor: "ens", wire: "ensReply", label: "OffchainLookup", status: `ENS doesn’t store ${username}. Your resolver points ${wallet} to the gateway…` },
+    { actor: "wallet", wire: "callGateway", label: "CCIP-Read", cells: ["wallet:1", "gateway:0"], status: `${wallet} calls the Namespace gateway…` },
+    { actor: "gateway", cells: ["gateway:1"], status: "The gateway finds the endpoint you saved…" },
+    { actor: "gateway", wire: "callApi", label: `GET /${username}`, cells: ["gateway:2", "api:0"], status: "The gateway calls your API…" },
+  ];
+  if (!address) {
+    return [
+      ...head,
+      { actor: "api", cells: ["api:1"], fail: true, status: `No user called ${username} in your database…` },
+      { actor: "api", wire: "apiReply", label: "404", danger: true, cells: ["api:4"], fail: true, status: "Your API returns 404…" },
+      { actor: "gateway", wire: "gatewayReply", label: "not found", danger: true, status: `The gateway tells ${wallet} there’s no such name…` },
+    ];
+  }
+  return [
+    ...head,
+    { actor: "api", cells: ["api:1"], status: `Your API finds ${username}…` },
+    { actor: "api", cells: ["api:2"], status: "…and the address…" },
+    { actor: "api", cells: ["api:3"], status: "…and the profile…" },
+    { actor: "api", wire: "apiReply", label: "200 OK", cells: ["api:4"], status: "Your API answers…" },
+    { actor: "gateway", cells: ["gateway:3"], status: "The gateway signs the answer…" },
+    { actor: "gateway", wire: "gatewayReply", label: "signed answer", status: `The signed answer goes back to ${wallet}…` },
+    { actor: "wallet", wire: "askEns", label: "verify", cells: ["wallet:2"], status: `${wallet} checks the signature through your resolver…` },
+    { actor: "ens", wire: "ensReply", label: address, status: "Signature valid…" },
+  ];
+}
+
+/* Wire beats get time for the pulse to travel (0.76s); the rest are quicker ticks. */
+const WIRE_MS = 780;
+const TICK_MS = 540;
+const SETTLE_MS = 600;
 
 /* ---- icons -------------------------------------------------------------- */
 
@@ -74,8 +114,6 @@ const IconWallet = svg(<><rect x="3" y="6" width="18" height="13" rx="3" /><path
 const IconEns = svg(<><path d="M12 3 5 13l7 8 7-8-7-10Z" /><path d="M5 13h14" /></>);
 const IconGateway = svg(<><rect x="4" y="4" width="16" height="6" rx="2" /><rect x="4" y="14" width="16" height="6" rx="2" /><path d="M8 7h.01M8 17h.01" /></>);
 const IconApi = svg(<><ellipse cx="12" cy="6" rx="7" ry="3" /><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6" /></>);
-const IconSign = svg(<><path d="M4 18c2.5 0 3.5-6 6-6s1.5 4 3.5 4 2-2 3-2" /><path d="M4 21h16" /></>);
-const IconShield = svg(<><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6l-7-3Z" /><path d="m9 12 2 2 4-4" /></>);
 const IconCheck = svg(<path d="m5 12.5 4.5 4.5L19 7.5" />);
 const IconX = svg(<><circle cx="12" cy="12" r="9" /><path d="m9 9 6 6M15 9l-6 6" /></>);
 const IconPlay = svg(<path d="M7 5.5v13l11-6.5-11-6.5Z" />);
@@ -83,8 +121,7 @@ const IconSpin = svg(<path d="M12 3a9 9 0 1 0 9 9" />);
 
 /* ---- card parts --------------------------------------------------------- */
 
-const shell = (state: CardState, extra = "") =>
-  `ll-card is-${state}${extra ? ` ${extra}` : ""}`;
+const shell = (state: CardState, extra = "") => `ll-card is-${state}${extra ? ` ${extra}` : ""}`;
 
 function Head({
   title,
@@ -120,199 +157,84 @@ function Pip({ state }: { state: Cell }) {
   return <span className="ll-pip-dot" aria-hidden="true" />;
 }
 
-function Row({ label, value, tone }: { label: string; value: React.ReactNode; tone?: "good" }) {
+function Row({ label, value, tone }: { label: string; value: React.ReactNode; tone?: "good" | "bad" }) {
   return (
     <div className="ll-row">
       <span className="ll-row-label">{label}</span>
-      <span className={`ll-row-value${tone === "good" ? " is-good" : ""}`}>{value}</span>
+      <span className={`ll-row-value${tone ? ` is-${tone}` : ""}`}>{value}</span>
     </div>
   );
 }
 
-function Chips<T extends string>({
-  options,
-  value,
-  onChange,
-  render,
-}: {
-  options: readonly T[];
-  value: T;
-  onChange: (v: T) => void;
-  render?: (v: T) => React.ReactNode;
-}) {
+function Chips<T extends string>({ options, value, onChange }: { options: readonly T[]; value: T; onChange: (v: T) => void }) {
   return (
     <span className="ll-chips">
       {options.map((o) => (
-        <button
-          key={o}
-          type="button"
-          className={`ll-chip${o === value ? " is-on" : ""}`}
-          aria-pressed={o === value}
-          onClick={() => onChange(o)}
-        >
-          {render ? render(o) : o}
+        <button key={o} type="button" className={`ll-chip${o === value ? " is-on" : ""}`} aria-pressed={o === value} onClick={() => onChange(o)}>
+          {o}
         </button>
       ))}
     </span>
   );
 }
 
-/* ---- cards -------------------------------------------------------------- */
-
-type Run = ReturnType<typeof useRunModel>;
-
-function LookupCard({ m }: { m: Run }) {
+function Steps({ steps, cells }: { steps: readonly { label: string; note: string }[]; cells: Cell[] }) {
   return (
-    <div className={shell(m.lookupState, "is-control")}>
-      <Head title="Lookup" note="what the wallet asks for" state={m.lookupState} Glyph={IconSliders} />
-      <div className="ll-control-row">
-        <span className="ll-row-label">Wallet</span>
-        <Chips options={WALLETS} value={m.wallet} onChange={m.setWallet} />
-      </div>
-      <div className="ll-control-row">
-        <span className="ll-row-label">Name</span>
-        <Chips
-          options={USERNAMES}
-          value={m.username}
-          onChange={m.setUsername}
-        />
-      </div>
-      <div className="ll-control-row">
-        <span className="ll-row-label">Address</span>
-        <Chips options={COINS.map((c) => c.id)} value={m.coin} onChange={m.setCoin} />
-      </div>
-    </div>
-  );
-}
-
-function WalletCard({ m }: { m: Run }) {
-  return (
-    <div className={shell(m.askState)}>
-      <Head title={m.wallet} note={`looks up ${m.name}`} state={m.askState} Glyph={IconWallet} />
-    </div>
-  );
-}
-
-function EnsCard({ m }: { m: Run }) {
-  return (
-    <div className={shell(m.ensState)}>
-      <Head title="ENS" note="on Ethereum" state={m.ensState} Glyph={IconEns} />
-      <Row label="Name" value={m.name} />
-      <Row label="Resolver" value="wildcard" />
-      <Row label="Answer" value="ask the gateway" />
-    </div>
-  );
-}
-
-function GatewayCard({ m }: { m: Run }) {
-  return (
-    <div className={shell(m.gatewayState)}>
-      <Head title="Gateway" note="hosted by Namespace" state={m.gatewayState} Glyph={IconGateway} badge="CCIP-Read" />
-      {GATEWAY_STEPS.map((s, i) => (
-        <div key={s.label} className={`ll-step is-${m.gatewayCells[i]}`}>
-          <Pip state={m.gatewayCells[i]} />
+    <>
+      {steps.map((s, i) => (
+        <div key={s.label} className={`ll-step is-${cells[i]}`}>
+          <Pip state={cells[i]} />
           <span className="ll-step-text">
             <span className="ll-step-label">{s.label}</span>
-            <span className="ll-step-note">{i === 2 ? `GET /ens/${m.username}` : s.note}</span>
+            <span className="ll-step-note">{s.note}</span>
           </span>
         </div>
       ))}
-    </div>
-  );
-}
-
-function ApiCard({ m }: { m: Run }) {
-  return (
-    <div className={shell(m.apiState)}>
-      <Head title="Your API" note="api.brand.com, read-only" state={m.apiState} Glyph={IconApi} badge="your database" />
-      {API_CHECKS.map((c, i) => (
-        <div key={c} className={`ll-check is-${m.apiCells[i]}`}>
-          <Pip state={m.apiCells[i]} />
-          <span className="ll-check-label">{c}</span>
-          <span className="ll-check-detail">{m.apiDetails[i]}</span>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function NotFoundCard({ m }: { m: Run }) {
-  return (
-    <div className={shell(m.notFoundState)}>
-      <Head title="Not found" note="your API returned 404" state={m.notFoundState} Glyph={IconX} />
-      <div className="ll-line">{m.found ? "every name you issued resolves" : `${m.username} isn't one of your users`}</div>
-    </div>
-  );
-}
-
-function SignCard({ m }: { m: Run }) {
-  const st = m.stateAt(SIGN_AT);
-  return (
-    <div className={shell(st)}>
-      <Head title="Sign" note="by the gateway" state={st} Glyph={IconSign} />
-      <div className="ll-line">no key for you to hold</div>
-    </div>
-  );
-}
-
-function VerifyCard({ m }: { m: Run }) {
-  const st = m.stateAt(VERIFY_AT);
-  return (
-    <div className={shell(st)}>
-      <Head title="Verify" note="by the wallet" state={st} Glyph={IconShield} />
-      <div className="ll-line">checks the signature via ENS</div>
-    </div>
-  );
-}
-
-function ResolvedCard({ m }: { m: Run }) {
-  const st = m.stateAt(RESOLVED_AT);
-  return (
-    <div className={shell(st, st === "done" ? "is-success" : "")}>
-      <Head title="Resolved" note={m.name} state={st} Glyph={IconCheck} />
-      <Row label={m.coin} value={m.address ?? "—"} />
-      <Row label="Minted" value="nothing" tone={st === "done" ? "good" : undefined} />
-      <Row label="Gas paid" value="none" tone={st === "done" ? "good" : undefined} />
-    </div>
+    </>
   );
 }
 
 /* ---- the run ------------------------------------------------------------ */
 
+function useReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const q = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReduced(q.matches);
+    sync();
+    q.addEventListener("change", sync);
+    return () => q.removeEventListener("change", sync);
+  }, []);
+  return reduced;
+}
+
 function useRunModel() {
+  const reduced = useReducedMotion();
   const [wallet, setWalletRaw] = useState<Wallet>("MetaMask");
   const [username, setUsernameRaw] = useState<Username>("alice");
   const [coin, setCoinRaw] = useState<Coin>("ETH");
   const [step, setStep] = useState(-1);
   const [settled, setSettled] = useState(false);
-  const [run, setRun] = useState(0);
 
-  const user = USERS[username];
-  const found = user !== undefined;
-  const address = user?.[coin];
-  const coinType = COINS.find((c) => c.id === coin)?.type ?? "60";
+  const address = USERS[username]?.[coin];
+  const found = address !== undefined;
   const name = `${username}.${PARENT}`;
-
-  /* Unknown usernames stop at the username check: the API returns 404. */
-  const failAt = found ? null : API_AT + 1;
-  const lastBeat = failAt ?? LAST_BEAT;
+  const beats = useMemo(() => script(wallet, username, address), [wallet, username, address]);
+  const last = beats.length - 1;
   const running = step >= 0 && !settled;
 
   useEffect(() => {
     if (step < 0 || settled) return;
-    const delay = step > lastBeat ? 700 : BEAT_MS[step] ?? 600;
-    const t = setTimeout(() => {
-      if (step > lastBeat) setSettled(true);
-      else setStep((s) => s + 1);
-    }, delay);
+    const delay = step >= last ? SETTLE_MS : beats[step + 1].wire ? WIRE_MS : TICK_MS;
+    const t = setTimeout(() => (step >= last ? setSettled(true) : setStep((s) => s + 1)), delay);
     return () => clearTimeout(t);
-  }, [step, settled, lastBeat]);
+  }, [step, settled, last, beats]);
 
+  /* Reduced motion skips the playback and shows where it ends. */
   const start = useCallback(() => {
-    setSettled(false);
-    setRun((r) => r + 1);
-    setStep(0);
-  }, []);
+    setSettled(reduced);
+    setStep(reduced ? last : 0);
+  }, [reduced, last]);
   const rewind = () => {
     setStep(-1);
     setSettled(false);
@@ -321,119 +243,175 @@ function useRunModel() {
   const setUsername = (v: Username) => (setUsernameRaw(v), rewind());
   const setCoin = (v: Coin) => (setCoinRaw(v), rewind());
 
-  const cellAt = (beat: number, failing: boolean): Cell => {
-    if (step < 0) return "idle";
-    if (failAt !== null && beat > failAt) return settled ? "skipped" : "idle";
-    if (step < beat) return "idle";
-    if (step === beat && !settled) return "active";
-    return failing ? "fail" : "pass";
+  const failed = settled && !found;
+  const cell = (ref: CellRef): Cell => {
+    const at = beats.findIndex((b) => b.cells?.includes(ref));
+    if (at < 0) return failed ? "skipped" : "idle";
+    if (step < at) return "idle";
+    if (step === at && !settled) return "active";
+    return beats[at].fail ? "fail" : "pass";
   };
-  const stateAt = (beat: number): CardState => {
-    if (step < 0) return "idle";
-    if (failAt !== null) return settled ? "skipped" : "idle";
-    if (step < beat) return "idle";
-    if (step === beat && !settled) return "active";
+  const actorState = (a: Actor): CardState => {
+    const seen = beats.slice(0, step + 1).filter((b) => b.actor === a);
+    if (seen.length === 0) return failed ? "skipped" : "idle";
+    if (seen.some((b) => b.fail)) return "failed";
+    if (!settled && beats[step].actor === a) return "active";
     return "done";
   };
-
-  const gatewayCells = GATEWAY_STEPS.map((_, i) => cellAt(GATEWAY_AT + i, false));
-  const apiCells = API_CHECKS.map((_, i) => cellAt(API_AT + i, failAt === API_AT + i));
-  const apiDetails = [
-    `GET /ens/${username}`,
-    found ? `${username} found` : `no user called ${username}`,
-    `${coin} · ${address ?? "—"}`,
-    "avatar, url",
-    found ? "200 OK" : "404",
-  ];
+  const wire = (id: WireId) => {
+    const shown = beats.slice(0, step + 1).filter((b) => b.wire === id);
+    const latest = shown[shown.length - 1] ?? beats.find((b) => b.wire === id);
+    return {
+      lit: shown.length > 0,
+      live: !settled && step >= 0 && beats[step].wire === id,
+      label: latest?.label,
+      danger: shown.length > 0 && latest?.danger === true,
+    };
+  };
 
   return {
-    wallet,
-    username,
-    coin,
-    setWallet,
-    setUsername,
-    setCoin,
-    step,
-    settled,
-    run,
-    running,
-    start,
-    found,
-    failAt,
-    address,
-    coinType,
-    name,
-    gatewayCells,
-    apiCells,
-    apiDetails,
-    stateAt,
-    lookupState: (step < 0 ? "idle" : "done") as CardState,
-    askState: (step < 0 ? "idle" : step === ASK_AT && !settled ? "active" : "done") as CardState,
-    ensState: (step < ENS_AT ? "idle" : step === ENS_AT && !settled ? "active" : "done") as CardState,
-    gatewayState: (step < GATEWAY_AT ? "idle" : step < API_AT ? "active" : "done") as CardState,
-    apiState: (step < API_AT
-      ? "idle"
-      : failAt !== null && step >= failAt
-        ? "failed"
-        : step < SIGN_AT
-          ? "active"
-          : "done") as CardState,
-    notFoundState: (step < 0 ? "idle" : failAt === null ? (settled ? "skipped" : "idle") : step > failAt ? "failed" : "idle") as CardState,
+    wallet, username, coin, setWallet, setUsername, setCoin,
+    step, settled, running, start, found, failed, address, name, beats,
+    cell, actorState, wire,
   };
+}
+
+type Run = ReturnType<typeof useRunModel>;
+
+/* ---- cards -------------------------------------------------------------- */
+
+function LookupCard({ m }: { m: Run }) {
+  return (
+    <div className={shell(m.step < 0 ? "idle" : "done", "is-control")}>
+      <Head title="Lookup" note="what the wallet asks for" state={m.step < 0 ? "idle" : "done"} Glyph={IconSliders} />
+      <div className="ll-control-row">
+        <span className="ll-row-label">Wallet</span>
+        <Chips options={WALLETS} value={m.wallet} onChange={m.setWallet} />
+      </div>
+      <div className="ll-control-row">
+        <span className="ll-row-label">Name</span>
+        <Chips options={USERNAMES} value={m.username} onChange={m.setUsername} />
+      </div>
+      <div className="ll-control-row">
+        <span className="ll-row-label">Address</span>
+        <Chips options={COINS} value={m.coin} onChange={m.setCoin} />
+      </div>
+    </div>
+  );
+}
+
+function WalletCard({ m }: { m: Run }) {
+  const resolved = m.settled && m.found;
+  const st = resolved ? "done" : m.failed ? "failed" : m.actorState("wallet");
+  return (
+    <div className={shell(st, resolved ? "is-success" : "")}>
+      <Head title={m.wallet} note={`looks up ${m.name}`} state={st} Glyph={IconWallet} />
+      <Steps steps={WALLET_STEPS} cells={WALLET_STEPS.map((_, i) => m.cell(`wallet:${i}`))} />
+      <Row
+        label={m.coin}
+        value={resolved ? m.address : m.failed ? "doesn’t resolve" : "—"}
+        tone={resolved ? "good" : m.failed ? "bad" : undefined}
+      />
+      <Row label="Minted" value="nothing" tone={resolved ? "good" : undefined} />
+      <Row label="Gas paid" value="none" tone={resolved ? "good" : undefined} />
+    </div>
+  );
+}
+
+function EnsCard({ m }: { m: Run }) {
+  const verified = m.settled && m.found;
+  const answer = verified ? "signature valid" : m.step >= 1 ? "OffchainLookup" : "—";
+  return (
+    <div className={shell(m.actorState("ens"))}>
+      <Head title="ENS" note="your name’s resolver" state={m.actorState("ens")} Glyph={IconEns} />
+      <Row label="Name" value={m.name} />
+      <Row label="Resolver" value="wildcard" />
+      <Row label="Answer" value={answer} tone={verified ? "good" : undefined} />
+    </div>
+  );
+}
+
+function GatewayCard({ m }: { m: Run }) {
+  return (
+    <div className={shell(m.actorState("gateway"))}>
+      <Head title="Gateway" note="hosted by Namespace" state={m.actorState("gateway")} Glyph={IconGateway} badge="CCIP-Read" />
+      <Steps steps={GATEWAY_STEPS} cells={GATEWAY_STEPS.map((_, i) => m.cell(`gateway:${i}`))} />
+    </div>
+  );
+}
+
+function ApiCard({ m }: { m: Run }) {
+  const details = [
+    `GET /${m.username}`,
+    m.found ? `${m.username} found` : `no user called ${m.username}`,
+    `${m.coin} · ${m.address ?? "—"}`,
+    "avatar, url",
+    m.found ? "200 OK" : "404",
+  ];
+  return (
+    <div className={shell(m.actorState("api"))}>
+      <Head title="Your API" note="api.brand.com, read-only" state={m.actorState("api")} Glyph={IconApi} badge="your database" />
+      {API_CHECKS.map((c, i) => {
+        const s = m.cell(`api:${i}`);
+        return (
+          <div key={c} className={`ll-check is-${s}`}>
+            <Pip state={s} />
+            <span className="ll-check-label">{c}</span>
+            <span className="ll-check-detail">{details[i]}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
 }
 
 /* ---- canvas geometry ---------------------------------------------------- */
 
-const W = 1414;
+const W = 1380;
 const H = 466;
 type Box = { x: number; y: number; w: number; h: number };
-const BOX: Record<string, Box> = {
-  lookup: { x: 0, y: 40, w: 300, h: 300 },
-  wallet: { x: 350, y: 42, w: 196, h: 58 },
-  ens: { x: 350, y: 156, w: 196, h: 164 },
-  gateway: { x: 598, y: 78, w: 250, h: 194 },
-  api: { x: 900, y: 4, w: 296, h: 316 },
-  notfound: { x: 900, y: 376, w: 296, h: 86 },
-  sign: { x: 1236, y: 20, w: 178, h: 86 },
-  verify: { x: 1236, y: 140, w: 178, h: 86 },
-  resolved: { x: 1236, y: 260, w: 178, h: 150 },
+type CardId = "lookup" | "wallet" | "ens" | "gateway" | "api";
+const BOX: Record<CardId, Box> = {
+  lookup: { x: 0, y: 60, w: 300, h: 300 },
+  wallet: { x: 340, y: 24, w: 230, h: 418 },
+  ens: { x: 700, y: 0, w: 250, h: 170 },
+  gateway: { x: 700, y: 222, w: 250, h: 244 },
+  api: { x: 1080, y: 150, w: 300, h: 316 },
 };
-type Side = "l" | "r" | "t" | "b";
-const port = (b: Box, s: Side) =>
-  s === "l" ? [b.x, b.y + b.h / 2] : s === "r" ? [b.x + b.w, b.y + b.h / 2] : s === "t" ? [b.x + b.w / 2, b.y] : [b.x + b.w / 2, b.y + b.h];
 
-function wirePath(a: Box, as: Side, b: Box, bs: Side) {
-  const [sx, sy] = port(a, as);
-  const [tx, ty] = port(b, bs);
-  const vertical = as === "b";
-  const c = vertical ? Math.max(24, Math.abs(ty - sy) * 0.5) : Math.max(30, Math.abs(tx - sx) * 0.5);
-  const c1 = vertical ? [sx, sy + c] : [sx + c, sy];
-  const c2 = vertical ? [tx, ty - c] : [tx - c, ty];
-  const d = `M${sx},${sy} C${c1[0]},${c1[1]} ${c2[0]},${c2[1]} ${tx},${ty}`;
-  /* midpoint of the cubic, for the label */
-  const mx = 0.125 * sx + 0.375 * c1[0] + 0.375 * c2[0] + 0.125 * tx;
-  const my = 0.125 * sy + 0.375 * c1[1] + 0.375 * c2[1] + 0.125 * ty;
+type Side = "l" | "r";
+type Port = [CardId, Side, number];
+/** Each message gets its own wire; a request and its reply run side by side. */
+const WIRES: Record<WireId, { from: Port; to: Port; route: [string, string] }> = {
+  askEns: { from: ["wallet", "r", 0.12], to: ["ens", "l", 0.36], route: ["wallet", "ENS"] },
+  ensReply: { from: ["ens", "l", 0.72], to: ["wallet", "r", 0.26], route: ["ENS", "wallet"] },
+  callGateway: { from: ["wallet", "r", 0.6], to: ["gateway", "l", 0.3], route: ["wallet", "Gateway"] },
+  gatewayReply: { from: ["gateway", "l", 0.7], to: ["wallet", "r", 0.76], route: ["Gateway", "wallet"] },
+  callApi: { from: ["gateway", "r", 0.3], to: ["api", "l", 0.35], route: ["Gateway", "Your API"] },
+  apiReply: { from: ["api", "l", 0.65], to: ["gateway", "r", 0.7], route: ["Your API", "Gateway"] },
+};
+
+const point = ([id, side, t]: Port) => {
+  const b = BOX[id];
+  return [side === "l" ? b.x : b.x + b.w, b.y + b.h * t] as const;
+};
+
+function wirePath(from: Port, to: Port) {
+  const [sx, sy] = point(from);
+  const [tx, ty] = point(to);
+  /* Leave each card straight out of the side it sits on. */
+  const c = Math.max(30, Math.abs(tx - sx) * 0.5);
+  const c1x = sx + (from[1] === "r" ? c : -c);
+  const c2x = tx + (to[1] === "r" ? c : -c);
+  const d = `M${sx},${sy} C${c1x},${sy} ${c2x},${ty} ${tx},${ty}`;
+  const mx = 0.125 * sx + 0.375 * c1x + 0.375 * c2x + 0.125 * tx;
+  const my = 0.5 * sy + 0.5 * ty;
   return { d, sx, sy, tx, ty, mx, my };
 }
 
-function Wire({
-  from,
-  to,
-  lit,
-  live,
-  run,
-  label,
-  danger,
-}: {
-  from: [string, Side];
-  to: [string, Side];
-  lit: boolean;
-  live: boolean;
-  run: number;
-  label?: string;
-  danger?: boolean;
-}) {
-  const p = wirePath(BOX[from[0]], from[1], BOX[to[0]], to[1]);
+function Wire({ id, m }: { id: WireId; m: Run }) {
+  const { lit, live, label, danger } = m.wire(id);
+  const p = wirePath(WIRES[id].from, WIRES[id].to);
   const hue = danger ? "var(--ll-stop)" : "var(--ll-live)";
   return (
     <g>
@@ -441,18 +419,24 @@ function Wire({
       <path d={p.d} pathLength={100} className="ll-trail" stroke={hue} strokeWidth={5} opacity={0.16} style={{ strokeDashoffset: lit ? 0 : 100 }} />
       <path d={p.d} pathLength={100} className="ll-trail" stroke={hue} strokeWidth={1.75} style={{ strokeDashoffset: lit ? 0 : 100 }} />
       <circle cx={p.sx} cy={p.sy} r={3} className="ll-end" fill={lit ? hue : "var(--ll-wire)"} />
-      <circle cx={p.tx} cy={p.ty} r={3} className="ll-end" fill={lit ? hue : "var(--ll-wire)"} />
+      {/* Arrowhead into the receiving card, so a request and its reply read apart at rest. */}
+      <path
+        d={WIRES[id].to[1] === "l" ? `M${p.tx - 7},${p.ty - 4.5} L${p.tx},${p.ty} L${p.tx - 7},${p.ty + 4.5}Z` : `M${p.tx + 7},${p.ty - 4.5} L${p.tx},${p.ty} L${p.tx + 7},${p.ty + 4.5}Z`}
+        className="ll-end"
+        fill={lit ? hue : "var(--ll-wire)"}
+      />
       {live && (
-        <g key={`pulse-${run}`}>
+        /* Keyed by beat, so a wire used twice (resolve, then verify) pulses twice. */
+        <g key={`pulse-${m.step}`}>
           <path d={p.d} pathLength={100} className="ll-pulse" />
-          <g className="ll-head" style={{ offsetPath: `path("${p.d}")` }}>
+          <g className="ll-bead" style={{ offsetPath: `path("${p.d}")` }}>
             <circle r={8} fill={hue} opacity={0.3} />
             <circle r={3} fill="var(--ll-charge)" />
           </g>
         </g>
       )}
       {label && (
-        <foreignObject x={p.mx - 40} y={p.my - 12} width={80} height={24}>
+        <foreignObject x={p.mx - 60} y={p.my - 12} width={120} height={24}>
           <div className="ll-wire-label-wrap">
             <span className={`ll-wire-label${lit ? (danger ? " is-danger" : " is-lit") : ""}`}>{label}</span>
           </div>
@@ -462,20 +446,25 @@ function Wire({
   );
 }
 
-function Rail({ lit, label, danger }: { lit: boolean; label?: string; danger?: boolean }) {
-  const tone = lit ? (danger ? " is-danger" : " is-lit") : "";
+/* ---- narrow screens: the same messages as a list ------------------------ */
+
+function MessageList({ m }: { m: Run }) {
+  const msgs = m.beats.map((b, i) => ({ b, i })).filter(({ b }) => b.wire);
   return (
-    <div className="ll-rail" aria-hidden="true">
-      <span className={`ll-rail-dot${tone}`} />
-      <span className={`ll-rail-line${tone}`} />
-      {label && (
-        <>
-          <span className={`ll-wire-label${tone}`}>{label}</span>
-          <span className={`ll-rail-line${tone}`} />
-        </>
-      )}
-      <span className={`ll-rail-dot${tone}`} />
-    </div>
+    <ol className="ll-msgs">
+      {msgs.map(({ b, i }) => {
+        const [a, z] = WIRES[b.wire!].route.map((r) => (r === "wallet" ? m.wallet : r));
+        const state = m.step < i ? "idle" : m.step === i && !m.settled ? "current" : "past";
+        return (
+          <li key={i} className={`ll-msg is-${state}${b.danger ? " is-danger" : ""}`}>
+            <span className="ll-msg-route">
+              {a} → {z}
+            </span>
+            <span className="ll-msg-label">{b.label}</span>
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 
@@ -503,7 +492,6 @@ export function LookupLifecycle() {
   useEffect(() => {
     const el = frame.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const io = new IntersectionObserver(
       (entries) => {
         if (!entries.some((e) => e.isIntersecting)) return;
@@ -516,59 +504,23 @@ export function LookupLifecycle() {
     return () => io.disconnect();
   }, [start]);
 
-  const { step, settled, run, failAt } = m;
-  const ok = failAt === null;
-  const wires = useMemo(
-    () => [
-      { from: ["wallet", "b"], to: ["ens", "t"], lit: step >= ASK_AT, live: step === ASK_AT && !settled },
-      { from: ["ens", "r"], to: ["gateway", "l"], lit: step >= GATEWAY_AT, live: step === GATEWAY_AT && !settled },
-      { from: ["gateway", "r"], to: ["api", "l"], lit: step >= API_AT, live: step === API_AT && !settled },
-      { from: ["api", "r"], to: ["sign", "l"], lit: ok && step >= SIGN_AT, live: ok && step === SIGN_AT && !settled, label: "200 OK" },
-      { from: ["api", "b"], to: ["notfound", "t"], lit: !ok && step > (failAt ?? 0), live: !ok && step === (failAt ?? 0) + 1 && !settled, label: "404", danger: true },
-      { from: ["sign", "b"], to: ["verify", "t"], lit: ok && step >= VERIFY_AT, live: ok && step === VERIFY_AT && !settled },
-      { from: ["verify", "b"], to: ["resolved", "t"], lit: ok && step >= RESOLVED_AT, live: ok && step === RESOLVED_AT && !settled },
-    ] as { from: [string, Side]; to: [string, Side]; lit: boolean; live: boolean; label?: string; danger?: boolean }[],
-    [step, settled, ok, failAt],
-  );
-
-  const place = (k: string): React.CSSProperties => ({ left: BOX[k].x, top: BOX[k].y, width: BOX[k].w, height: BOX[k].h });
+  const place = (k: CardId): React.CSSProperties => ({ left: BOX[k].x, top: BOX[k].y, width: BOX[k].w, height: BOX[k].h });
+  const { settled, step } = m;
 
   return (
     <div ref={frame} className="ll-frame">
       {/* stacked, for screens too narrow to hold the canvas */}
       <div className="ll-stack">
         <LookupCard m={m} />
-        <Rail lit={step >= 0} />
-        <WalletCard m={m} />
-        <Rail lit={step >= ENS_AT} />
-        <EnsCard m={m} />
-        <Rail lit={step >= GATEWAY_AT} />
-        <GatewayCard m={m} />
-        <Rail lit={step >= API_AT} />
-        <ApiCard m={m} />
-        {ok ? (
-          <>
-            <Rail lit={step >= SIGN_AT} label="200 OK" />
-            <SignCard m={m} />
-            <Rail lit={step >= VERIFY_AT} />
-            <VerifyCard m={m} />
-            <Rail lit={step >= RESOLVED_AT} />
-            <ResolvedCard m={m} />
-          </>
-        ) : (
-          <>
-            <Rail lit={step > (failAt ?? 0)} label="404" danger />
-            <NotFoundCard m={m} />
-          </>
-        )}
+        <MessageList m={m} />
       </div>
 
       {/* the canvas */}
       <div ref={stage} className="ll-stage" style={{ height: H * scale + 64 }}>
         <div className="ll-canvas" style={{ width: W, height: H, transform: `scale(${scale})` }}>
           <svg className="ll-wires" width={W} height={H} viewBox={`0 0 ${W} ${H}`} aria-hidden="true">
-            {wires.map((w) => (
-              <Wire key={`${w.from[0]}-${w.to[0]}`} {...w} run={run} />
+            {(Object.keys(WIRES) as WireId[]).map((id) => (
+              <Wire key={id} id={id} m={m} />
             ))}
           </svg>
           <div className="ll-node" style={place("lookup")}><LookupCard m={m} /></div>
@@ -576,10 +528,6 @@ export function LookupLifecycle() {
           <div className="ll-node" style={place("ens")}><EnsCard m={m} /></div>
           <div className="ll-node" style={place("gateway")}><GatewayCard m={m} /></div>
           <div className="ll-node" style={place("api")}><ApiCard m={m} /></div>
-          <div className="ll-node" style={place("notfound")}><NotFoundCard m={m} /></div>
-          <div className="ll-node" style={place("sign")}><SignCard m={m} /></div>
-          <div className="ll-node" style={place("verify")}><VerifyCard m={m} /></div>
-          <div className="ll-node" style={place("resolved")}><ResolvedCard m={m} /></div>
         </div>
       </div>
 
@@ -589,18 +537,10 @@ export function LookupLifecycle() {
           {m.running ? <IconSpin className="ll-run-icon is-spin" /> : <IconPlay className="ll-run-icon" />}
           {m.running ? "Running" : settled ? "Run again" : "Run"}
         </button>
-        <output className="ll-status">
+        <output className="ll-status" aria-live="polite">
           {m.running ? (
-            <span className="ll-status-muted">
-              {step < GATEWAY_AT
-                ? `${m.wallet} asks ENS for ${m.name}…`
-                : step < API_AT
-                  ? "ENS hands the lookup to the Namespace gateway…"
-                  : step < SIGN_AT
-                    ? "Your API answers…"
-                    : "Signing and verifying…"}
-            </span>
-          ) : settled && !ok ? (
+            <span className="ll-status-muted">{m.beats[step].status}</span>
+          ) : m.failed ? (
             <span className="ll-status-line">
               <span className="ll-status-bad">Not found.</span>
               <span>
