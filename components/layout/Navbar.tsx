@@ -125,6 +125,14 @@ function AIIcon() {
   );
 }
 
+function UsernamesIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <path d="M13.125 10C13.125 11.7259 11.7259 13.125 10 13.125C8.27411 13.125 6.875 11.7259 6.875 10C6.875 8.27411 8.27411 6.875 10 6.875C11.7259 6.875 13.125 8.27411 13.125 10ZM13.125 10V11.25C13.125 12.4581 14.1044 13.4375 15.3125 13.4375C16.5206 13.4375 17.5 12.4581 17.5 11.25V10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5C11.7065 17.5 13.2799 16.93 14.5401 15.9701" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
 /* ─── Products dropdown SVG icons ─── */
 function OffchainIcon() {
   return (
@@ -276,6 +284,7 @@ const SOLUTIONS_ITEMS = [
   { label: "WaaS", href: "/solutions/waas", icon: <WaaSIcon /> },
   { label: "Decentralized Websites", href: "/solutions/decentralized-websites", icon: <WebIcon /> },
   { label: "AI agents", href: "/solutions/ai-agents", icon: <AIIcon /> },
+  { label: "Universal Usernames", href: "/solutions/universal-usernames", icon: <UsernamesIcon /> },
 ];
 
 /* ─── Products dropdown items ─── */

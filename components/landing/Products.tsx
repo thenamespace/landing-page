@@ -82,6 +82,14 @@ export const LANES: Lane[] = [
         icon: <ComponentsIcon />,
       },
       {
+        id: "universal-usernames",
+        title: "Universal Usernames",
+        description: "Make the usernames your app already issued work as ENS names. No minting, no migration.",
+        href: "/solutions/universal-usernames",
+        badge: "new",
+        icon: <AtIcon />,
+      },
+      {
         id: "subpages",
         title: "Subpages",
         description: "Launch your own branded ENS subname registration website in minutes, with no coding required.",
@@ -205,6 +213,15 @@ function ComponentsIcon() {
   );
 }
 
+function AtIcon() {
+  return (
+    <svg {...iconProps}>
+      <circle cx="10" cy="10" r="3.13" />
+      <path d="M13.13 10v1.25a2.19 2.19 0 0 0 4.37 0V10a7.5 7.5 0 1 0-2.96 5.97" />
+    </svg>
+  );
+}
+
 function WidgetIcon() {
   return (
     <svg {...iconProps}>
@@ -314,7 +331,13 @@ export function Products() {
                     </div>
                     <div className="prows-panel">
                       {lane.tools.map((t) => (
-                        <a key={t.title} id={t.id} href={t.href} target="_blank" rel="noopener noreferrer" className="prow">
+                        <a
+                          key={t.title}
+                          id={t.id}
+                          href={t.href}
+                          {...(t.href.startsWith("/") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
+                          className="prow"
+                        >
                           <span className="prow-icon">{t.icon}</span>
                           <span className="prow-text">
                             <span className="prow-title">
