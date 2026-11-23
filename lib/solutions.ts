@@ -393,7 +393,7 @@ export interface Solution {
     heading: string;
     intro?: string;
     items: {
-      /** Short context line, e.g. "Devcon talk · 34 slides". */
+      /** Short context line, e.g. "Pitch · 13 slides". */
       kind: string;
       title: string;
       description: string;
@@ -2900,23 +2900,9 @@ export const SOLUTIONS: Solution[] = [
     },
     decks: {
       label: "Slides",
-      heading: "The Devcon talk, and the short version",
-      intro:
-        "The full walkthrough for the engineers who build it, and a 10-minute pitch for the people who sign off.",
+      heading: "The pitch, in ten minutes",
+      intro: "Share it with the people who sign off.",
       items: [
-        {
-          kind: "Devcon talk · 34 slides",
-          title: "Who owns your username?",
-          description:
-            "Why usernames get stuck inside one app, how a single CCIP-Read lookup works, and a code-along that ends with a live MetaMask lookup.",
-          pdf: "/assets/decks/universal-usernames-devcon-talk.pdf",
-          cover: "/assets/images/deck-cover-universal-usernames-devcon.jpg",
-          coverAlt: "Cover slide: Who owns your username? Building portable identity with ENS",
-          secondary: {
-            label: "Code-along repo",
-            href: "https://github.com/HAPPYS1NGH/universal-usernames",
-          },
-        },
         {
           kind: "Pitch · 13 slides · 10 minutes",
           title: "Your usernames, in every wallet",

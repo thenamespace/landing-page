@@ -6,7 +6,7 @@ type Deck = NonNullable<Solution["decks"]>["items"][number];
 /** Slide-deck cards: cover thumbnail linking to the hosted PDF, plus an optional secondary link. */
 export function SolutionDecks({ items }: { items: Deck[] }) {
   return (
-    <div className="solution-decks">
+    <div className={`solution-decks${items.length === 1 ? " is-single" : ""}`}>
       {items.map((deck) => (
         <article key={deck.pdf} className="solution-deck">
           <a

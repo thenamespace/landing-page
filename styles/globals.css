@@ -2585,6 +2585,18 @@ a.article-author:hover .article-author-name {
   outline: 2px solid #5474f6;
   outline-offset: 3px;
 }
+/* One deck: cover left, text right, so a lone card doesn't sit in half a grid. */
+@media (min-width: 768px) {
+  .solution-decks.is-single { grid-template-columns: 1fr; }
+  .solution-decks.is-single .solution-deck { flex-direction: row; }
+  .solution-decks.is-single .solution-deck-cover {
+    flex: 0 0 56%;
+    border-bottom: 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .solution-decks.is-single .solution-deck-body { justify-content: center; padding: 2.25rem 2.5rem; }
+  .solution-decks.is-single .solution-deck-links { margin-top: 0.5rem; }
+}
 @media (max-width: 767px) {
   .solution-decks { grid-template-columns: 1fr; }
 }
