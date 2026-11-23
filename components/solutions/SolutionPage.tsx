@@ -15,6 +15,8 @@ import { SolutionFaqList } from "./SolutionFaq";
 const headingMono = Geist_Mono({ subsets: ["latin"], weight: ["400"], display: "swap" });
 import { SolutionPainsSpotlight } from "./SolutionPainsSpotlight";
 import { LookupLifecycle } from "./LookupLifecycle";
+import { SolutionDecks } from "./SolutionDecks";
+import { HeroFlyover } from "./hero-flyover/HeroFlyover";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { Cta } from "@/components/landing/Cta";
 import { SolutionProductLook } from "./SolutionProductLook";
@@ -715,6 +717,8 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   <HeroBrowser name={s.heroName} />
                 ) : s.heroVisual === "agent" ? (
                   <HeroAgent name={s.heroName} />
+                ) : s.heroVisual === "flyover" ? (
+                  <HeroFlyover />
                 ) : (
                   <HeroNameCard name={s.heroName} />
                 )}
@@ -1213,6 +1217,26 @@ export function SolutionPage({ solution }: { solution: Solution }) {
         </section>
       )}
       </>)}
+
+      {/* ── Slide decks: hosted PDFs (optional, dark) ── */}
+      {s.decks && (
+        <section className="section_solution-decks">
+          <div padding-global="">
+            <div container="large" className="padding-section-large is-top-medium">
+              <div className="margin-bottom margin-xlarge">
+                <Eyebrow num={nextNum()} label={s.decks.label} />
+                <h2 className="solution-section-heading">{s.decks.heading}</h2>
+                {s.decks.intro && (
+                  <p className="text-size-medium text-weight-medium solution-table-intro">
+                    {s.decks.intro}
+                  </p>
+                )}
+              </div>
+              <SolutionDecks items={s.decks.items} />
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ── Standards trio (optional, dark) ── */}
       {s.standards && (
