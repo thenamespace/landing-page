@@ -3,7 +3,7 @@ import type { Solution } from "@/lib/solutions";
 
 type Deck = NonNullable<Solution["decks"]>["items"][number];
 
-/** Slide-deck cards: cover thumbnail linking to the hosted PDF, plus an optional secondary link. */
+/** Slide-deck cards: cover thumbnail and button, both linking to the hosted PDF. */
 export function SolutionDecks({ items }: { items: Deck[] }) {
   return (
     <div className={`solution-decks${items.length === 1 ? " is-single" : ""}`}>
@@ -26,16 +26,6 @@ export function SolutionDecks({ items }: { items: Deck[] }) {
               <a href={deck.pdf} target="_blank" rel="noopener" className="solution-deck-link is-primary">
                 View slides (PDF)
               </a>
-              {deck.secondary && (
-                <a
-                  href={deck.secondary.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="solution-deck-link"
-                >
-                  {deck.secondary.label}
-                </a>
-              )}
             </div>
           </div>
         </article>

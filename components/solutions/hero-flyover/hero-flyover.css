@@ -359,7 +359,7 @@
 /* ═════ Relay scene  ═════ 10s: 1.0–2.0 type happy.brand.eth ·
    2.1 resolving · 2.5 resolved · 2.8 amount 50 · 3.5 tap Send · 3.8–4.7 payment arcs across ·
    4.7 island expands + haptic · 4.9–5.6 balance rolls · 6.4 island collapses · rest · 9.2–9.8 reset.
-   Each variant adds its own app → wallet connection on top (see its block below). */
+   The fly-over arrow and @happy layer sit on top (see the Fly-over block below). */
 .uuh-r { --freeze: 5.8s; }
 .uuh-r .uuh-m-bal { --o: 0.3s; }
 .uuh-r-send,

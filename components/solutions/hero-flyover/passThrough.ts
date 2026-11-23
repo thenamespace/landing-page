@@ -4,13 +4,7 @@
 // @happy rides the arrow up to brand.eth, turns to a ghost as it touches, drifts through slowest
 // in the middle, sheds its @ and avatar inside, comes out as happy.brand.eth (solid again as it
 // leaves the station) and rides down into the To field. No bumps, rings or springs: the moment is
-// carried by opacity and pace alone.
-//
-// Decided from a /proto/uu-jump round (2026-11-24): Phase, ghost 0.35, 1000ms inside, lift → land 2.7s.
-// Rejected: a bump-and-hop over the station (Leapfrog, Ricochet, Tow, Mid-air) read as busy and
-// the impacts as jittery; Portal (a hard wipe at brand.eth's left end) and Stretch (a strand pulled
-// out of brand.eth) made the exit louder than the ghost entry. The first cut, 0.9s with a 260ms hop
-// and a hard swap, was too fast to read.
+// carried by opacity and pace alone (bump-and-hop exits were tried and read as busy and jittery).
 
 export type Pt = { x: number; y: number };
 export type Track = { at: (d: number) => Pt; total: number; find: (from: number, test: (p: Pt) => boolean) => number };

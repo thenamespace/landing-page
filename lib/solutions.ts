@@ -400,7 +400,6 @@ export interface Solution {
       pdf: string;
       cover: string;
       coverAlt: string;
-      secondary?: { label: string; href: string };
     }[];
   };
   /** Optional: render the homepage-style illustrated three-card CTA instead of the panel. */

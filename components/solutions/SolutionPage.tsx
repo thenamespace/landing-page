@@ -1218,7 +1218,7 @@ export function SolutionPage({ solution }: { solution: Solution }) {
       )}
       </>)}
 
-      {/* ── Slide decks: talk + pitch PDFs (optional, dark) ── */}
+      {/* ── Slide decks: hosted PDFs (optional, dark) ── */}
       {s.decks && (
         <section className="section_solution-decks">
           <div padding-global="">
