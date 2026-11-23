@@ -1,5 +1,5 @@
-// The two-phone scene: a wallet sends 50 USDC to happy.brand.eth and your app catches it.
-// FlyoverAnimation adds the @happy → happy.brand.eth arrow and flight on top.
+// The two-phone scene: a wallet sends 50 USDC to alice.brand.eth and your app catches it.
+// FlyoverAnimation adds the @alice → alice.brand.eth arrow and flight on top.
 import React from "react";
 import { ADDR_SHORT, Balance, BrandBar, Check, d, Name, NameChars, Phone, ReceivedRow, Skeleton, TabBar } from "./parts";
 
@@ -61,7 +61,7 @@ export function RelayScene({ t0, label, children }: SceneProps) {
                 </span>
               </div>
               <div className="uuh-resolve uuh-r-res uuh-a">
-                <span className="uuh-avatar is-sm">H</span>
+                <span className="uuh-avatar is-sm">A</span>
                 {/* A wallet only sees what ENS returns (address, avatar), never the in-app handle. */}
                 <span className="uuh-resolve-txt">
                   <b>{ADDR_SHORT}</b>
@@ -117,7 +117,7 @@ export function RelayScene({ t0, label, children }: SceneProps) {
                 <BrandBar />
                 <div className="uuh-hero-bal">
                   <span className="uuh-me uuh-me-src uuh-a">
-                    <span className="uuh-avatar">H</span>@happy
+                    <span className="uuh-avatar">A</span>@alice
                   </span>
                   <Balance />
                   <span className="uuh-bal-sub">USDC balance</span>
