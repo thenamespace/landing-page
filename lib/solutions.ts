@@ -387,6 +387,22 @@ export interface Solution {
   proofStyle?: "grid" | "wall";
   testimonials?: SolutionTestimonial[];
   faqs: SolutionFaqItem[];
+  /** Optional slide decks (talks, pitches) hosted as PDFs under /assets/decks. Renders after the how-to. */
+  decks?: {
+    label: string;
+    heading: string;
+    intro?: string;
+    items: {
+      /** Short context line, e.g. "Devcon talk · 34 slides". */
+      kind: string;
+      title: string;
+      description: string;
+      pdf: string;
+      cover: string;
+      coverAlt: string;
+      secondary?: { label: string; href: string };
+    }[];
+  };
   /** Optional: render the homepage-style illustrated three-card CTA instead of the panel. */
   ctaCards?: {
     heading: string;
@@ -2881,6 +2897,36 @@ export const SOLUTIONS: Solution[] = [
           ["Cost", "Nothing", "Free, no gas per user, sponsored by ENS DAO"],
         ],
       },
+    },
+    decks: {
+      label: "Slides",
+      heading: "The Devcon talk, and the short version",
+      intro:
+        "The full walkthrough for the engineers who build it, and a 10-minute pitch for the people who sign off.",
+      items: [
+        {
+          kind: "Devcon talk · 34 slides",
+          title: "Who owns your username?",
+          description:
+            "Why usernames get stuck inside one app, how a single CCIP-Read lookup works, and a code-along that ends with a live MetaMask lookup.",
+          pdf: "/assets/decks/universal-usernames-devcon-talk.pdf",
+          cover: "/assets/images/deck-cover-universal-usernames-devcon.jpg",
+          coverAlt: "Cover slide: Who owns your username? Building portable identity with ENS",
+          secondary: {
+            label: "Code-along repo",
+            href: "https://github.com/HAPPYS1NGH/universal-usernames",
+          },
+        },
+        {
+          kind: "Pitch · 13 slides · 10 minutes",
+          title: "Your usernames, in every wallet",
+          description:
+            "The problem, the same pattern already live at Hyperliquid and Rootstock, and what it takes to ship it in an afternoon.",
+          pdf: "/assets/decks/universal-usernames-pitch.pdf",
+          cover: "/assets/images/deck-cover-universal-usernames-pitch.jpg",
+          coverAlt: "Cover slide: Your usernames, in every wallet. Do what Hyperliquid built, in an afternoon",
+        },
+      ],
     },
     deliver: {
       label: "Who it's for",
