@@ -41,7 +41,7 @@ export interface Solution {
   /** Example subname shown in the hero name-card visual. */
   heroName: string;
   /** Hero visual: the default name card, the phone claim-flow mockup, or the send-flow comparison. */
-  heroVisual?: "namecard" | "phone" | "sendflow" | "tree" | "browser" | "agent";
+  heroVisual?: "namecard" | "phone" | "sendflow" | "tree" | "browser" | "agent" | "flyover";
   metaTitle: string;
   metaDescription: string;
   keywords: string[];
@@ -2768,11 +2768,11 @@ export const SOLUTIONS: Solution[] = [
   {
     slug: "universal-usernames",
     navLabel: "Universal Usernames",
-    heroName: "alice.brand.eth",
-    heroVisual: "namecard",
+    heroName: "happy.brand.eth",
+    heroVisual: "flyover",
     metaTitle: "Universal Usernames - Your App's Usernames as ENS Names",
     metaDescription:
-      "Make every username your app already issued work as an ENS name, like alice.brand.eth. No minting, no migration, no gas per user. Your database stays the source of truth.",
+      "Make every username your app already issued work as an ENS name, like happy.brand.eth. No minting, no migration, no gas per user. Your database stays the source of truth.",
     keywords: [
       "universal usernames",
       "in-app usernames as ENS names",
@@ -2786,7 +2786,7 @@ export const SOLUTIONS: Solution[] = [
       needs:
         "The usernames we already issued resolving as ENS names, without moving users or data.",
       wants:
-        "Someone types @alice into another wallet and it works. Nothing about our user database changes.",
+        "Someone types @happy into another wallet and it works. Nothing about our user database changes.",
       fears:
         "A migration project: a name minted per user, a second copy of every user onchain, and a sync job that drifts.",
       desires:
@@ -2798,7 +2798,7 @@ export const SOLUTIONS: Solution[] = [
       tag: "Universal Usernames",
       headline: "Your usernames, in every wallet that reads ENS",
       subheadline:
-        "Your users already have names. Make each one work in other wallets and apps as an ENS name like **alice.brand.eth**. No minting, no migration, no cost per user.",
+        "Your users already have names. Make each one work in other wallets and apps as an ENS name like **happy.brand.eth**. No minting, no migration, no cost per user.",
       primaryCta: {
         label: "Set Up in the App",
         href: UNIVERSAL_USERNAMES_APP,
@@ -2812,7 +2812,7 @@ export const SOLUTIONS: Solution[] = [
     },
     howItWorks: {
       label: "How Universal Usernames work",
-      lead: "Universal Usernames makes every username in your app work as an ENS name. Users keep their wallet, address and username. **@alice** in your app also resolves as **alice.brand.eth** anywhere ENS works. You add one read-only endpoint, and Namespace runs the gateway and signs the answers. Nothing is minted or copied out of your database.",
+      lead: "Universal Usernames makes every username in your app work as an ENS name. Users keep their wallet, address and username. **@happy** in your app also resolves as **happy.brand.eth** anywhere ENS works. You add one read-only endpoint, and Namespace runs the gateway and signs the answers. Nothing is minted or copied out of your database.",
       chips: [
         "Free",
         "No migration",
@@ -2822,24 +2822,24 @@ export const SOLUTIONS: Solution[] = [
       ],
     },
     pains: {
-      heading: "__@alice__ in your app is\n`0x4A7D…31da` everywhere else.",
-      lead: "Say your wallet address from memory. Nobody can. Your users remember @alice, but no other wallet can look it up.",
+      heading: "__@happy__ in your app is\n`0x8F3c…a91E` everywhere else.",
+      lead: "Say your wallet address from memory. Nobody can. Your users remember @happy, but no other wallet can look it up.",
       style: "spotlight",
       items: [
         {
           question: "The username is real. It's locked in your database.",
           detail:
-            "Inside your app, @alice is how people find, pay, and follow each other. It's on profiles, history and leaderboards. But outside your app, no wallet or app can look it up, so your users can't use it.",
+            "Inside your app, @happy is how people find, pay, and follow each other. It's on profiles, history and leaderboards. But outside your app, no wallet or app can look it up, so your users can't use it.",
         },
         {
-          question: "Nobody can send to @alice from another wallet.",
+          question: "Nobody can send to @happy from another wallet.",
           detail:
-            "Type @alice into MetaMask and nothing comes back, so the sender copies a 42-character address and checks the first and last four characters. One wrong paste, or one poisoned address in their history, and the funds are gone for good.",
+            "Type @happy into MetaMask and nothing comes back, so the sender copies a 42-character address and checks the first and last four characters. One wrong paste, or one poisoned address in their history, and the funds are gone for good.",
         },
         {
           question: "Every username you issued is reach you're not getting.",
           detail:
-            "Your users transfer, mint and trade all over the chain, and every bit of it shows up as 0x4A7D…31da. ==With __alice.brand.eth__, that activity would put your brand in front of everyone they deal with.==",
+            "Your users transfer, mint and trade all over the chain, and every bit of it shows up as 0x8F3c…a91E. ==With __happy.brand.eth__, that activity would put your brand in front of everyone they deal with.==",
         },
       ],
     },
@@ -2889,9 +2889,9 @@ export const SOLUTIONS: Solution[] = [
       table: {
         columns: ["", "In-app usernames", "Universal Usernames"],
         rows: [
-          ["Where @alice works", "Only inside your app", "Your app, plus wallets and apps that support ENS"],
-          ["Getting paid from another wallet", "Copy and paste a hex address", "Send to alice.brand.eth"],
-          ["What other apps show", "0x4A7D…31da", "alice.brand.eth, with avatar and profile"],
+          ["Where @happy works", "Only inside your app", "Your app, plus wallets and apps that support ENS"],
+          ["Getting paid from another wallet", "Copy and paste a hex address", "Send to happy.brand.eth"],
+          ["What other apps show", "0x8F3c…a91E", "happy.brand.eth, with avatar and profile"],
           ["Your brand outside the app", "Nowhere", "In every name and transaction"],
           ["Where the usernames live", "Your database", "Still your database, nothing copied"],
           ["Cost", "Nothing", "Free, no gas per user, sponsored by ENS DAO"],
@@ -2922,7 +2922,7 @@ export const SOLUTIONS: Solution[] = [
         {
           title: "Neobanks and payment apps",
           description:
-            "Users get paid as alice.yourbank.com from any wallet, with your brand on every payment.",
+            "Users get paid as happy.yourbank.com from any wallet, with your brand on every payment.",
         },
         {
           title: "Trading and prediction apps",
@@ -2942,7 +2942,7 @@ export const SOLUTIONS: Solution[] = [
         {
           title: "Chains and name services with a registry",
           description:
-            "Bring your registry to ENS, like Rootstock: alice.rsk resolves as alice.rsk.eth, through a gateway built by Namespace.",
+            "Bring your registry to ENS, like Rootstock: happy.rsk resolves as happy.rsk.eth, through a gateway built by Namespace.",
         },
       ],
     },
@@ -2977,7 +2977,7 @@ export const SOLUTIONS: Solution[] = [
         "Every username you already issued becomes a name people can pay from any wallet, and your brand travels with it.",
       caseBullets: [
         "Users get paid by name from outside your app",
-        "Your brand in every wallet that resolves alice.brand.eth",
+        "Your brand in every wallet that resolves happy.brand.eth",
         "Roll out to your whole user base at no per-user cost",
       ],
       pricingHeading: "Our pricing",
@@ -3021,7 +3021,7 @@ export const SOLUTIONS: Solution[] = [
       {
         question: "What are Universal Usernames?",
         answer:
-          "Universal Usernames makes every username your app already issued work as an ENS name. A user called alice in your app resolves as alice.brand.eth. ENS asks a gateway hosted by Namespace, the gateway calls your API, and the wallet verifies the signed answer. Nothing is minted and nothing leaves your database.",
+          "Universal Usernames makes every username your app already issued work as an ENS name. A user called happy in your app resolves as happy.brand.eth. ENS asks a gateway hosted by Namespace, the gateway calls your API, and the wallet verifies the signed answer. Nothing is minted and nothing leaves your database.",
       },
       {
         question: "Is it free?",
@@ -3031,12 +3031,12 @@ export const SOLUTIONS: Solution[] = [
       {
         question: "Is it onchain? Do users get an NFT?",
         answer:
-          "Your parent name and its resolver are onchain. The usernames are not. They resolve offchain through CCIP-Read (EIP-3668) and wildcard resolution (ENSIP-10), so there is no NFT per user, no minting and no record syncing. To a wallet, alice.brand.eth works like any other ENS name.",
+          "Your parent name and its resolver are onchain. The usernames are not. They resolve offchain through CCIP-Read (EIP-3668) and wildcard resolution (ENSIP-10), so there is no NFT per user, no minting and no record syncing. To a wallet, happy.brand.eth works like any other ENS name.",
       },
       {
         question: "Can we use a DNS domain instead of a .eth name?",
         answer:
-          "Yes. Use a .eth name or a DNS domain imported into ENS, so alice can resolve as alice.brand.id.",
+          "Yes. Use a .eth name or a DNS domain imported into ENS, so happy can resolve as happy.brand.id.",
       },
       {
         question: "Who owns the names?",

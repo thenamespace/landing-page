@@ -16,6 +16,7 @@ const headingMono = Geist_Mono({ subsets: ["latin"], weight: ["400"], display: "
 import { SolutionPainsSpotlight } from "./SolutionPainsSpotlight";
 import { LookupLifecycle } from "./LookupLifecycle";
 import { SolutionDecks } from "./SolutionDecks";
+import { HeroFlyover } from "./hero-flyover/HeroFlyover";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { Cta } from "@/components/landing/Cta";
 import { SolutionProductLook } from "./SolutionProductLook";
@@ -716,6 +717,8 @@ export function SolutionPage({ solution }: { solution: Solution }) {
                   <HeroBrowser name={s.heroName} />
                 ) : s.heroVisual === "agent" ? (
                   <HeroAgent name={s.heroName} />
+                ) : s.heroVisual === "flyover" ? (
+                  <HeroFlyover />
                 ) : (
                   <HeroNameCard name={s.heroName} />
                 )}
