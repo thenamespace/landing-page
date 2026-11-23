@@ -24,12 +24,12 @@ type Wallet = (typeof WALLETS)[number];
 const COINS = ["ETH", "Base", "BTC", "SOL"] as const;
 type Coin = (typeof COINS)[number];
 
-const USERNAMES = ["happy", "bob", "zoe"] as const;
+const USERNAMES = ["alice", "bob", "zoe"] as const;
 type Username = (typeof USERNAMES)[number];
 
 /** Your database. zoe is not in it. */
 const USERS: Partial<Record<Username, Record<Coin, string>>> = {
-  happy: { ETH: "0x8F3c…a91E", Base: "0x8F3c…a91E", BTC: "bc1q…7v2k", SOL: "7xKX…gAsU" },
+  alice: { ETH: "0x8F3c…a91E", Base: "0x8F3c…a91E", BTC: "bc1q…7v2k", SOL: "7xKX…gAsU" },
   bob: { ETH: "0x91C2…a07e", Base: "0x91C2…a07e", BTC: "bc1q…m3xf", SOL: "5bRt…Lq9w" },
 };
 
@@ -211,7 +211,7 @@ function useReducedMotion() {
 function useRunModel() {
   const reduced = useReducedMotion();
   const [wallet, setWalletRaw] = useState<Wallet>("MetaMask");
-  const [username, setUsernameRaw] = useState<Username>("happy");
+  const [username, setUsernameRaw] = useState<Username>("alice");
   const [coin, setCoinRaw] = useState<Coin>("ETH");
   const [step, setStep] = useState(-1);
   const [settled, setSettled] = useState(false);

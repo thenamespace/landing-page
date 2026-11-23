@@ -1,8 +1,8 @@
-// The @happy → happy.brand.eth journey as a pure timeline: t (ms into the 10s loop) → what every
+// The @alice → alice.brand.eth journey as a pure timeline: t (ms into the 10s loop) → what every
 // moving part looks like. FlyoverAnimation samples it into WAAPI keyframes.
 //
-// @happy rides the arrow up to brand.eth, turns to a ghost as it touches, drifts through slowest
-// in the middle, sheds its @ and avatar inside, comes out as happy.brand.eth (solid again as it
+// @alice rides the arrow up to brand.eth, turns to a ghost as it touches, drifts through slowest
+// in the middle, sheds its @ and avatar inside, comes out as alice.brand.eth (solid again as it
 // leaves the station) and rides down into the To field. No bumps, rings or springs: the moment is
 // carried by opacity and pace alone (bump-and-hop exits were tried and read as busy and jittery).
 
@@ -11,18 +11,18 @@ export type Track = { at: (d: number) => Pt; total: number; find: (from: number,
 
 /** Live layout, in canvas px. */
 export type Geo = {
-  route: Track; // @happy's centre → up the arrow → under the station → down to the typed name's centre
-  dHit: number; // distance along the route where @happy's front edge meets brand.eth's right end
+  route: Track; // @alice's centre → up the arrow → under the station → down to the typed name's centre
+  dHit: number; // distance along the route where @alice's front edge meets brand.eth's right end
   pillL: number; // brand.eth's left end
-  wb: number; // happy.brand.eth pill width
-  delta: number; // @happy centre − happy.brand.eth centre when their "happy"s line up
-  foldClip: number; // px trimmed off @happy's left so only "happy" is left
+  wb: number; // alice.brand.eth pill width
+  delta: number; // @alice centre − alice.brand.eth centre when their "alice"s line up
+  foldClip: number; // px trimmed off @alice's left so only "alice" is left
 };
 
 export type JourneyFrame = {
-  src: number; // @happy in the app
-  a: { x: number; y: number; s: number; o: number; shadow: number; fold: number }; // the travelling @happy
-  b: { x: number; y: number; s: number; o: number; shadow: number }; // happy.brand.eth
+  src: number; // @alice in the app
+  a: { x: number; y: number; s: number; o: number; shadow: number; fold: number }; // the travelling @alice
+  b: { x: number; y: number; s: number; o: number; shadow: number }; // alice.brand.eth
   glow: number; // brand.eth's outline while something is inside it
 };
 
@@ -72,7 +72,7 @@ function hermite(t: number, t0: number, t1: number, p0: number, p1: number, m0: 
 /** Route y at a given x, from brand.eth onward (the runway and the way down). */
 const yAt = (g: Geo, x: number) => g.route.at(g.route.find(g.dHit, (p) => p.x <= x)).y;
 
-/** @happy (a) and happy.brand.eth (b) move as one rigid piece through the station, then b carries on down. */
+/** @alice (a) and alice.brand.eth (b) move as one rigid piece through the station, then b carries on down. */
 function positions(t: number, g: Geo): { a: Pt; b: Pt; out: boolean } {
   const xBClear = g.pillL - g.wb / 2; // b's right end has left the station
   if (t < ENTER) {
@@ -92,9 +92,9 @@ function positions(t: number, g: Geo): { a: Pt; b: Pt; out: boolean } {
 export function journeyAt(t: number, g: Geo): JourneyFrame {
   const { a, b, out } = positions(t, g);
   const ghostIn = easeOut(seg(t, ENTER - 40, ENTER + 240));
-  // Halfway through, the ghost of @happy becomes the ghost of happy.brand.eth: a slow cross-dissolve.
+  // Halfway through, the ghost of @alice becomes the ghost of alice.brand.eth: a slow cross-dissolve.
   const swap = inOut(seg(t, ENTER + INSIDE * 0.35, ENTER + INSIDE * 0.6));
-  // happy.brand.eth turns solid as its body leaves the station.
+  // alice.brand.eth turns solid as its body leaves the station.
   const solid = out ? 1 : easeOut(clamp01((g.pillL - (b.x - g.wb / 2)) / g.wb));
   return {
     src: t < LIFT ? 1 : seg(t, ARRIVE + 150, ARRIVE + 450),

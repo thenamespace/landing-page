@@ -1,7 +1,7 @@
 // iPhone pieces for the Universal Usernames hero animation.
 import React from "react";
 
-const NAME = "happy.brand.eth";
+const NAME = "alice.brand.eth";
 export const ADDR_SHORT = "0x8F3c…a91E";
 
 // Per-element offset on the scene's shared 10s timeline (see .uuh-a in hero-flyover.css).
@@ -10,7 +10,7 @@ export const d = (s: number) => ({ ["--d" as string]: `${s}s` }) as React.CSSPro
 export function Name({ className = "" }: { className?: string }) {
   return (
     <span className={`uuh-name ${className}`}>
-      happy<i>.brand.eth</i>
+      alice<i>.brand.eth</i>
     </span>
   );
 }
@@ -73,7 +73,7 @@ export function BrandBar() {
       <span className="uuh-brand">
         <span className="uuh-brand-mark">b</span>brand
       </span>
-      <span className="uuh-avatar is-sm">H</span>
+      <span className="uuh-avatar is-sm">A</span>
     </div>
   );
 }

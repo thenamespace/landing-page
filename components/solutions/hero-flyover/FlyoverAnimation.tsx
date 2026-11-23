@@ -1,7 +1,7 @@
 "use client";
-// The Relay scene with an arrow from @happy in the app, up past the app's right edge to a
-// brand.eth station above it, then down into the wallet's To field. @happy rides the arrow, passes
-// through brand.eth like a ghost and comes out as happy.brand.eth (timeline in passThrough.ts).
+// The Relay scene with an arrow from @alice in the app, up past the app's right edge to a
+// brand.eth station above it, then down into the wallet's To field. @alice rides the arrow, passes
+// through brand.eth like a ghost and comes out as alice.brand.eth (timeline in passThrough.ts).
 // The rest of the Relay loop (resolve, send, payment into the app) runs --shift later in CSS.
 import React, { useEffect, useRef } from "react";
 import { arrowHead, type Cubic } from "./parts";
@@ -12,8 +12,8 @@ import { RelayScene } from "./RelayScene";
 // The arrow is built from ellipse quarters (control points at K of each radius), so every turn is one
 // even sweep rather than tight corners joined by straight runs.
 const K = 0.5523;
-const LEAD = "M325 207L366 207"; // @happy's centre → its right edge
-// Flat out of @happy, then one half-ellipse (centre 452,114.5; 66 × 92.5) out past the app's right
+const LEAD = "M325 207L366 207"; // @alice's centre → its right edge
+// Flat out of @alice, then one half-ellipse (centre 452,114.5; 66 × 92.5) out past the app's right
 // edge, clear of the app's avatar, and back in over the station onto the runway.
 const UP_LOW: Cubic = [452, 207, 452 + 66 * K, 207, 518, 114.5 + 92.5 * K, 518, 114.5];
 const UP_HIGH: Cubic = [518, 114.5, 518, 114.5 - 92.5 * K, 452 + 66 * K, 22, 452, 22];
@@ -64,11 +64,11 @@ type Parts = {
   aIn: HTMLElement;
   aAv: HTMLElement;
   aAt: HTMLElement;
-  aHappy: HTMLElement;
+  aAlice: HTMLElement;
   aShadow: HTMLElement;
   bRoot: HTMLElement;
   bIn: HTMLElement;
-  bHappy: HTMLElement;
+  bAlice: HTMLElement;
   bShadow: HTMLElement;
 };
 
@@ -79,15 +79,15 @@ function measure(p: Parts): Geo {
   const pillW = p.station.offsetWidth;
   const wa = p.aIn.offsetWidth;
   const wb = p.bIn.offsetWidth;
-  const aHappyL = p.aHappy.offsetLeft;
+  const aAliceL = p.aAlice.offsetLeft;
   const route = track(ROUTE);
   return {
     route,
     dHit: route.find(0, (pt) => pt.y < 40 && pt.x <= stationX + pillW / 2 + wa / 2),
     pillL: stationX - pillW / 2,
     wb,
-    delta: p.bHappy.offsetLeft - wb / 2 - (aHappyL - wa / 2),
-    foldClip: aHappyL - 9,
+    delta: p.bAlice.offsetLeft - wb / 2 - (aAliceL - wa / 2),
+    foldClip: aAliceL - 9,
   };
 }
 
@@ -133,11 +133,11 @@ function useJourney(root: React.RefObject<HTMLSpanElement | null>) {
       aIn: q(".uuh-fly-a"),
       aAv: q(".uuh-fly-av"),
       aAt: q(".uuh-fly-at"),
-      aHappy: q(".uuh-fly-a-happy"),
+      aAlice: q(".uuh-fly-a-alice"),
       aShadow: q(".uuh-fly-a .uuh-fly-shadow"),
       bRoot: q(".uuh-fly-root.is-b"),
       bIn: q(".uuh-fly-b"),
-      bHappy: q(".uuh-fly-b-happy"),
+      bAlice: q(".uuh-fly-b-alice"),
       bShadow: q(".uuh-fly-b .uuh-fly-shadow"),
     };
 
@@ -194,7 +194,7 @@ export function FlyoverAnimation({ t0 = "1s" }: { t0?: string }) {
   return (
     <RelayScene
       t0={t0}
-      label="@happy in your app becomes happy.brand.eth in any wallet. An arrow runs from @happy on the lower phone, running your app, up to brand.eth, your app's ENS name, and down into the To field of a wallet on the upper phone. @happy rides the arrow, passes through brand.eth and comes out as happy.brand.eth, then lands in the To field. It resolves to 0x8F3c…a91E, 50 USDC is sent, the app's Dynamic Island shows Received +50 USDC and @happy's balance rolls to $50.00."
+      label="@alice in your app becomes alice.brand.eth in any wallet. An arrow runs from @alice on the lower phone, running your app, up to brand.eth, your app's ENS name, and down into the To field of a wallet on the upper phone. @alice rides the arrow, passes through brand.eth and comes out as alice.brand.eth, then lands in the To field. It resolves to 0x8F3c…a91E, 50 USDC is sent, the app's Dynamic Island shows Received +50 USDC and @alice's balance rolls to $50.00."
     >
       <svg className="uuh-curves" viewBox="0 0 500 600" fill="none" aria-hidden="true">
         <path className="uuh-fly-arc uuh-fly-arc-glow uuh-fly-once uuh-a" d={ARROW} pathLength={1} />
@@ -213,10 +213,10 @@ export function FlyoverAnimation({ t0 = "1s" }: { t0?: string }) {
         <span className="uuh-fly-root is-a">
           <span className="uuh-me uuh-fly-a">
             <span className="uuh-fly-shadow" />
-            <span className="uuh-avatar uuh-fly-av">H</span>
+            <span className="uuh-avatar uuh-fly-av">A</span>
             <span>
               <span className="uuh-fly-at">@</span>
-              <span className="uuh-fly-a-happy">happy</span>
+              <span className="uuh-fly-a-alice">alice</span>
             </span>
           </span>
         </span>
@@ -224,7 +224,7 @@ export function FlyoverAnimation({ t0 = "1s" }: { t0?: string }) {
           <span className="uuh-fly-b">
             <span className="uuh-fly-shadow" />
             <span className="uuh-name">
-              <span className="uuh-fly-b-happy">happy</span>
+              <span className="uuh-fly-b-alice">alice</span>
               <i>.brand.eth</i>
             </span>
           </span>

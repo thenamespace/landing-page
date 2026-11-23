@@ -1,4 +1,4 @@
-/* Universal Usernames hero: @happy flies from your app to a wallet as happy.brand.eth, and 50 USDC
+/* Universal Usernames hero: @alice flies from your app to a wallet as alice.brand.eth, and 50 USDC
    flies back. Markup in components/solutions/hero-flyover/. */
 
 /* ── Stage: fixed 500×600 canvas, scaled per breakpoint so the hero never shifts ── */
@@ -356,10 +356,10 @@
   96.4%, 100% { transform: translateY(0); }
 }
 
-/* ═════ Relay scene  ═════ 10s: 1.0–2.0 type happy.brand.eth ·
+/* ═════ Relay scene  ═════ 10s: 1.0–2.0 type alice.brand.eth ·
    2.1 resolving · 2.5 resolved · 2.8 amount 50 · 3.5 tap Send · 3.8–4.7 payment arcs across ·
    4.7 island expands + haptic · 4.9–5.6 balance rolls · 6.4 island collapses · rest · 9.2–9.8 reset.
-   The fly-over arrow and @happy layer sit on top (see the Fly-over block below). */
+   The fly-over arrow and @alice layer sit on top (see the Fly-over block below). */
 .uuh-r { --freeze: 5.8s; }
 .uuh-r .uuh-m-bal { --o: 0.3s; }
 .uuh-r-send,
@@ -684,12 +684,12 @@
 /* ═════ Fly-over ═════ Shared Relay layout; only the name's arrival changes.
    The arrival takes 2.7s (lift 0.5 → lands 3.2), so every looping Relay beat runs --shift (1.2s) later
    than the Relay timings above; the loop's idle hold absorbs it. --freeze moves with it.
-   Once, on mount: 0.05–0.55 the arrow draws itself (out of @happy, one wide sweep past the app's right
+   Once, on mount: 0.05–0.55 the arrow draws itself (out of @alice, one wide sweep past the app's right
    edge up to brand.eth, one even curve down into the To field) · 0.3 the brand.eth station · 0.45 arrowhead · 0.5 sub-label.
    They then stay for good. Every loop the journey itself (passThrough.ts, driven by WAAPI in
-   FlyoverAnimation.tsx): 0.5 a copy of @happy lifts off the app · 1.35 it touches brand.eth and
+   FlyoverAnimation.tsx): 0.5 a copy of @alice lifts off the app · 1.35 it touches brand.eth and
    turns to a ghost · 1.35–2.35 drifts through, slowest mid-station, sheds its @ and avatar and
-   becomes happy.brand.eth, solid again as it comes out · 3.2 lands as the typed name. */
+   becomes alice.brand.eth, solid again as it comes out · 3.2 lands as the typed name. */
 .uuh-fly { --shift: 1.2s; --freeze: 7s; }
 .uuh-fly-once { --shift: 0s; animation-iteration-count: 1; }
 
