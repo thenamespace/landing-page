@@ -35,7 +35,8 @@ export function NewsletterEmail({
   bodyHtml,
   baseUrl = "https://namespace.ninja",
 }: NewsletterEmailProps) {
-  const postUrl = `${baseUrl}/blog/${slug}`;
+  // UTMs let PostHog attribute newsletter visits (and any app usage that follows) to this issue.
+  const postUrl = `${baseUrl}/blog/${slug}?utm_source=newsletter&utm_medium=email&utm_campaign=${encodeURIComponent(slug)}`;
   const imageUrl = image?.startsWith("/") ? `${baseUrl}${image}` : image;
   const displayDate = date
     ? new Date(date + "T00:00:00Z").toLocaleDateString("en-US", {
