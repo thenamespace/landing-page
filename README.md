@@ -147,3 +147,27 @@ through the remark/rehype pipeline with GFM + autolinked headings.
    - `NEXT_PUBLIC_SITE_URL` (optional, defaults to production URL)
    - `NEXT_PUBLIC_GA_ID` (optional, defaults to `G-1K699QQ114`)
 4. Deploy. All redirects from legacy `.html` URLs are handled in `next.config.ts`.
+
+## Analytics (PostHog)
+
+PostHog (EU project) runs alongside Google Analytics. It sends through the managed reverse proxy at
+`t.namespace.ninja`, and the cookie is shared across `*.namespace.ninja`, so a visit carries over
+to app.namespace.ninja.
+
+- **Config.** Set `NEXT_PUBLIC_POSTHOG_KEY` (and optionally `NEXT_PUBLIC_POSTHOG_HOST`). These are
+  inlined at build time, so the Docker image takes them as build args. Analytics is off without a
+  key, and never runs in development.
+- **Init.** `instrumentation-client.ts` starts PostHog before hydration. It turns on pageviews,
+  time on page, scroll depth, autocapture, heatmaps, rage and dead clicks, web vitals, exceptions
+  and session replay (inputs masked). Every event carries `page_type`, `post_slug` and
+  `solution_slug`.
+- **Links and sections.** `lib/analytics/dom-tracking.ts` has one listener that turns every link
+  click into a typed `landing:cta_click`, and tracks section reach (`landing:section_view`).
+  Placement comes from the `section_<name>` class of the section the link is in
+  (`lib/analytics/placement.ts`), so new sections are tracked without extra markup.
+- **Other interactions.** Cal bookings (`lib/cal.ts`), the newsletter, FAQs, nav menus, demos,
+  blog read depth (`components/analytics/ReadProgress.tsx`) and the 404 page call `track()`
+  directly.
+- **Taxonomy.** `lib/analytics/taxonomy/` is generated from `webapp/packages/analytics`. Don't edit
+  it here. Change it there, then run `pnpm --filter @namespace/analytics sync:landing`. The full
+  event catalog and the dashboards live in that package.
