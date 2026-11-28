@@ -13,6 +13,7 @@ import {
 import { JsonLd, articleSchema, breadcrumbSchema, faqPageSchema } from "@/lib/jsonld";
 import { SITE } from "@/lib/site";
 import { getAuthor } from "@/lib/authors";
+import { ReadProgress } from "@/components/analytics/ReadProgress";
 import { TocNav } from "@/components/blog/TocNav";
 import type { Post } from "@/lib/posts";
 
@@ -274,6 +275,7 @@ export default async function BlogPostPage({
                 />
 
                 <AuthorBox authorName={post.author} />
+                <ReadProgress author={post.author ?? "unknown"} readingMinutes={post.readingMinutes} />
               </article>
 
             </div>

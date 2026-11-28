@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect, useCallback } from "react";
 import type { SolutionFaqItem } from "@/lib/solutions";
+import { track } from "@/lib/analytics/track";
 
 function ChevronIcon() {
   return (
@@ -22,7 +23,7 @@ function ChevronIcon() {
   );
 }
 
-function FaqAccordion({ item }: { item: SolutionFaqItem }) {
+function FaqAccordion({ item, index }: { item: SolutionFaqItem; index: number }) {
   const [open, setOpen] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -31,7 +32,12 @@ function FaqAccordion({ item }: { item: SolutionFaqItem }) {
     if (bodyRef.current) setHeight(bodyRef.current.scrollHeight);
   }, [open]);
 
-  const toggle = useCallback(() => setOpen((o) => !o), []);
+  const toggle = useCallback(() => {
+    setOpen((o) => {
+      track("landing:faq_toggle", { faq_location: "solution", is_open: !o, question: item.question, question_index: index });
+      return !o;
+    });
+  }, [item, index]);
 
   return (
     <div
@@ -80,8 +86,8 @@ export function SolutionFaqList({ items }: { items: SolutionFaqItem[] }) {
   return (
     <div className="faq_list-wrapper w-dyn-list">
       <div role="list" className="faq_list w-dyn-items">
-        {items.map((item) => (
-          <FaqAccordion key={item.question} item={item} />
+        {items.map((item, index) => (
+          <FaqAccordion key={item.question} item={item} index={index} />
         ))}
       </div>
     </div>

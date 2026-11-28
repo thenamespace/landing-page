@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { track } from "@/lib/analytics/track";
 
 /* ─── SVG logo (inline, matches the original Webflow navbar) ─── */
 function NamespaceLogo() {
@@ -355,9 +356,19 @@ export function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<DropdownId>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const open = (id: DropdownId) => () => setOpenDropdown(id);
+  // A hover that re-enters the open menu, or a click that closes it, is not an "open".
+  const reportOpen = (id: DropdownId, method: "hover" | "click") => {
+    if (id && openDropdown !== id) track("landing:nav_menu_open", { menu: id, open_method: method });
+  };
+  const open = (id: DropdownId) => () => {
+    reportOpen(id, "hover");
+    setOpenDropdown(id);
+  };
   const close = () => setOpenDropdown(null);
-  const toggle = (id: DropdownId) => () => setOpenDropdown((cur) => (cur === id ? null : id));
+  const toggle = (id: DropdownId) => () => {
+    reportOpen(id, "click");
+    setOpenDropdown((cur) => (cur === id ? null : id));
+  };
 
   return (
     <div
@@ -431,7 +442,10 @@ export function Navbar() {
           <button
             type="button"
             className={`navbar2_menu-button w-nav-button${mobileOpen ? " w--open" : ""}`}
-            onClick={() => setMobileOpen((v) => !v)}
+            onClick={() => {
+              track("landing:mobile_menu_toggle", { is_open: !mobileOpen });
+              setMobileOpen((v) => !v);
+            }}
             aria-label="Toggle menu"
             aria-expanded={mobileOpen}
             aria-controls="main-nav-menu"

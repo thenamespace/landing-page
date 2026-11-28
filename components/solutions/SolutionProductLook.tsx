@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { track } from "@/lib/analytics/track";
 import type { Solution } from "@/lib/solutions";
 
 type ProductLook = NonNullable<Solution["productLook"]>;
@@ -185,7 +186,10 @@ export function SolutionProductLook({ data, name }: { data: ProductLook; name: s
           <button
             key={item.tag}
             type="button"
-            onClick={() => setActive(i)}
+            onClick={() => {
+              if (i !== active) track("landing:solution_tab_select", { tab: item.tag, tab_index: i });
+              setActive(i);
+            }}
             aria-expanded={i === active}
             className={`solution-plook-step${i === active ? " is-active" : ""}`}
           >

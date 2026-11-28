@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { track } from "@/lib/analytics/track";
 import { SITE, annDismissedKey, ANN_DISMISSED_VALUE } from "@/lib/site";
 import { CAL_HREF, calTriggerProps } from "@/lib/cal";
 
@@ -41,6 +42,7 @@ export function AnnouncementBar() {
   if (!a.enabled || dismissed) return null;
 
   const dismiss = () => {
+    track("landing:announcement_dismiss", { announcement_id: a.id });
     try {
       window.sessionStorage.setItem(storageKey, ANN_DISMISSED_VALUE);
     } catch {

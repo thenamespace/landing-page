@@ -1,5 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { track } from "@/lib/analytics/track";
 
 /* -------------------------------------------------------------------------
  * The life of a Universal Usernames lookup, as a canvas that plays itself.
@@ -239,9 +240,10 @@ function useRunModel() {
     setStep(-1);
     setSettled(false);
   };
-  const setWallet = (v: Wallet) => (setWalletRaw(v), rewind());
-  const setUsername = (v: Username) => (setUsernameRaw(v), rewind());
-  const setCoin = (v: Coin) => (setCoinRaw(v), rewind());
+  const pickChip = (value: string) => track("landing:lookup_demo_run", { demo_input: value, run_method: "chip" });
+  const setWallet = (v: Wallet) => (pickChip(v), setWalletRaw(v), rewind());
+  const setUsername = (v: Username) => (pickChip(v), setUsernameRaw(v), rewind());
+  const setCoin = (v: Coin) => (pickChip(v), setCoinRaw(v), rewind());
 
   const failed = settled && !found;
   const cell = (ref: CellRef): Cell => {
@@ -533,7 +535,7 @@ export function LookupLifecycle() {
 
       {/* run, and what came of it */}
       <div className="ll-foot">
-        <button type="button" className={`ll-run${m.running ? " is-running" : ""}`} disabled={m.running} onClick={m.start}>
+        <button type="button" className={`ll-run${m.running ? " is-running" : ""}`} disabled={m.running} onClick={() => { track("landing:lookup_demo_run", { run_method: "button" }); m.start(); }}>
           {m.running ? <IconSpin className="ll-run-icon is-spin" /> : <IconPlay className="ll-run-icon" />}
           {m.running ? "Running" : settled ? "Run again" : "Run"}
         </button>

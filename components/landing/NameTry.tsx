@@ -1,6 +1,7 @@
 "use client";
 
 import { NameAnatomy, Note, usePickedTld } from "@/components/landing/NameBlocks";
+import { track } from "@/lib/analytics/track";
 
 /*
  * The annotated name with a clickable ending: starts on .eth, a hand-drawn "click me!" invites a click,
@@ -29,7 +30,10 @@ export function TrySketch() {
         <button
           type="button"
           className={`nb-part is-tld try-sketch${tried ? " is-tried" : ""}`}
-          onClick={picked.next}
+          onClick={() => {
+            track("landing:name_try_click", { click_count: picked.clicks + 1 });
+            picked.next();
+          }}
           aria-label={`Ending: .${picked.tld}. Change it to another domain`}
         >
           <span aria-hidden="true">
