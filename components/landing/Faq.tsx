@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { FAQ_DATA } from "@/lib/faq-data";
 import type { FaqItem } from "@/lib/faq-data";
+import { track } from "@/lib/analytics/track";
 
 function ChevronIcon() {
   return (
@@ -11,7 +12,9 @@ function ChevronIcon() {
   );
 }
 
-function FaqAccordion({ item }: { item: FaqItem }) {
+type FaqCategory = "General" | "Integrations" | "Technology";
+
+function FaqAccordion({ item, index }: { item: FaqItem; index: number }) {
   const [open, setOpen] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
@@ -20,7 +23,18 @@ function FaqAccordion({ item }: { item: FaqItem }) {
     if (bodyRef.current) setHeight(bodyRef.current.scrollHeight);
   }, [open]);
 
-  const toggle = useCallback(() => setOpen((o) => !o), []);
+  const toggle = useCallback(() => {
+    setOpen((o) => {
+      track("landing:faq_toggle", {
+        faq_category: item.category as FaqCategory,
+        faq_location: "home",
+        is_open: !o,
+        question: item.question,
+        question_index: index,
+      });
+      return !o;
+    });
+  }, [item, index]);
 
   return (
     <div role="listitem" className={`faq_accordion w-dyn-item${open ? " is-active" : ""}`}>
@@ -69,7 +83,7 @@ export function Faq() {
                   <div role="list" className="faq_filters-list w-dyn-items">
                     {CATEGORIES.map((cat) => (
                       <div key={cat} role="listitem" className="faq_filters-item w-dyn-item">
-                        <label className={`fs-checkbox_field w-radio${filter === cat ? " is-list-active" : ""}`} style={{ cursor: "pointer" }} onClick={() => setFilter(filter === cat ? null : cat)}>
+                        <label className={`fs-checkbox_field w-radio${filter === cat ? " is-list-active" : ""}`} style={{ cursor: "pointer" }} onClick={() => { if (filter !== cat) track("landing:faq_category_select", { faq_category: cat as FaqCategory }); setFilter(filter === cat ? null : cat); }}>
                           <div className={`w-form-formradioinput w-form-formradioinput--inputType-custom fs-checkbox_button-1 w-radio-input${filter === cat ? " w--redirected-checked" : ""}`} />
                           <span className="fs-checkbox_label-1 w-form-label">{cat}</span>
                         </label>
@@ -80,7 +94,7 @@ export function Faq() {
               </div>
               <div className="faq_list-wrapper w-dyn-list">
                 <div role="list" className="faq_list w-dyn-items">
-                  {filtered.map((item) => <FaqAccordion key={item.question} item={item} />)}
+                  {filtered.map((item, index) => <FaqAccordion key={item.question} item={item} index={index} />)}
                 </div>
               </div>
             </div>

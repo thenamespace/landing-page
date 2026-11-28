@@ -1,6 +1,14 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { setPersonProps, track } from "@/lib/analytics/track";
+import type { LandingEventProps } from "@/lib/analytics/taxonomy/catalog";
+
+type FormId = LandingEventProps<"landing:newsletter_submit">["form_id"];
+type FailureReason = LandingEventProps<"landing:newsletter_fail">["failure_reason"];
+
+const failureReason = (status: number): FailureReason =>
+  status === 400 ? "invalid_email" : status === 429 ? "rate_limited" : "server_error";
 
 type Status = "idle" | "loading" | "success" | "error";
 
@@ -8,7 +16,7 @@ export function SubscribeForm({
   formId,
   noteText = "No spam. Unsubscribe anytime.",
 }: {
-  formId: string;
+  formId: FormId;
   noteText?: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
@@ -26,6 +34,8 @@ export function SubscribeForm({
     e.preventDefault();
     const email = new FormData(e.currentTarget).get("email") as string;
     setStatus("loading");
+    // The email itself is never sent to analytics.
+    track("landing:newsletter_submit", { form_id: formId });
 
     try {
       const res = await fetch("/api/subscribe", {
@@ -36,15 +46,20 @@ export function SubscribeForm({
       const data = await res.json();
 
       if (res.ok) {
+        const already = data.message === "Already subscribed";
+        track("landing:newsletter_complete", { form_id: formId, is_already_subscribed: already });
+        setPersonProps({ is_newsletter_subscriber: true }, { newsletter_subscribed_at: new Date().toISOString() });
         setStatus("success");
         setMessage(data.message ?? "Welcome aboard. You're subscribed.");
         if (inputRef.current) inputRef.current.value = "";
         timeoutRef.current = setTimeout(() => setStatus("idle"), 4000);
       } else {
+        track("landing:newsletter_fail", { failure_reason: failureReason(res.status), form_id: formId });
         setStatus("error");
         setMessage(data.error ?? "Couldn't subscribe. Try again?");
       }
     } catch {
+      track("landing:newsletter_fail", { failure_reason: "network_error", form_id: formId });
       setStatus("error");
       setMessage("Connection hiccup. Please try again.");
     }

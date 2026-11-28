@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import "../styles/globals.css";
 import "../styles/webflow-page-overrides.css";
+import { AnalyticsRouteEffects } from "@/components/analytics/AnalyticsRouteEffects";
 import { SITE, annDismissedKey, ANN_DISMISSED_VALUE } from "@/lib/site";
 import { JsonLd, organizationSchema, websiteSchema } from "@/lib/jsonld";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
@@ -112,6 +113,7 @@ export default function RootLayout({
       <body>
         <AnnouncementBar />
         {children}
+        <AnalyticsRouteEffects />
 
         {/* ── GSAP + ScrollTrigger + Observer - sticky benefits, scroll anims ── */}
         <Script

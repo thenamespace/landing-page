@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageShell } from "@/components/layout/PageShell";
 import { Container, Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
+import { NotFoundView } from "@/components/analytics/NotFoundView";
 
 export const metadata: Metadata = {
   title: "Page not found",
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <PageShell>
+      <NotFoundView />
       <Section className="min-h-[70vh] flex items-center">
         <Container size="default" className="text-center">
           <div

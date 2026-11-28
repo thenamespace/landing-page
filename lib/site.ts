@@ -8,6 +8,11 @@ export const SITE = {
     "https://namespace.ninja/assets/images/og-image.png",
   twitter: "@namespace_eth",
   gaId: process.env.NEXT_PUBLIC_GA_ID ?? "G-1K699QQ114",
+  /** PostHog (EU) through the managed reverse proxy. Analytics is off without a key and in dev. */
+  posthog: {
+    key: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+    host: process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://t.namespace.ninja",
+  },
   locale: "en_US",
 
   /**
